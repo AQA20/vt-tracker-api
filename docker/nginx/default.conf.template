@@ -1,21 +1,25 @@
 server {
     listen 80;
     server_name ${APP_URL};
-    root /var/www/html/public;
 
+    # Laravel public folder
+    root /var/www/vt-tracker-api/public;
     index index.php index.html;
 
+    # Main Laravel routing
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }
 
+    # PHP processing
     location ~ \.php$ {
-        fastcgi_pass app:9000;
+        fastcgi_pass app:9000;  # or your PHP-FPM service in Docker
         fastcgi_index index.php;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     }
 
+    # Deny access to .ht files
     location ~ /\.ht {
         deny all;
     }

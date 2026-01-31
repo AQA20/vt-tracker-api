@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile
     container_name: laravel_app
-    working_dir: /var/www/html
+    working_dir: /var/www/vt-tracker-api
     env_file:
       - .env
 
@@ -23,7 +23,7 @@ services:
     depends_on:
       - app
     volumes:
-      - ./:/var/www/html
+      - ./vt-tracker-api:/var/www/vt-tracker-api
       - ./docker/nginx/default.conf.template:/etc/nginx/templates/default.conf.template
     ports:
       - "8000:80"
