@@ -27,7 +27,7 @@ services:
       - ./:/var/www/html
       - ./docker/nginx/default.conf.template:/etc/nginx/templates/default.conf.template
     ports:
-      - "80:80"
+      - "8000:80"
     networks:
       - laravel_network
 
