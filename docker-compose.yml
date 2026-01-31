@@ -8,8 +8,7 @@ services:
     working_dir: /var/www/html
     env_file:
       - .env
-    volumes:
-      # - ./:/var/www/html
+
     networks:
       - laravel_network
     depends_on:
