@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
 # Install Composer (latest stable)
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www/html
+WORKDIR /var/www/vt-tracker-api
 
 # Copy composer files first to leverage Docker cache
 COPY composer.json composer.lock ./
