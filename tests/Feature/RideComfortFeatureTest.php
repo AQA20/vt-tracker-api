@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UnitCategory;
 use App\Models\Project;
 use App\Models\Unit;
-use App\Enums\UnitCategory;
 use App\Models\User;
 use App\Services\UnitService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -23,7 +23,7 @@ class RideComfortFeatureTest extends TestCase
         UnitService::generateStagesAndTasks($unit);
 
         // Stage 7 is pending by default
-        
+
         $response = $this->actingAs($user)->postJson("/api/units/{$unit->id}/ride-comfort", [
             'vibration_value' => 0.5,
             'noise_db' => 50,
@@ -43,9 +43,9 @@ class RideComfortFeatureTest extends TestCase
         UnitService::generateStagesAndTasks($unit);
 
         // Complete Stage 7
-        $stage7 = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', 7))->first();
+        $stage7 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 7))->first();
         $stage7->update(['status' => 'completed']);
-        
+
         $response = $this->actingAs($user)->postJson("/api/units/{$unit->id}/ride-comfort", [
             'vibration_value' => 0.5,
             'noise_db' => 50,
@@ -55,9 +55,9 @@ class RideComfortFeatureTest extends TestCase
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('ride_comfort_results', ['unit_id' => $unit->id]);
-        
+
         // Check Sage 8 completion
-        $stage8 = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', 8))->first();
+        $stage8 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 8))->first();
         $this->assertEquals('completed', $stage8->fresh()->status);
     }
 
@@ -70,9 +70,9 @@ class RideComfortFeatureTest extends TestCase
         UnitService::generateStagesAndTasks($unit);
 
         // Complete Stage 7
-        $stage7 = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', 7))->first();
+        $stage7 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 7))->first();
         $stage7->update(['status' => 'completed']);
-        
+
         // Submit failing result (vibration > 1.0)
         $response = $this->actingAs($user)->postJson("/api/units/{$unit->id}/ride-comfort", [
             'vibration_value' => 2.0,
@@ -84,9 +84,9 @@ class RideComfortFeatureTest extends TestCase
         $response->assertStatus(201);
         $this->assertEquals(false, $response->json('passed'));
         $this->assertEquals('eva_625', $response->json('device_used'));
-        
+
         // Stage 8 should NOT be completed
-        $stage8 = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', 8))->first();
+        $stage8 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 8))->first();
         $this->assertNotEquals('completed', $stage8->fresh()->status);
     }
 }

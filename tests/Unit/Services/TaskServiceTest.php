@@ -2,14 +2,13 @@
 
 namespace Tests\Unit\Services;
 
+use App\Enums\UnitCategory;
 use App\Models\Project;
 use App\Models\Unit;
-use App\Enums\UnitCategory;
 use App\Services\TaskService;
 use App\Services\UnitService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Validation\ValidationException;
 
 class TaskServiceTest extends TestCase
 {

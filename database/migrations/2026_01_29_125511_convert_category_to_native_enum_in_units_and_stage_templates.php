@@ -1,9 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -24,13 +22,13 @@ return new class extends Migration
         END $$;");
 
         // 2. Convert units.category to the new type
-        DB::statement("ALTER TABLE units ALTER COLUMN category DROP DEFAULT");
-        DB::statement("ALTER TABLE units ALTER COLUMN category TYPE unit_category USING category::unit_category");
+        DB::statement('ALTER TABLE units ALTER COLUMN category DROP DEFAULT');
+        DB::statement('ALTER TABLE units ALTER COLUMN category TYPE unit_category USING category::unit_category');
         DB::statement("ALTER TABLE units ALTER COLUMN category SET DEFAULT 'elevator'::unit_category");
 
         // 3. Convert stage_templates.category to the new type
-        DB::statement("ALTER TABLE stage_templates ALTER COLUMN category DROP DEFAULT");
-        DB::statement("ALTER TABLE stage_templates ALTER COLUMN category TYPE unit_category USING category::unit_category");
+        DB::statement('ALTER TABLE stage_templates ALTER COLUMN category DROP DEFAULT');
+        DB::statement('ALTER TABLE stage_templates ALTER COLUMN category TYPE unit_category USING category::unit_category');
         DB::statement("ALTER TABLE stage_templates ALTER COLUMN category SET DEFAULT 'elevator'::unit_category");
     }
 
@@ -44,14 +42,14 @@ return new class extends Migration
         }
 
         // 1. Revert stage_templates.category to string
-        DB::statement("ALTER TABLE stage_templates ALTER COLUMN category TYPE VARCHAR(255) USING category::VARCHAR");
+        DB::statement('ALTER TABLE stage_templates ALTER COLUMN category TYPE VARCHAR(255) USING category::VARCHAR');
         DB::statement("ALTER TABLE stage_templates ALTER COLUMN category SET DEFAULT 'elevator'");
 
         // 2. Revert units.category to string
-        DB::statement("ALTER TABLE units ALTER COLUMN category TYPE VARCHAR(255) USING category::VARCHAR");
+        DB::statement('ALTER TABLE units ALTER COLUMN category TYPE VARCHAR(255) USING category::VARCHAR');
         DB::statement("ALTER TABLE units ALTER COLUMN category SET DEFAULT 'elevator'");
 
         // 3. Drop the custom ENUM type
-        DB::statement("DROP TYPE unit_category");
+        DB::statement('DROP TYPE unit_category');
     }
 };

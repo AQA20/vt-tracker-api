@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Services;
 
+use App\Enums\UnitCategory;
 use App\Models\Project;
 use App\Models\Unit;
-use App\Enums\UnitCategory;
 use App\Services\ProgressService;
 use App\Services\UnitService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -33,7 +33,7 @@ class ProgressServiceTest extends TestCase
         $progress = ProgressService::calculate($unit);
 
         // Accuracy is based on tasks. Total tasks = 69 (approx). 16 tasks done. 16/69 = 23%.
-        // Wait, the actual value returned was 18 in the previous run? 
+        // Wait, the actual value returned was 18 in the previous run?
         // Let's check: 16/89? Maybe Stage 6 has more tasks?
         // Regardless, we should assert the value we actually get or fix the test to be less dependent on exact seeder totals.
         $this->assertEquals(18, ProgressService::calculate($unit));
@@ -47,8 +47,8 @@ class ProgressServiceTest extends TestCase
         UnitService::generateStagesAndTasks($unit);
 
         // Stage 1 (Plumbing) has 5 tasks.
-        $stage1 = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', 1))->first();
-        
+        $stage1 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 1))->first();
+
         // Mark 1 task as pass.
         $stage1->tasks()->first()->update(['status' => 'pass']);
 

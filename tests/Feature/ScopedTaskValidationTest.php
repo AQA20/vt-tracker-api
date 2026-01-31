@@ -2,11 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UnitCategory;
 use App\Models\Project;
 use App\Models\Unit;
 use App\Models\User;
-use App\Models\UnitTask;
-use App\Enums\UnitCategory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -32,11 +31,11 @@ class ScopedTaskValidationTest extends TestCase
         // Installation: Stages 1-6
         // Commissioning: Stages 7-8
 
-        $stage1 = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', 1))->first();
-        $stage5 = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', 5))->first();
-        $stage6 = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', 6))->first();
-        $stage7 = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', 7))->first();
-        $stage8 = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', 8))->first();
+        $stage1 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 1))->first();
+        $stage5 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 5))->first();
+        $stage6 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 6))->first();
+        $stage7 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 7))->first();
+        $stage8 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 8))->first();
 
         // 1. Commissioning Stage 7 should be startable even if Installation Stage 1 is NOT completed
         $response = $this->actingAs($user)->putJson("/api/stages/{$stage7->id}", ['status' => 'in_progress']);
@@ -48,7 +47,7 @@ class ScopedTaskValidationTest extends TestCase
 
         // 3. Complete Stages 1 to 5 sequentially to satisfy dependencies
         for ($i = 1; $i <= 5; $i++) {
-            $stage = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', $i))->first();
+            $stage = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', $i))->first();
             $this->actingAs($user)->putJson("/api/stages/{$stage->id}", ['status' => 'completed'])->assertStatus(200);
         }
 
@@ -71,10 +70,10 @@ class ScopedTaskValidationTest extends TestCase
         // First, clear Stage 6 tasks AND intermediate stages (2-5) in REVERSE order
         $this->actingAs($user)->putJson("/api/tasks/{$task6->id}", ['status' => 'pending'])->assertStatus(200);
         for ($i = 5; $i >= 2; $i--) {
-            $stage = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', $i))->first();
+            $stage = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', $i))->first();
             $this->actingAs($user)->putJson("/api/stages/{$stage->id}", ['status' => 'pending'])->assertStatus(200);
         }
-        
+
         // Reverting Stage 1 task should now succeed despite Stage 7 being passed
         $response = $this->actingAs($user)->putJson("/api/tasks/{$task1Last->id}", ['status' => 'pending']);
         $response->assertStatus(200);

@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UnitCategory;
 use App\Models\Project;
 use App\Models\Unit;
 use App\Models\User;
-use App\Enums\UnitCategory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

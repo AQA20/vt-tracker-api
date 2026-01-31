@@ -2,41 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use OpenApi\Attributes as OA;
-
-use App\Http\Requests\Auth\LoginRequest;
 
 class AuthController extends Controller
 {
     #[OA\Post(
-        path: "/api/login",
-        summary: "User Login",
-        tags: ["Auth"],
+        path: '/api/login',
+        summary: 'User Login',
+        tags: ['Auth'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                required: ["email", "password"],
+                required: ['email', 'password'],
                 properties: [
-                    new OA\Property(property: "email", type: "string", format: "email", example: "admin@vttracker.com"),
-                    new OA\Property(property: "password", type: "string", format: "password", example: "password")
+                    new OA\Property(property: 'email', type: 'string', format: 'email', example: 'admin@vttracker.com'),
+                    new OA\Property(property: 'password', type: 'string', format: 'password', example: 'password'),
                 ]
             )
         ),
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Login Successful",
+                description: 'Login Successful',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: "access_token", type: "string", example: "1|laravel_sanctum_token..."),
-                        new OA\Property(property: "token_type", type: "string", example: "Bearer")
+                        new OA\Property(property: 'access_token', type: 'string', example: '1|laravel_sanctum_token...'),
+                        new OA\Property(property: 'token_type', type: 'string', example: 'Bearer'),
                     ]
                 )
             ),
-            new OA\Response(response: 401, description: "Unauthorized")
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function login(LoginRequest $request)
@@ -57,20 +56,20 @@ class AuthController extends Controller
     }
 
     #[OA\Post(
-        path: "/api/logout",
-        summary: "User Logout",
-        tags: ["Auth"],
-        security: [["sanctum" => []]],
+        path: '/api/logout',
+        summary: 'User Logout',
+        tags: ['Auth'],
+        security: [['sanctum' => []]],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Logged out successfully",
+                description: 'Logged out successfully',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: "message", type: "string", example: "Logged out")
+                        new OA\Property(property: 'message', type: 'string', example: 'Logged out'),
                     ]
                 )
-            )
+            ),
         ]
     )]
     public function logout(Request $request)
@@ -81,16 +80,16 @@ class AuthController extends Controller
     }
 
     #[OA\Get(
-        path: "/api/user",
-        summary: "Get Authenticated User",
-        tags: ["Auth"],
-        security: [["sanctum" => []]],
+        path: '/api/user',
+        summary: 'Get Authenticated User',
+        tags: ['Auth'],
+        security: [['sanctum' => []]],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "User Profile",
-                content: new OA\JsonContent(ref: "#/components/schemas/User")
-            )
+                description: 'User Profile',
+                content: new OA\JsonContent(ref: '#/components/schemas/User')
+            ),
         ]
     )]
     public function user(Request $request)

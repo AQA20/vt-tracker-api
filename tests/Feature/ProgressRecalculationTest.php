@@ -2,14 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UnitCategory;
 use App\Models\Project;
 use App\Models\Unit;
 use App\Models\User;
-use App\Models\UnitStage;
-use App\Models\UnitTask;
-use App\Models\StageTemplate;
-use App\Models\TaskTemplate;
-use App\Enums\UnitCategory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -42,13 +38,13 @@ class ProgressRecalculationTest extends TestCase
 
         // Mark task as pass
         $this->actingAs($user)->putJson("/api/tasks/{$firstTask->id}", [
-            'status' => 'pass'
+            'status' => 'pass',
         ]);
 
         // Check unit progress
         $unit->refresh();
         $this->assertGreaterThan(0, $unit->progress_percent);
-        
+
         // Project completion percentage should also be > 0
         $this->assertGreaterThan(0, $project->fresh()->completion_percentage);
     }

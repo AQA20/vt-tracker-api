@@ -17,7 +17,7 @@ class UnitTemplateService
     {
         // The requirement says "Installation" repeats 6 times.
         // Let's define it as a list of objects or verify structure.
-        
+
         $stageDefinitions = [
             ['name' => 'Installation', 'tasks' => ['Check shaft dimensions', 'Verify power supply', 'Install scaffolding']],
             ['name' => 'Installation', 'tasks' => ['Install guide rails (Car)', 'Install guide rails (CWT)', 'Align rails']],
@@ -26,7 +26,7 @@ class UnitTemplateService
             ['name' => 'Installation', 'tasks' => ['Install machine', 'Install ropes', 'Install governor']],
             ['name' => 'Installation', 'tasks' => ['Install doors', 'Install car enclosure', 'Wiring']],
             ['name' => 'Testing',      'tasks' => ['Safety gear test', 'Buffer test', 'Door interlock test', 'Functional test']],
-            ['name' => 'Commissioning','tasks' => ['Final ride quality check', 'Client handover', 'Documentation handover']],
+            ['name' => 'Commissioning', 'tasks' => ['Final ride quality check', 'Client handover', 'Documentation handover']],
         ];
 
         foreach ($stageDefinitions as $index => $def) {

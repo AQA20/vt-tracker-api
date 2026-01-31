@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UnitCategory;
 use App\Models\Project;
 use App\Models\Unit;
 use App\Models\User;
-use App\Enums\UnitCategory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -49,14 +49,14 @@ class ProgressAccuracyTest extends TestCase
 
         // Installation group should be 100% (since all its tasks were completed)
         $this->assertEquals(100, $unit->installation_progress);
-        
+
         // Overall unit and project should be high but EXPLICITLY NOT 100%
         $this->assertLessThan(100, $unit->progress_percent);
         $this->assertGreaterThan(90, $unit->progress_percent);
-        
+
         $this->assertLessThan(100, $project->completion_percentage);
         $this->assertGreaterThan(90, $project->completion_percentage);
-        
+
         // Stage progress should also be capped if incomplete
         $this->assertLessThan(100, $lastTask->unitStage->progress_percent);
 
@@ -64,7 +64,7 @@ class ProgressAccuracyTest extends TestCase
         $this->actingAs($user)->putJson("/api/tasks/{$lastTask->id}", ['status' => 'pass']);
 
         // Stage 8 has no tasks, so it must be completed manually (or it's a special stage)
-        $stage8 = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', 8))->first();
+        $stage8 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 8))->first();
         $this->actingAs($user)->putJson("/api/stages/{$stage8->id}", ['status' => 'completed']);
 
         $unit->refresh();

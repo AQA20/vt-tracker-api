@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests\RideComfort;
 
-use Illuminate\Foundation\Http\FormRequest;
-
 use App\Enums\RideComfortDevice;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
 class StoreRideComfortRequest extends FormRequest

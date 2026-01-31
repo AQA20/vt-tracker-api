@@ -27,7 +27,7 @@ class TaskService
                 ->exists();
 
             if ($hasIncompletePrevious) {
-                throw ValidationException::withMessages(['error' => "Cannot mark task as complete because earlier tasks in this stage are not yet completed."]);
+                throw ValidationException::withMessages(['error' => 'Cannot mark task as complete because earlier tasks in this stage are not yet completed.']);
             }
         }
 

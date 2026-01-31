@@ -2,11 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UnitCategory;
 use App\Models\Project;
 use App\Models\Unit;
 use App\Models\User;
-use App\Models\UnitStage;
-use App\Enums\UnitCategory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -31,22 +30,22 @@ class StageDependencyTest extends TestCase
         $unit = Unit::find($unitId);
 
         // Get Stage 1 and Stage 2
-        $stage1 = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', 1))->first();
-        $stage2 = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', 2))->first();
+        $stage1 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 1))->first();
+        $stage2 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 2))->first();
 
         // Attempting to mark Stage 2 as in_progress should fail if Stage 1 is pending
         $response = $this->actingAs($user)->putJson("/api/stages/{$stage2->id}", [
-            'status' => 'in_progress'
+            'status' => 'in_progress',
         ]);
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['status']);
-        $this->assertEquals("Cannot start or complete this stage. Stage 1 (Plumbing) must be completed first.", $response->json('errors.status.0'));
+        $this->assertEquals('Cannot start or complete this stage. Stage 1 (Plumbing) must be completed first.', $response->json('errors.status.0'));
 
         // Now mark Stage 1 as completed (by marking its tasks as pass)
         foreach ($stage1->tasks as $task) {
             $this->actingAs($user)->putJson("/api/tasks/{$task->id}", [
-                'status' => 'pass'
+                'status' => 'pass',
             ]);
         }
 
@@ -54,7 +53,7 @@ class StageDependencyTest extends TestCase
 
         // Now Stage 2 should be startable
         $response = $this->actingAs($user)->putJson("/api/stages/{$stage2->id}", [
-            'status' => 'in_progress'
+            'status' => 'in_progress',
         ]);
 
         $response->assertStatus(200);
@@ -74,11 +73,11 @@ class StageDependencyTest extends TestCase
         ]);
 
         $unit = Unit::find($response->json('id'));
-        $stage2 = $unit->stages()->whereHas('template', fn($q) => $q->where('stage_number', 2))->first();
+        $stage2 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 2))->first();
 
         // Attempting to mark Stage 2 as completed should fail if Stage 1 is pending
         $response = $this->actingAs($user)->putJson("/api/stages/{$stage2->id}", [
-            'status' => 'completed'
+            'status' => 'completed',
         ]);
 
         $response->assertStatus(422);

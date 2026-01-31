@@ -22,8 +22,8 @@ class ProjectFeatureTest extends TestCase
         ]);
 
         $response->assertStatus(201)
-                 ->assertJson(['name' => 'Feature Test Project']);
-        
+            ->assertJson(['name' => 'Feature Test Project']);
+
         $this->assertDatabaseHas('projects', ['name' => 'Feature Test Project']);
     }
 
@@ -35,17 +35,17 @@ class ProjectFeatureTest extends TestCase
         $response = $this->actingAs($user)->getJson('/api/projects');
 
         $response->assertStatus(200)
-                 ->assertJsonCount(3)
-                 ->assertJsonStructure([
-                     '*' => ['id', 'name', 'units_count']
-                 ]);
+            ->assertJsonCount(3)
+            ->assertJsonStructure([
+                '*' => ['id', 'name', 'units_count'],
+            ]);
     }
 
     public function test_project_has_dynamic_completion_percentage()
     {
         $user = User::factory()->create();
         $project = Project::factory()->create();
-        
+
         // Unit 1: 50% progress
         \App\Models\Unit::factory()->create([
             'project_id' => $project->id,
@@ -59,13 +59,13 @@ class ProjectFeatureTest extends TestCase
         ]);
 
         // Average should be 75%
-        
+
         $response = $this->actingAs($user)->getJson("/api/projects/{$project->id}");
 
         $response->assertStatus(200)
-                 ->assertJson([
-                     'completion_percentage' => 75
-                 ])
-                 ->assertJsonMissing(['units_count']);
+            ->assertJson([
+                'completion_percentage' => 75,
+            ])
+            ->assertJsonMissing(['units_count']);
     }
 }

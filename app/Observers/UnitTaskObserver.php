@@ -3,8 +3,8 @@
 namespace App\Observers;
 
 use App\Models\UnitTask;
-use App\Services\StageService;
 use App\Services\ProgressService;
+use App\Services\StageService;
 
 class UnitTaskObserver
 {
@@ -30,10 +30,10 @@ class UnitTaskObserver
     protected function recalculate(UnitTask $unitTask): void
     {
         $stage = $unitTask->unitStage;
-        
+
         // 1. Recalculate Stage progress/status
         StageService::checkStageCompletion($stage);
-        
+
         // 2. Recalculate Unit progress (ProgressService::calculate also triggers Project recalculation)
         ProgressService::calculate($stage->unit);
     }

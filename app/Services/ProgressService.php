@@ -15,7 +15,7 @@ class ProgressService
         if ($stages->isEmpty()) {
             return 0;
         }
-        
+
         // Overall progress
         $overallProgress = static::calculateAccuracy($stages);
 
@@ -33,7 +33,7 @@ class ProgressService
         }
 
         $unit->update($updateData);
-        
+
         static::recalculateProject($unit->project);
 
         return $overallProgress;
@@ -69,7 +69,7 @@ class ProgressService
         }
 
         $percentage = ($earnedWork / $totalWork) * 100;
-        
+
         // Use ceil to ensure "almost done" shows as 99%.
         return (int) max(1, min(99, ceil($percentage)));
     }
@@ -77,12 +77,13 @@ class ProgressService
     public static function recalculateProject(\App\Models\Project $project)
     {
         $units = $project->units()->get();
-        
+
         if ($units->isEmpty()) {
             $project->update([
                 'installation_progress' => 0,
                 'commissioning_progress' => 0,
             ]);
+
             return 0;
         }
 
@@ -92,12 +93,12 @@ class ProgressService
 
         // Logic for project level: if any unit is not 100%, project is not 100%
         $projectInstallation = (int) ceil($avgInstallation);
-        if ($projectInstallation >= 100 && $units->contains(fn($u) => $u->installation_progress < 100)) {
+        if ($projectInstallation >= 100 && $units->contains(fn ($u) => $u->installation_progress < 100)) {
             $projectInstallation = 99;
         }
 
         $projectCommissioning = (int) ceil($avgCommissioning);
-        if ($projectCommissioning >= 100 && $units->contains(fn($u) => $u->commissioning_progress < 100)) {
+        if ($projectCommissioning >= 100 && $units->contains(fn ($u) => $u->commissioning_progress < 100)) {
             $projectCommissioning = 99;
         }
 
@@ -107,7 +108,7 @@ class ProgressService
         ]);
 
         $projectOverall = (int) ceil($avgOverall);
-        if ($projectOverall >= 100 && $units->contains(fn($u) => $u->progress_percent < 100)) {
+        if ($projectOverall >= 100 && $units->contains(fn ($u) => $u->progress_percent < 100)) {
             $projectOverall = 99;
         }
 

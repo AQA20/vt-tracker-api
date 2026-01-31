@@ -2,12 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UnitCategory;
 use App\Models\Project;
 use App\Models\Unit;
-use App\Enums\UnitCategory;
-use App\Models\UnitStage;
-use App\Services\UnitService;
 use App\Models\User;
+use App\Services\UnitService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -24,11 +23,11 @@ class StageToggleTest extends TestCase
     public function test_can_manually_toggle_stage_completion()
     {
         $user = User::factory()->create();
-        
+
         $project = Project::create([
             'name' => 'Test Project',
             'client_name' => 'Test Client',
-            'location' => 'Test Location'
+            'location' => 'Test Location',
         ]);
 
         $unit = Unit::create([
@@ -37,7 +36,7 @@ class StageToggleTest extends TestCase
             'equipment_number' => '12345',
             'category' => UnitCategory::ELEVATOR,
         ]);
-        
+
         UnitService::generateStagesAndTasks($unit);
         $unit->refresh();
 
@@ -47,7 +46,7 @@ class StageToggleTest extends TestCase
         // 1. Mark Stage 1 as completed
         $response = $this->actingAs($user)
             ->putJson("/api/stages/{$stage1->id}", [
-                'status' => 'completed'
+                'status' => 'completed',
             ]);
 
         $response->assertStatus(200);
@@ -62,7 +61,7 @@ class StageToggleTest extends TestCase
         // 3. Mark Stage 1 back to pending
         $response = $this->actingAs($user)
             ->putJson("/api/stages/{$stage1->id}", [
-                'status' => 'pending'
+                'status' => 'pending',
             ]);
 
         $response->assertStatus(200);

@@ -2,12 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UnitCategory;
 use App\Models\Project;
 use App\Models\RideComfortResult;
 use App\Models\Unit;
-use App\Enums\UnitCategory;
-use App\Models\UnitStage;
-use App\Models\UnitTask;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -29,7 +27,7 @@ class LogicVerificationTest extends TestCase
         $project = Project::create([
             'name' => 'Test Project',
             'client_name' => 'Test Client',
-            'location' => 'Test Location'
+            'location' => 'Test Location',
         ]);
 
         $unit = Unit::create([
@@ -38,7 +36,7 @@ class LogicVerificationTest extends TestCase
             'equipment_number' => '12345',
             'category' => UnitCategory::ELEVATOR,
         ]);
-        
+
         // Manual Generation needed now as model event hook is removed
         \App\Services\UnitService::generateStagesAndTasks($unit);
         $unit->refresh(); // Load relationships
@@ -53,10 +51,10 @@ class LogicVerificationTest extends TestCase
         foreach ($stage1->tasks as $task) {
             \App\Services\TaskService::updateStatus($task, 'pass', 'Verified');
         }
-        
+
         $stage1->refresh();
         $this->assertEquals('completed', $stage1->status);
-        
+
         // 3. Check Progress
         $unit->refresh();
         // 1 stage out of 8 completed = 5 / 69 = 8%
@@ -71,19 +69,19 @@ class LogicVerificationTest extends TestCase
             'vibration_value' => 0.5,
             'noise_db' => 50,
             'jerk_value' => 0.8,
-            'passed' => true
+            'passed' => true,
         ]);
-        
+
         // Manual trigger or rely on Controller logic (here we use model directly so we manual trigger)
         $stage8->update([
-             'status' => 'completed',
-             'completed_at' => now(),
+            'status' => 'completed',
+            'completed_at' => now(),
         ]);
         \App\Services\ProgressService::calculate($unit);
 
         $stage8->refresh();
         $this->assertEquals('completed', $stage8->status);
-        
+
         // Check progress again (Earned = 5 + 1 = 6. Total = 69. 6/69 = 9%)
         $unit->refresh();
         $this->assertEquals(9, $unit->progress_percent);

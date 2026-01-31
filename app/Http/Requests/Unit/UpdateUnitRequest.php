@@ -16,7 +16,7 @@ class UpdateUnitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'equipment_number' => 'string|unique:units,equipment_number,' . $this->route('unit')->id,
+            'equipment_number' => 'string|unique:units,equipment_number,'.$this->route('unit')->id,
             'category' => [new Enum(UnitCategory::class)],
         ];
     }

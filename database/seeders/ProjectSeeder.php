@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Project;
-use App\Models\RideComfortResult;
-use App\Models\Unit;
-use App\Models\UnitTask;
 use App\Enums\UnitCategory;
+use App\Models\Project;
+use App\Models\Unit;
 use Illuminate\Database\Seeder;
 
 class ProjectSeeder extends Seeder
@@ -27,8 +25,8 @@ class ProjectSeeder extends Seeder
         $mall = Project::create(['name' => 'City Mall', 'client_name' => 'Westfield', 'location' => 'London']);
         $u3 = Unit::create(['project_id' => $mall->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'CM-E1', 'category' => UnitCategory::ELEVATOR]);
         \App\Services\UnitService::generateStagesAndTasks($u3);
-        
-        $this->completeStages($u3, [1, 2, 3, 4, 5, 6, 7]); 
+
+        $this->completeStages($u3, [1, 2, 3, 4, 5, 6, 7]);
         // Add Ride Comfort Result (Completes Stage 8)
         \App\Models\RideComfortResult::create([
             'unit_id' => $u3->id,
@@ -44,7 +42,7 @@ class ProjectSeeder extends Seeder
         $u4 = Unit::create(['project_id' => $grand->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'GH-01', 'category' => UnitCategory::ELEVATOR]);
         \App\Services\UnitService::generateStagesAndTasks($u4);
         $this->completeStages($u4, [1]); // Just started
-        
+
         $u5 = Unit::create(['project_id' => $grand->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'GH-02', 'category' => UnitCategory::ELEVATOR]); // 0 progress
         \App\Services\UnitService::generateStagesAndTasks($u5);
         $u6 = Unit::create(['project_id' => $grand->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'GH-03', 'category' => UnitCategory::ELEVATOR]); // 0 progress
@@ -55,7 +53,7 @@ class ProjectSeeder extends Seeder
         $u7 = Unit::create(['project_id' => $tech->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'TP-A1', 'category' => UnitCategory::ELEVATOR]);
         \App\Services\UnitService::generateStagesAndTasks($u7);
         $this->completeStages($u7, [1, 2]);
-        
+
         $u8 = Unit::create(['project_id' => $tech->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'TP-B1', 'category' => UnitCategory::ELEVATOR]);
         \App\Services\UnitService::generateStagesAndTasks($u8);
         $this->completeStages($u8, [1, 2, 3, 4]);
@@ -74,7 +72,7 @@ class ProjectSeeder extends Seeder
             'passed' => true,
             'device_used' => 'eva_625',
         ]);
-        
+
         // 6. Central Station (2 Units)
         $station = Project::create(['name' => 'Central Station', 'client_name' => 'Transport Auth', 'location' => 'Berlin']);
         $u10 = Unit::create(['project_id' => $station->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'CS-L1', 'category' => UnitCategory::ELEVATOR]);
@@ -95,13 +93,13 @@ class ProjectSeeder extends Seeder
             })->first();
             if ($stage) {
                 // Sort tasks by template order_index to allow sequential completion
-                $tasks = $stage->tasks->sortBy(fn($t) => $t->template->order_index);
-                
+                $tasks = $stage->tasks->sortBy(fn ($t) => $t->template->order_index);
+
                 foreach ($tasks as $task) {
                     \App\Services\TaskService::updateStatus(
-                        $task, 
-                        'pass', 
-                        'Seeder Auto', 
+                        $task,
+                        'pass',
+                        'Seeder Auto',
                         1
                     );
                 }

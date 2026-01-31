@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Services;
 
+use App\Enums\UnitCategory;
 use App\Models\Project;
 use App\Models\Unit;
-use App\Enums\UnitCategory;
 use App\Services\StageService;
 use App\Services\UnitService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -22,7 +22,7 @@ class StageServiceTest extends TestCase
         UnitService::generateStagesAndTasks($unit); // Use service to setup
 
         $stage7 = $unit->stages->where('template.stage_number', 7)->first();
-        
+
         // Stage 7 (Commissioning) is independent of Stage 6 (Installation), so it should be TRUE
         $this->assertTrue(StageService::canStartStage($stage7));
 
@@ -42,14 +42,14 @@ class StageServiceTest extends TestCase
         UnitService::generateStagesAndTasks($unit);
 
         $stage1 = $unit->stages->where('template.stage_number', 1)->first();
-        
+
         // Pass all tasks
         foreach ($stage1->tasks as $task) {
             $task->update(['status' => 'pass', 'measured_value' => 0.5]);
         }
-        
+
         StageService::checkStageCompletion($stage1);
-        
+
         $this->assertEquals('completed', $stage1->fresh()->status);
     }
 }

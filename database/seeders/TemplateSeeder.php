@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Enums\UnitCategory;
 use App\Models\StageTemplate;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class TemplateSeeder extends Seeder
@@ -15,7 +14,7 @@ class TemplateSeeder extends Seeder
     public function run(): void
     {
         $unitType = 'KONE MonoSpace 700';
-        
+
         $stages = [
             [
                 'stage_number' => 1,
@@ -27,7 +26,7 @@ class TemplateSeeder extends Seeder
                     ['code' => '1.3', 'title' => 'Confirm plumbing clearances', 'req_meas' => true, 'min' => 20, 'max' => 100],
                     ['code' => '1.4', 'title' => 'Verify sump pit dimensions', 'req_meas' => true, 'min' => 1000, 'max' => 3000],
                     ['code' => '1.5', 'title' => 'Verify overhead clearance', 'req_meas' => true, 'min' => 3500, 'max' => 5000],
-                ]
+                ],
             ],
             [
                 'stage_number' => 2,
@@ -41,7 +40,7 @@ class TemplateSeeder extends Seeder
                     ['code' => '2.5', 'title' => 'All fixings tight', 'req_meas' => false],
                     ['code' => '2.6', 'title' => 'Buffers straight and same height', 'req_meas' => false],
                     ['code' => '2.7', 'title' => 'Overspeed governor tension weight', 'req_meas' => false],
-                ]
+                ],
             ],
             [
                 'stage_number' => 3,
@@ -54,7 +53,7 @@ class TemplateSeeder extends Seeder
                     ['code' => '3.4', 'title' => 'Suspension ropes correct groove', 'req_meas' => false],
                     ['code' => '3.5', 'title' => 'Rope twist limit', 'req_meas' => false],
                     ['code' => '3.6', 'title' => 'Car leveling at floors', 'req_meas' => false],
-                ]
+                ],
             ],
             [
                 'stage_number' => 4,
@@ -66,7 +65,7 @@ class TemplateSeeder extends Seeder
                     ['code' => '4.3', 'title' => 'Fixings tight', 'req_meas' => false],
                     ['code' => '4.4', 'title' => 'Buffers checked', 'req_meas' => false],
                     ['code' => '4.5', 'title' => 'Governor rope tension', 'req_meas' => false],
-                ]
+                ],
             ],
             [
                 'stage_number' => 5,
@@ -78,7 +77,7 @@ class TemplateSeeder extends Seeder
                     ['code' => '5.3', 'title' => 'Safety edges function', 'req_meas' => false],
                     ['code' => '5.4', 'title' => 'Door sensors check', 'req_meas' => false],
                     ['code' => '5.5', 'title' => 'Interlocks working', 'req_meas' => false],
-                ]
+                ],
             ],
             [
                 'stage_number' => 6,
@@ -114,7 +113,7 @@ class TemplateSeeder extends Seeder
                     ['code' => '6.27', 'title' => 'Door sills and thresholds', 'req_meas' => false],
                     ['code' => '6.28-6.32', 'title' => 'Insulation resistance (electrical)', 'req_meas' => true, 'min' => 0.5, 'max' => 1000],
                     ['code' => '6.33-6.49', 'title' => 'Protective earth continuity', 'req_meas' => true, 'min' => 0, 'max' => 0.5],
-                ]
+                ],
             ],
             [
                 'stage_number' => 7,
@@ -130,13 +129,13 @@ class TemplateSeeder extends Seeder
                     ['code' => '7.7', 'title' => 'Acceleration & deceleration smoothness', 'req_meas' => false],
                     ['code' => '7.8', 'title' => 'Safety tests', 'req_meas' => true, 'min' => 0, 'max' => 1],
                     ['code' => '7.9', 'title' => 'Final sign-off', 'req_meas' => false],
-                ]
+                ],
             ],
             [
                 'stage_number' => 8,
                 'title' => 'Ride Comfort',
                 'description' => 'Special measurements: vibration, noise, jerk',
-                'tasks' => []
+                'tasks' => [],
             ],
         ];
 

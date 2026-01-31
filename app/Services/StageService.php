@@ -11,7 +11,7 @@ class StageService
         $tasks = $stage->tasks()->get();
         $totalTasks = $tasks->count();
 
-        if ($totalTasks > 0 && $tasks->every(fn($t) => $t->status === 'pass')) {
+        if ($totalTasks > 0 && $tasks->every(fn ($t) => $t->status === 'pass')) {
             if ($stage->status !== 'completed') {
                 $stage->update([
                     'status' => 'completed',
@@ -19,23 +19,23 @@ class StageService
                 ]);
             }
         } else {
-             $hasProgress = $tasks->contains(fn($t) => $t->status === 'pass');
-             $newStatus = $hasProgress ? 'in_progress' : 'pending';
-             
-             if ($stage->status !== $newStatus || $stage->completed_at !== null) {
-                 $stage->update([
-                     'status' => $newStatus,
-                     'completed_at' => null,
-                 ]);
-             }
+            $hasProgress = $tasks->contains(fn ($t) => $t->status === 'pass');
+            $newStatus = $hasProgress ? 'in_progress' : 'pending';
+
+            if ($stage->status !== $newStatus || $stage->completed_at !== null) {
+                $stage->update([
+                    'status' => $newStatus,
+                    'completed_at' => null,
+                ]);
+            }
         }
     }
 
     public static function canStartStage(UnitStage $stage): bool
     {
         $previousStage = static::getPreviousStage($stage);
-        
-        if (!$previousStage) {
+
+        if (! $previousStage) {
             return true;
         }
 
@@ -46,7 +46,7 @@ class StageService
     {
         $stageNumber = $stage->template->stage_number;
         $progressGroup = $stage->template->progress_group;
-        
+
         return $stage->unit->stages()
             ->reorder()
             ->join('stage_templates', 'unit_stages.stage_template_id', '=', 'stage_templates.id')
@@ -79,6 +79,7 @@ class StageService
         if ($laterStage) {
             $num = $laterStage->template->stage_number;
             $title = $laterStage->template->title;
+
             return "Stage $num ($title) is already completed";
         }
 
@@ -98,6 +99,7 @@ class StageService
             $sTitle = $laterTask->unitStage->template->title;
             $tCode = $laterTask->template->task_code;
             $tTitle = $laterTask->template->title;
+
             return "Task $tCode ($tTitle) in Stage $sNum ($sTitle) is already completed";
         }
 

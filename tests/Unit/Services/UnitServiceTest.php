@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Services;
 
+use App\Enums\UnitCategory;
 use App\Models\Project;
 use App\Models\Unit;
-use App\Enums\UnitCategory;
 use App\Services\UnitService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -16,7 +16,7 @@ class UnitServiceTest extends TestCase
     public function test_generate_stages_and_tasks_creates_correct_structure()
     {
         $this->seed(\Database\Seeders\TemplateSeeder::class);
-        
+
         $project = Project::factory()->create(['name' => 'Test Project', 'client_name' => 'Test Client', 'location' => 'Test Loc']);
         $unit = Unit::create([
             'project_id' => $project->id,
@@ -28,7 +28,7 @@ class UnitServiceTest extends TestCase
         UnitService::generateStagesAndTasks($unit);
 
         $this->assertCount(8, $unit->stages);
-        $stage1 = $unit->stages()->whereHas('template', function($q) {
+        $stage1 = $unit->stages()->whereHas('template', function ($q) {
             $q->where('stage_number', 1);
         })->first();
         $this->assertNotNull($stage1);
@@ -38,7 +38,7 @@ class UnitServiceTest extends TestCase
     public function test_generate_stages_and_tasks_filters_by_category()
     {
         $this->seed(\Database\Seeders\TemplateSeeder::class);
-        
+
         $project = Project::factory()->create(['name' => 'Test Project', 'client_name' => 'Test Client', 'location' => 'Test Loc']);
         // Use a different category
         $unit = Unit::create([

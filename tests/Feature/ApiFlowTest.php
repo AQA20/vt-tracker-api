@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UnitCategory;
 use App\Models\Project;
 use App\Models\Unit;
-use App\Enums\UnitCategory;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -37,7 +37,7 @@ class ApiFlowTest extends TestCase
         $unitId = $unitResponse->json('id');
 
         $this->assertDatabaseHas('unit_stages', ['unit_id' => $unitId]);
-        
+
         // 3. Get Stages
         $stagesResponse = $this->actingAs($user)->getJson("/api/units/{$unitId}/stages");
         $stagesResponse->assertStatus(200);
@@ -47,11 +47,11 @@ class ApiFlowTest extends TestCase
         $tasksResponse = $this->actingAs($user)->getJson("/api/stages/{$stage1Id}/tasks");
         $tasksResponse->assertStatus(200);
         $tasks = $tasksResponse->json();
-        
+
         // 5. Complete Tasks via API
         foreach ($tasks as $task) {
             $taskId = $task['id'];
-            
+
             $payload = ['status' => 'pass'];
 
             $this->actingAs($user)->putJson("/api/tasks/{$taskId}", $payload)

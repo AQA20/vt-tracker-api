@@ -2,29 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Stage\UpdateStageRequest;
 use App\Models\Unit;
 use App\Models\UnitStage;
-use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
-
-use App\Http\Requests\Stage\UpdateStageRequest;
 
 class StageController extends Controller
 {
     #[OA\Get(
-        path: "/api/units/{unitId}/stages",
-        summary: "List Stages for Unit",
-        tags: ["Stages"],
-        security: [["sanctum" => []]],
+        path: '/api/units/{unitId}/stages',
+        summary: 'List Stages for Unit',
+        tags: ['Stages'],
+        security: [['sanctum' => []]],
         parameters: [
-            new OA\Parameter(name: "unitId", in: "path", required: true, schema: new OA\Schema(type: "string", format: "uuid"))
+            new OA\Parameter(name: 'unitId', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "List of stages",
-                content: new OA\JsonContent(type: "array", items: new OA\Items(ref: "#/components/schemas/UnitStage"))
-            )
+                description: 'List of stages',
+                content: new OA\JsonContent(type: 'array', items: new OA\Items(ref: '#/components/schemas/UnitStage'))
+            ),
         ]
     )]
     public function index(Unit $unit)
@@ -38,28 +36,28 @@ class StageController extends Controller
     }
 
     #[OA\Put(
-        path: "/api/stages/{id}",
-        summary: "Update Stage Status",
-        tags: ["Stages"],
-        security: [["sanctum" => []]],
+        path: '/api/stages/{id}',
+        summary: 'Update Stage Status',
+        tags: ['Stages'],
+        security: [['sanctum' => []]],
         parameters: [
-            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "string", format: "uuid"))
+            new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
         ],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                required: ["status"],
+                required: ['status'],
                 properties: [
-                    new OA\Property(property: "status", type: "string", enum: ["pending", "in_progress", "completed"])
+                    new OA\Property(property: 'status', type: 'string', enum: ['pending', 'in_progress', 'completed']),
                 ]
             )
         ),
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Stage Updated",
-                content: new OA\JsonContent(ref: "#/components/schemas/UnitStage")
-            )
+                description: 'Stage Updated',
+                content: new OA\JsonContent(ref: '#/components/schemas/UnitStage')
+            ),
         ]
     )]
     public function update(UpdateStageRequest $request, UnitStage $stage)
@@ -73,7 +71,7 @@ class StageController extends Controller
                 $prevTitle = $previousStage->template->title;
                 $prevNum = $previousStage->template->stage_number;
                 throw \Illuminate\Validation\ValidationException::withMessages([
-                    'status' => ["Cannot start or complete this stage. Stage $prevNum ($prevTitle) must be completed first."]
+                    'status' => ["Cannot start or complete this stage. Stage $prevNum ($prevTitle) must be completed first."],
                 ]);
             }
         }
@@ -83,7 +81,7 @@ class StageController extends Controller
             $blockReason = \App\Services\StageService::getSubsequentWorkInfo($stage);
             if ($blockReason) {
                 throw \Illuminate\Validation\ValidationException::withMessages([
-                    'status' => ["Cannot mark stage as incomplete because $blockReason."]
+                    'status' => ["Cannot mark stage as incomplete because $blockReason."],
                 ]);
             }
         }
@@ -93,7 +91,7 @@ class StageController extends Controller
             'completed_at' => $validated['status'] === 'completed' ? now() : null,
         ];
 
-        if ($validated['status'] === 'in_progress' && !$stage->started_at) {
+        if ($validated['status'] === 'in_progress' && ! $stage->started_at) {
             $updateData['started_at'] = now();
         }
 
@@ -125,28 +123,28 @@ class StageController extends Controller
     }
 
     #[OA\Get(
-        path: "/api/stages/{id}",
-        summary: "Show Stage Details with Tasks",
-        tags: ["Stages"],
-        security: [["sanctum" => []]],
+        path: '/api/stages/{id}',
+        summary: 'Show Stage Details with Tasks',
+        tags: ['Stages'],
+        security: [['sanctum' => []]],
         parameters: [
-            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "string", format: "uuid"))
+            new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Stage Details",
+                description: 'Stage Details',
                 content: new OA\JsonContent(
                     allOf: [
-                        new OA\Schema(ref: "#/components/schemas/UnitStage"),
+                        new OA\Schema(ref: '#/components/schemas/UnitStage'),
                         new OA\Schema(
                             properties: [
-                                new OA\Property(property: "tasks", type: "array", items: new OA\Items(ref: "#/components/schemas/UnitTask"))
+                                new OA\Property(property: 'tasks', type: 'array', items: new OA\Items(ref: '#/components/schemas/UnitTask')),
                             ]
-                        )
+                        ),
                     ]
                 )
-            )
+            ),
         ]
     )]
     public function show(UnitStage $stage)
@@ -158,7 +156,7 @@ class StageController extends Controller
                     ->orderBy('task_templates.order_index');
             },
             'tasks.template',
-            'template'
+            'template',
         ]);
     }
 }
