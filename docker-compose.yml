@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./:/var/www/html
+      # - ./:/var/www/html
     networks:
       - laravel_network
     depends_on:
