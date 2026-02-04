@@ -2,17 +2,14 @@
 
 namespace Tests\Feature;
 
-use App\Models\CseDetail;
-use App\Models\StatusUpdate;
-use App\Models\Dg1Milestone;
 use App\Enums\EngineeringSubmissionStatus;
+use App\Models\CseDetail;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Models\User;
 use Laravel\Sanctum\Sanctum;
+use Maatwebsite\Excel\Facades\Excel;
 use Tests\TestCase;
 
 class EngineeringSubmissionFeatureTest extends TestCase
@@ -41,7 +38,7 @@ class EngineeringSubmissionFeatureTest extends TestCase
             ],
             'dg1_milestone' => [
                 'ms2' => '2025-01-01',
-            ]
+            ],
         ];
 
         $response = $this->postJson('/api/engineering-submissions', $payload);
@@ -72,7 +69,7 @@ class EngineeringSubmissionFeatureTest extends TestCase
             ],
             'dg1_milestone' => [
                 'ms2' => '2025-05-01',
-            ]
+            ],
         ];
 
         $response = $this->putJson("/api/engineering-submissions/{$cse->id}", $payload);
@@ -93,21 +90,21 @@ class EngineeringSubmissionFeatureTest extends TestCase
         $file = UploadedFile::fake()->create('tech_spec.pdf', 1000, 'application/pdf');
 
         $response = $this->postJson("/api/engineering-submissions/{$cse->id}/status-pdfs/tech_sub_status_pdf", [
-            'file' => $file
+            'file' => $file,
         ]);
 
         $response->assertStatus(200);
-        
+
         $statusUpdate = $cse->statusUpdate()->first();
         $this->assertNotNull($statusUpdate->tech_sub_status_pdf);
         Storage::disk('public')->assertExists($statusUpdate->tech_sub_status_pdf);
-        
+
         // Assert response has URL
         $response->assertJsonStructure(['data' => ['status_update' => ['tech_sub_status_pdf_url']]]);
     }
 
     /*
-    // Skipping complex Excel test in Feature test for now to save time/complexity, 
+    // Skipping complex Excel test in Feature test for now to save time/complexity,
     // relying on unit tests or manual verification for Excel logic which involves complex mocking.
     // However, I will write a simple test for Export endpoint availability.
     */

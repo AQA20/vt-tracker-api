@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('dg1_milestones', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cse_id')->constrained('cse_details')->cascadeOnDelete();
-            
+
             // Date columns
             $table->date('ms2')->nullable()->comment('FL Send order to SL');
             $table->date('ms2a')->nullable()->comment('Order Check & Listing Release');

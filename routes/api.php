@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\EngineeringSubmissionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EngineeringSubmissionController;
 
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
 
@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/export', [EngineeringSubmissionController::class, 'export']);
         Route::get('/{cse}', [EngineeringSubmissionController::class, 'show']);
         Route::put('/{cse}', [EngineeringSubmissionController::class, 'update']);
-        
+
         // PDF Upload/Delete
         Route::post('/{cse}/status-pdfs/{field}', [EngineeringSubmissionController::class, 'uploadStatusPdf']);
         Route::delete('/{cse}/status-pdfs/{field}', [EngineeringSubmissionController::class, 'deleteStatusPdf']);

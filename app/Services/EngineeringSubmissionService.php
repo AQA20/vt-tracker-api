@@ -2,14 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\CseDetail;
-use App\Models\StatusUpdate;
-use App\Models\Dg1Milestone;
-use App\Imports\EngineeringSubmissionImport;
 use App\Exports\EngineeringSubmissionExport;
+use App\Imports\EngineeringSubmissionImport;
+use App\Models\CseDetail;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\UploadedFile;
 use Maatwebsite\Excel\Facades\Excel;
 
 class EngineeringSubmissionService
@@ -43,9 +41,9 @@ class EngineeringSubmissionService
             if (isset($payload['status_update'])) {
                 $cse->statusUpdate()->create($payload['status_update']);
             } else {
-                 // Ensure record exists even if empty? Prompt says "One grouped resource".
-                 // Usually we want the child rows to exist to hold the status.
-                 $cse->statusUpdate()->create([]);
+                // Ensure record exists even if empty? Prompt says "One grouped resource".
+                // Usually we want the child rows to exist to hold the status.
+                $cse->statusUpdate()->create([]);
             }
 
             if (isset($payload['dg1_milestone'])) {
@@ -62,7 +60,7 @@ class EngineeringSubmissionService
     {
         return DB::transaction(function () use ($cseId, $payload) {
             $cse = CseDetail::findOrFail($cseId);
-            
+
             $cse->update([
                 'equip_n' => $payload['equip_n'] ?? $cse->equip_n, // Usually strict/unique, validation handles it
                 'asset_name' => $payload['asset_name'] ?? $cse->asset_name,
@@ -94,7 +92,7 @@ class EngineeringSubmissionService
     {
         // Validation of field name should be done in Request, but we can double check or just use it.
         // Paths: engineering-submissions/{equip_n}/{field}/{timestamp}_{originalName}.pdf
-        
+
         $cse = CseDetail::findOrFail($cseId);
         $statusUpdate = $cse->statusUpdate()->firstOrCreate(['cse_id' => $cseId]);
 
@@ -104,9 +102,9 @@ class EngineeringSubmissionService
             Storage::disk('public')->delete($oldPath);
         }
 
-        $filename = time() . '_' . $file->getClientOriginalName();
+        $filename = time().'_'.$file->getClientOriginalName();
         $path = "engineering-submissions/{$cse->equip_n}/{$field}";
-        
+
         // Store file
         $storedPath = $file->storeAs($path, $filename, 'public');
 
@@ -115,26 +113,27 @@ class EngineeringSubmissionService
 
         return $cse->load(['statusUpdate', 'dg1Milestone']);
     }
-    
+
     public function deleteStatusPdf(int $cseId, string $field)
     {
         $cse = CseDetail::findOrFail($cseId);
-        $statusUpdate = $cse->statusUpdate; 
-        
+        $statusUpdate = $cse->statusUpdate;
+
         if ($statusUpdate && $statusUpdate->$field) {
             if (Storage::disk('public')->exists($statusUpdate->$field)) {
                 Storage::disk('public')->delete($statusUpdate->$field);
             }
             $statusUpdate->update([$field => null]);
         }
-        
+
         return $cse->load(['statusUpdate', 'dg1Milestone']);
     }
 
     public function importFromExcel(UploadedFile $file)
     {
-        $import = new EngineeringSubmissionImport();
+        $import = new EngineeringSubmissionImport;
         Excel::import($import, $file);
+
         return $import->result;
     }
 

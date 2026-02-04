@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('status_updates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cse_id')->constrained('cse_details')->cascadeOnDelete();
-            
+
             // Status columns (Strings, validated by Enum in App)
             $table->string('tech_sub_status')->nullable();
             $table->string('sample_status')->nullable();

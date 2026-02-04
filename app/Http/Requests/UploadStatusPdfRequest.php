@@ -24,11 +24,11 @@ class UploadStatusPdfRequest extends FormRequest
         ];
 
         // The 'field' is a route parameter, so we authorize it implicitly or check it here?
-        // Request validation usually validates body. 
+        // Request validation usually validates body.
         // Route parameters can be validated if we merge them to input or access checks.
         // We will validate 'file' here. The controller checks field whitelist or we use route validation.
         // The prompt says: "UploadStatusPdfRequest (validates {field} whitelist + file pdf + max size)"
-        
+
         $this->merge(['field_name' => $this->route('field')]);
 
         return [
