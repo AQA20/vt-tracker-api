@@ -17,11 +17,14 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@vttracker.com',
-            'password' => bcrypt('password123'),
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@vttracker.com'],
+            [
+                'name' => 'Admin User',
+                'password' => bcrypt('password123'),
+                'email_verified_at' => now(),
+            ]
+        );
 
         // $this->call([
         //     ProjectSeeder::class,

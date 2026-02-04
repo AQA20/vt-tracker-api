@@ -23,7 +23,9 @@ class EngineeringSubmissionImport implements ToCollection, WithHeadingRow
         $this->result['processed'] += $rows->count();
 
         foreach ($rows as $index => $row) {
-            if (! isset($row['equip_n'])) {
+            $equipN = $row['equip_n'] ?? $row['equipment_number'] ?? $row[0] ?? null;
+            
+            if (! $equipN) {
                 $this->result['errors'][] = [
                     'sheet' => 'engineering_submissions',
                     'row' => $index + 2,
@@ -35,7 +37,7 @@ class EngineeringSubmissionImport implements ToCollection, WithHeadingRow
 
             // Upsert CseDetail
             $cse = CseDetail::updateOrCreate(
-                ['equip_n' => $row['equip_n']],
+                ['equip_n' => $equipN],
                 [
                     'asset_name' => $row['asset_name'] ?? null,
                     'unit_id' => $row['unit_id'] ?? null,
@@ -76,7 +78,7 @@ class EngineeringSubmissionImport implements ToCollection, WithHeadingRow
                     'ms3a_exw' => $this->parseDate($row['ms3a_exw'] ?? null),
                     'ms3b' => $this->parseDate($row['ms3b'] ?? null),
                     'ms3s_ksa_port' => $this->parseDate($row['ms3s_ksa_port'] ?? null),
-                    'ms2_3s' => $row['ms2_3s'] ?? null,
+                    'ms2_3s' => $row['ms2_3s_leadtime'] ?? $row['ms2_3s'] ?? null,
                 ]
             );
         }
