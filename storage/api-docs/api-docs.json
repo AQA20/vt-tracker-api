@@ -133,6 +133,207 @@
                 ]
             }
         },
+        "/api/engineering-submissions": {
+            "post": {
+                "tags": [
+                    "Engineering Submissions"
+                ],
+                "summary": "Create a new engineering submission",
+                "operationId": "1b69102bce2b003b61206c019a252737",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "equip_n"
+                                ],
+                                "properties": {
+                                    "equip_n": {
+                                        "type": "integer",
+                                        "example": 12345
+                                    },
+                                    "asset_name": {
+                                        "type": "string",
+                                        "example": "Tower A Lift 1"
+                                    },
+                                    "unit_id": {
+                                        "type": "string",
+                                        "example": "U-1001"
+                                    },
+                                    "material_code": {
+                                        "type": "string",
+                                        "example": "MAT-XYZ"
+                                    },
+                                    "so_no": {
+                                        "type": "integer",
+                                        "example": 123
+                                    },
+                                    "network_no": {
+                                        "type": "integer",
+                                        "example": 123
+                                    },
+                                    "status_update": {
+                                        "type": "object"
+                                    },
+                                    "dg1_milestone": {
+                                        "properties": {
+                                            "ms2": {
+                                                "description": "FL Send order to SL",
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-01-01"
+                                            },
+                                            "ms2a": {
+                                                "description": "Order Check & Listing Release",
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-01-05"
+                                            },
+                                            "ms2c": {
+                                                "description": "Listing Completion",
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-01-10"
+                                            },
+                                            "ms2z": {
+                                                "description": "Engineering Completion",
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-01-15"
+                                            },
+                                            "ms3": {
+                                                "description": "NRP",
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-02-01"
+                                            },
+                                            "ms3a_exw": {
+                                                "description": "Material in DC",
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-02-05"
+                                            },
+                                            "ms3b": {
+                                                "description": "Actual Shipping Date",
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-02-10"
+                                            },
+                                            "ms3s_ksa_port": {
+                                                "description": "Delivery to Dammam Port",
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-02-15"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                }
+            }
+        },
+        "/api/engineering-submissions/{id}": {
+            "put": {
+                "tags": [
+                    "Engineering Submissions"
+                ],
+                "summary": "Update an existing engineering submission",
+                "operationId": "bad4828ef1653647ea944ae209def4e4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "equip_n": {
+                                        "type": "integer",
+                                        "example": 12345
+                                    },
+                                    "asset_name": {
+                                        "type": "string",
+                                        "example": "Tower A Lift 1"
+                                    },
+                                    "unit_id": {
+                                        "type": "string",
+                                        "example": "U-1001"
+                                    },
+                                    "material_code": {
+                                        "type": "string",
+                                        "example": "MAT-XYZ"
+                                    },
+                                    "so_no": {
+                                        "type": "integer",
+                                        "example": 123
+                                    },
+                                    "network_no": {
+                                        "type": "integer",
+                                        "example": 123
+                                    },
+                                    "status_update": {
+                                        "type": "object"
+                                    },
+                                    "dg1_milestone": {
+                                        "properties": {
+                                            "ms2": {
+                                                "description": "FL Send order to SL",
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-01-01"
+                                            },
+                                            "ms2a": {
+                                                "description": "Order Check & Listing Release",
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-01-05"
+                                            },
+                                            "ms3": {
+                                                "description": "NRP",
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-02-01"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                }
+            }
+        },
         "/api/units/{unitId}/progress": {
             "get": {
                 "tags": [
@@ -780,18 +981,24 @@
                             "schema": {
                                 "required": [
                                     "unit_type",
-                                    "serial_number",
+                                    "equipment_number",
                                     "category"
                                 ],
                                 "properties": {
                                     "unit_type": {
                                         "type": "string"
                                     },
-                                    "serial_number": {
+                                    "equipment_number": {
                                         "type": "string"
                                     },
                                     "category": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "enum": [
+                                            "elevator",
+                                            "escalator",
+                                            "travelator",
+                                            "dumbwaiter"
+                                        ]
                                     }
                                 },
                                 "type": "object"
@@ -876,7 +1083,7 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "serial_number": {
+                                    "equipment_number": {
                                         "type": "string"
                                     },
                                     "category": {
@@ -933,6 +1140,12 @@
                     "completion_percentage": {
                         "type": "integer",
                         "example": 65
+                    },
+                    "installation_progress": {
+                        "type": "integer"
+                    },
+                    "commissioning_progress": {
+                        "type": "integer"
                     },
                     "units_count": {
                         "description": "Only in list view",
@@ -1013,8 +1226,21 @@
                     "name": {
                         "type": "string"
                     },
+                    "category": {
+                        "type": "string",
+                        "enum": [
+                            "elevator",
+                            "escalator",
+                            "travelator",
+                            "dumbwaiter"
+                        ]
+                    },
                     "stage_number": {
                         "type": "integer"
+                    },
+                    "progress_group": {
+                        "type": "string",
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -1055,13 +1281,25 @@
                     "unit_type": {
                         "type": "string"
                     },
-                    "serial_number": {
+                    "equipment_number": {
                         "type": "string"
                     },
                     "category": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "elevator",
+                            "escalator",
+                            "travelator",
+                            "dumbwaiter"
+                        ]
                     },
                     "progress_percent": {
+                        "type": "integer"
+                    },
+                    "installation_progress": {
+                        "type": "integer"
+                    },
+                    "commissioning_progress": {
                         "type": "integer"
                     },
                     "created_at": {
@@ -1106,6 +1344,10 @@
                         "type": "string",
                         "format": "date-time",
                         "nullable": true
+                    },
+                    "progress_percent": {
+                        "type": "integer",
+                        "example": 50
                     },
                     "template": {
                         "$ref": "#/components/schemas/StageTemplate"
@@ -1202,6 +1444,10 @@
         {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Engineering Submissions",
+            "description": "Engineering Submissions"
         },
         {
             "name": "Units",

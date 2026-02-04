@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EngineeringSubmissionController;
 
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
 
@@ -9,6 +10,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout']);
     Route::get('/user', function (Request $request) {
         return $request->user();
+    });
+
+    Route::prefix('engineering-submissions')->group(function () {
+        Route::get('/', [EngineeringSubmissionController::class, 'index']);
+        Route::post('/', [EngineeringSubmissionController::class, 'store']);
+        Route::post('/import', [EngineeringSubmissionController::class, 'import']);
+        Route::get('/export', [EngineeringSubmissionController::class, 'export']);
+        Route::get('/{cse}', [EngineeringSubmissionController::class, 'show']);
+        Route::put('/{cse}', [EngineeringSubmissionController::class, 'update']);
+        
+        // PDF Upload/Delete
+        Route::post('/{cse}/status-pdfs/{field}', [EngineeringSubmissionController::class, 'uploadStatusPdf']);
+        Route::delete('/{cse}/status-pdfs/{field}', [EngineeringSubmissionController::class, 'deleteStatusPdf']);
     });
 
     // Projects
