@@ -24,7 +24,7 @@ class EngineeringSubmissionImport implements ToCollection, WithHeadingRow
 
         foreach ($rows as $index => $row) {
             $equipN = $row['equip_n'] ?? $row['equipment_number'] ?? $row[0] ?? null;
-            
+
             if (! $equipN) {
                 $this->result['errors'][] = [
                     'sheet' => 'engineering_submissions',
