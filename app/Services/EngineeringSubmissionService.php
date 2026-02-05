@@ -72,10 +72,30 @@ class EngineeringSubmissionService
             ]);
 
             if (isset($payload['status_update'])) {
-                $cse->statusUpdate()->updateOrCreate(
-                    ['cse_id' => $cse->id],
-                    $payload['status_update']
-                );
+                $statusUpdate = $cse->statusUpdate()->firstOrCreate(['cse_id' => $cse->id]);
+
+                $statusFields = [
+                    'tech_sub_status',
+                    'sample_status',
+                    'layout_status',
+                    'car_m_dwg_status',
+                    'cop_dwg_status',
+                    'landing_dwg_status',
+                ];
+
+                foreach ($statusFields as $field) {
+                    if (isset($payload['status_update'][$field])) {
+                        $newValue = $payload['status_update'][$field];
+                        $oldValue = $statusUpdate->$field;
+
+                        if ($newValue === \App\Enums\EngineeringSubmissionStatus::REJECTED->value && $newValue !== $oldValue) {
+                            $countField = str_replace('_status', '_rejection_count', $field);
+                            $payload['status_update'][$countField] = ($statusUpdate->$countField ?? 0) + 1;
+                        }
+                    }
+                }
+
+                $statusUpdate->update($payload['status_update']);
             }
 
             if (isset($payload['dg1_milestone'])) {

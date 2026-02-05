@@ -26,6 +26,12 @@ class EngineeringSubmissionResource extends JsonResource
                 'car_m_dwg_status' => $this->statusUpdate->car_m_dwg_status,
                 'cop_dwg_status' => $this->statusUpdate->cop_dwg_status,
                 'landing_dwg_status' => $this->statusUpdate->landing_dwg_status,
+                'tech_sub_rejection_count' => $this->statusUpdate->tech_sub_rejection_count,
+                'sample_rejection_count' => $this->statusUpdate->sample_rejection_count,
+                'layout_rejection_count' => $this->statusUpdate->layout_rejection_count,
+                'car_m_dwg_rejection_count' => $this->statusUpdate->car_m_dwg_rejection_count,
+                'cop_dwg_rejection_count' => $this->statusUpdate->cop_dwg_rejection_count,
+                'landing_dwg_rejection_count' => $this->statusUpdate->landing_dwg_rejection_count,
 
                 // URLs
                 'tech_sub_status_pdf_url' => $this->getPdfUrl($this->statusUpdate->tech_sub_status_pdf),
