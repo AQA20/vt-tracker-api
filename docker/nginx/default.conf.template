@@ -6,6 +6,14 @@ server {
     root /var/www/vt-tracker-api/public;
     index index.php index.html;
 
+    # PUBLIC STORAGE (CRITICAL)
+    location /storage/ {
+        alias /var/www/vt-tracker-api/public/storage/;
+        try_files $uri =404;
+        access_log off;
+        expires 30d;
+    }
+
     # Main Laravel routing
     location / {
         try_files $uri $uri/ /index.php?$query_string;
@@ -13,7 +21,7 @@ server {
 
     # PHP processing
     location ~ \.php$ {
-        fastcgi_pass app:9000;  # or your PHP-FPM service in Docker
+        fastcgi_pass app:9000;
         fastcgi_index index.php;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
