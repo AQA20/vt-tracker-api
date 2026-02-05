@@ -18,6 +18,7 @@ class EngineeringSubmissionService
             ->when(isset($filters['search']), function ($q) use ($filters) {
                 $q->where('equip_n', 'like', "%{$filters['search']}%");
             })
+            ->latest()
             ->paginate($filters['per_page'] ?? 15);
     }
 
