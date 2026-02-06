@@ -26,7 +26,7 @@ class SplitProgressTest extends TestCase
             'category' => UnitCategory::ELEVATOR,
         ]);
 
-        $unitId = $response->json('id');
+        $unitId = $response->json('data.id');
         $unit = Unit::find($unitId);
 
         // Initially all progress is 0%

@@ -2,27 +2,36 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\Status;
+use App\Enums\StatusCategory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class StatusUpdate extends Model
 {
-    use HasFactory;
+    use HasUuids;
 
     protected $guarded = ['id'];
 
     protected $casts = [
-        'tech_sub_rejection_count' => 'integer',
-        'sample_rejection_count' => 'integer',
-        'layout_rejection_count' => 'integer',
-        'car_m_dwg_rejection_count' => 'integer',
-        'cop_dwg_rejection_count' => 'integer',
-        'landing_dwg_rejection_count' => 'integer',
+        'category' => StatusCategory::class,
+        'status' => Status::class,
     ];
 
-    public function cseDetail(): BelongsTo
+    public function unit(): BelongsTo
     {
-        return $this->belongsTo(CseDetail::class, 'cse_id');
+        return $this->belongsTo(Unit::class);
+    }
+
+    public function revisions(): HasMany
+    {
+        return $this->hasMany(StatusRevision::class)->orderBy('revision_number');
+    }
+
+    public function approvals(): HasMany
+    {
+        return $this->hasMany(StatusApproval::class);
     }
 }

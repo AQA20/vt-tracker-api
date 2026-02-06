@@ -2,8 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Enums\ApprovalCode;
+use App\Enums\Status;
 use App\Enums\UnitCategory;
 use App\Models\Project;
+use App\Models\StatusApproval;
+use App\Models\StatusRevision;
 use App\Models\Unit;
 use Illuminate\Database\Seeder;
 
@@ -15,8 +19,11 @@ class ProjectSeeder extends Seeder
         $skyline = Project::create(['name' => 'Skyline Tower', 'client_name' => 'Emaar', 'location' => 'Dubai']);
         $u1 = Unit::create(['project_id' => $skyline->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'SKY-001', 'category' => UnitCategory::ELEVATOR]);
         \App\Services\UnitService::generateStagesAndTasks($u1);
+        $this->randomizeStatusUpdates($u1);
+
         $u2 = Unit::create(['project_id' => $skyline->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'SKY-002', 'category' => UnitCategory::ELEVATOR]);
         \App\Services\UnitService::generateStagesAndTasks($u2);
+        $this->randomizeStatusUpdates($u2);
 
         $this->completeStages($u1, [1, 2, 3]); // Complete first 3 stages
         $this->completeStages($u2, [1, 2, 3, 4, 5, 6, 7]); // Ready for Ride Comfort
@@ -25,6 +32,7 @@ class ProjectSeeder extends Seeder
         $mall = Project::create(['name' => 'City Mall', 'client_name' => 'Westfield', 'location' => 'London']);
         $u3 = Unit::create(['project_id' => $mall->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'CM-E1', 'category' => UnitCategory::ELEVATOR]);
         \App\Services\UnitService::generateStagesAndTasks($u3);
+        $this->randomizeStatusUpdates($u3);
 
         $this->completeStages($u3, [1, 2, 3, 4, 5, 6, 7]);
         // Add Ride Comfort Result (Completes Stage 8)
@@ -41,27 +49,34 @@ class ProjectSeeder extends Seeder
         $grand = Project::create(['name' => 'The Grand Hotel', 'client_name' => 'Hilton', 'location' => 'New York']);
         $u4 = Unit::create(['project_id' => $grand->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'GH-01', 'category' => UnitCategory::ELEVATOR]);
         \App\Services\UnitService::generateStagesAndTasks($u4);
+        $this->randomizeStatusUpdates($u4);
         $this->completeStages($u4, [1]); // Just started
 
         $u5 = Unit::create(['project_id' => $grand->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'GH-02', 'category' => UnitCategory::ELEVATOR]); // 0 progress
         \App\Services\UnitService::generateStagesAndTasks($u5);
+        $this->randomizeStatusUpdates($u5);
+
         $u6 = Unit::create(['project_id' => $grand->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'GH-03', 'category' => UnitCategory::ELEVATOR]); // 0 progress
         \App\Services\UnitService::generateStagesAndTasks($u6);
+        $this->randomizeStatusUpdates($u6);
 
         // 4. Tech Park (2 Units)
         $tech = Project::create(['name' => 'Tech Park', 'client_name' => 'Google', 'location' => 'Singapore']);
         $u7 = Unit::create(['project_id' => $tech->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'TP-A1', 'category' => UnitCategory::ELEVATOR]);
         \App\Services\UnitService::generateStagesAndTasks($u7);
+        $this->randomizeStatusUpdates($u7);
         $this->completeStages($u7, [1, 2]);
 
         $u8 = Unit::create(['project_id' => $tech->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'TP-B1', 'category' => UnitCategory::ELEVATOR]);
         \App\Services\UnitService::generateStagesAndTasks($u8);
+        $this->randomizeStatusUpdates($u8);
         $this->completeStages($u8, [1, 2, 3, 4]);
 
         // 5. Ocean View Residency (1 Unit)
         $ocean = Project::create(['name' => 'Ocean View Residency', 'client_name' => 'Damac', 'location' => 'Miami']);
         $u9 = Unit::create(['project_id' => $ocean->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'OV-101', 'category' => UnitCategory::ELEVATOR]);
         \App\Services\UnitService::generateStagesAndTasks($u9);
+        $this->randomizeStatusUpdates($u9);
         // Complete all including Ride Comfort
         $this->completeStages($u9, [1, 2, 3, 4, 5, 6, 7]);
         \App\Models\RideComfortResult::create([
@@ -77,11 +92,51 @@ class ProjectSeeder extends Seeder
         $station = Project::create(['name' => 'Central Station', 'client_name' => 'Transport Auth', 'location' => 'Berlin']);
         $u10 = Unit::create(['project_id' => $station->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'CS-L1', 'category' => UnitCategory::ELEVATOR]);
         \App\Services\UnitService::generateStagesAndTasks($u10);
+        $this->randomizeStatusUpdates($u10);
         $this->completeStages($u10, [1, 2, 3, 4, 5]);
 
         $u11 = Unit::create(['project_id' => $station->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'CS-L2', 'category' => UnitCategory::ELEVATOR]);
         \App\Services\UnitService::generateStagesAndTasks($u11);
+        $this->randomizeStatusUpdates($u11);
         // No progress
+    }
+
+    private function randomizeStatusUpdates(Unit $unit)
+    {
+        foreach ($unit->statusUpdates as $update) {
+            // 20% chance to stay null
+            if (rand(1, 100) <= 20) {
+                continue;
+            }
+
+            $statuses = Status::cases();
+            $status = $statuses[array_rand($statuses)];
+            $update->update(['status' => $status]);
+
+            // Add revisions
+            if ($status !== Status::IN_PROGRESS) {
+                $revCount = rand(1, 3);
+                for ($i = 0; $i < $revCount; $i++) {
+                    StatusRevision::create([
+                        'status_update_id' => $update->id,
+                        'revision_number' => $i,
+                        'pdf_path' => null,
+                        'revision_date' => now()->subDays(rand(1, 10)),
+                    ]);
+                }
+            }
+
+            // Add approval if approved or rejected
+            if ($status === Status::APPROVED || $status === Status::REJECTED) {
+                StatusApproval::create([
+                    'status_update_id' => $update->id,
+                    'approval_code' => $status === Status::APPROVED ? ApprovalCode::A : ApprovalCode::B,
+                    'pdf_path' => null,
+                    'comment' => $status === Status::APPROVED ? 'Looks good.' : 'Missing information.',
+                    'approved_at' => now()->subDays(rand(0, 5)),
+                ]);
+            }
+        }
     }
 
     private function completeStages(Unit $unit, array $stageNumbers)

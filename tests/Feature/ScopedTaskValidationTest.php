@@ -26,7 +26,7 @@ class ScopedTaskValidationTest extends TestCase
             'category' => UnitCategory::ELEVATOR,
         ]);
 
-        $unit = Unit::find($response->json('id'));
+        $unit = Unit::find($response->json('data.id'));
 
         // Installation: Stages 1-6
         // Commissioning: Stages 7-8

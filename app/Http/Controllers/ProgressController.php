@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProgressResource;
 use App\Models\Unit;
 use App\Services\ProgressService;
 use OpenApi\Attributes as OA;
@@ -20,18 +21,14 @@ class ProgressController extends Controller
             new OA\Response(
                 response: 200,
                 description: 'Progress',
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(property: 'progress', type: 'integer'),
-                    ]
-                )
+                content: new OA\JsonContent(ref: '#/components/schemas/Progress')
             ),
         ]
     )]
     public function show(Unit $unit)
     {
-        $progress = ProgressService::calculate($unit);
+        ProgressService::calculate($unit);
 
-        return response()->json(['progress' => $progress]);
+        return new ProgressResource($unit);
     }
 }

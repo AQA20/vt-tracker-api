@@ -26,7 +26,7 @@ class StageDependencyTest extends TestCase
             'category' => UnitCategory::ELEVATOR,
         ]);
 
-        $unitId = $response->json('id');
+        $unitId = $response->json('data.id');
         $unit = Unit::find($unitId);
 
         // Get Stage 1 and Stage 2
@@ -72,7 +72,7 @@ class StageDependencyTest extends TestCase
             'category' => UnitCategory::ELEVATOR,
         ]);
 
-        $unit = Unit::find($response->json('id'));
+        $unit = Unit::find($response->json('data.id'));
         $stage2 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 2))->first();
 
         // Attempting to mark Stage 2 as completed should fail if Stage 1 is pending

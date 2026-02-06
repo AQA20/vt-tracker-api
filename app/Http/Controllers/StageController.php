@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Stage\UpdateStageRequest;
+use App\Http\Resources\UnitStageResource;
 use App\Models\Unit;
 use App\Models\UnitStage;
 use OpenApi\Attributes as OA;
@@ -27,12 +28,14 @@ class StageController extends Controller
     )]
     public function index(Unit $unit)
     {
-        return $unit->stages()
-            ->join('stage_templates', 'unit_stages.stage_template_id', '=', 'stage_templates.id')
-            ->select('unit_stages.*')
-            ->orderBy('stage_templates.stage_number')
-            ->with('template')
-            ->get();
+        return UnitStageResource::collection(
+            $unit->stages()
+                ->join('stage_templates', 'unit_stages.stage_template_id', '=', 'stage_templates.id')
+                ->select('unit_stages.*')
+                ->orderBy('stage_templates.stage_number')
+                ->with('template')
+                ->get()
+        );
     }
 
     #[OA\Put(
@@ -119,7 +122,7 @@ class StageController extends Controller
             }
         });
 
-        return response()->json($stage->fresh(['template']));
+        return new UnitStageResource($stage->fresh(['template']));
     }
 
     #[OA\Get(
@@ -149,7 +152,7 @@ class StageController extends Controller
     )]
     public function show(UnitStage $stage)
     {
-        return $stage->load([
+        return new UnitStageResource($stage->load([
             'tasks' => function ($query) {
                 $query->join('task_templates', 'unit_tasks.task_template_id', '=', 'task_templates.id')
                     ->select('unit_tasks.*')
@@ -157,6 +160,6 @@ class StageController extends Controller
             },
             'tasks.template',
             'template',
-        ]);
+        ]));
     }
 }

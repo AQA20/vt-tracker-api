@@ -1,1236 +1,1213 @@
 {
-    "info": {
-        "_postman_id": "vt-tracker-api",
-        "name": "VT Tracker API",
-        "description": "API collection for VT Tracker project, including Projects, Units, Stages, Tasks, and Ride Comfort endpoints.",
-        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-    },
-    "item": [
+  "info": {
+    "_postman_id": "vt-tracker-api",
+    "name": "VT Tracker API",
+    "description": "API collection for VT Tracker project, including Projects, Units, Stages, Tasks, and Ride Comfort endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
         {
-            "name": "Auth",
-            "item": [
-                {
-                    "name": "Login",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"email\": \"admin@vttracker.com\",\n    \"password\": \"password123\"\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/login",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "login"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Login Success",
-                            "originalRequest": {
-                                "method": "POST",
-                                "header": [],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n    \"email\": \"admin@vttracker.com\",\n    \"password\": \"password123\"\n}",
-                                    "options": {
-                                        "raw": {
-                                            "language": "json"
-                                        }
-                                    }
-                                },
-                                "url": {
-                                    "raw": "{{base_url}}/login",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "login"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "cookie": [],
-                            "body": "{\n    \"token\": \"1|laravel_sanctum_token_string\",\n    \"user\": {\n        \"id\": 1,\n        \"name\": \"Admin User\",\n        \"email\": \"admin@vttracker.com\"\n    }\n}"
-                        }
-                    ]
-                },
-                {
-                    "name": "Get User",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/user",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "user"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "User Profile",
-                            "originalRequest": {
-                                "method": "GET",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{base_url}}/user",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "user"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "{\n    \"id\": 1,\n    \"name\": \"Admin User\",\n    \"email\": \"admin@vttracker.com\",\n    \"email_verified_at\": \"2026-01-27T12:00:00.000000Z\",\n    \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n    \"updated_at\": \"2026-01-27T12:00:00.000000Z\"\n}"
-                        }
-                    ]
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@vttracker.com\",\n    \"password\": \"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
                 }
-            ]
-        },
-        {
-            "name": "Projects",
-            "item": [
-                {
-                    "name": "List Projects",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/projects",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "projects"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "List Projects Response",
-                            "originalRequest": {
-                                "method": "GET",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{base_url}}/projects",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "projects"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "[\n    {\n        \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n        \"name\": \"Skyline Tower\",\n        \"client_name\": \"Emaar\",\n        \"location\": \"Dubai\",\n        \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n        \"updated_at\": \"2026-01-27T12:00:00.000000Z\",\n        \"completion_percentage\": 64,\n        \"units_count\": 2\n    },\n    {\n        \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-7g8h9i0j1k2l\",\n        \"name\": \"City Mall\",\n        \"client_name\": \"Westfield\",\n        \"location\": \"London\",\n        \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n        \"updated_at\": \"2026-01-27T12:00:00.000000Z\",\n        \"completion_percentage\": 100,\n        \"units_count\": 1\n    }\n]"
-                        }
-                    ]
-                },
-                {
-                    "name": "Create Project",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"name\": \"New Tower Project\",\n    \"client_name\": \"Client Corp\",\n    \"location\": \"Location City\"\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/projects",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "projects"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Project Created",
-                            "originalRequest": {
-                                "method": "POST",
-                                "header": [],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n    \"name\": \"New Tower Project\",\n    \"client_name\": \"Client Corp\",\n    \"location\": \"Location City\"\n}"
-                                },
-                                "url": {
-                                    "raw": "{{base_url}}/projects",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "projects"
-                                    ]
-                                }
-                            },
-                            "status": "Created",
-                            "code": 201,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "{\n    \"name\": \"New Tower Project\",\n    \"client_name\": \"Client Corp\",\n    \"location\": \"Location City\",\n    \"updated_at\": \"2026-01-27T16:00:00.000000Z\",\n    \"created_at\": \"2026-01-27T16:00:00.000000Z\",\n    \"id\": \"9df9cb31-5f21-4d9e-8a1b-2c3d4e5f6a7b\",\n    \"completion_percentage\": 0\n}"
-                        }
-                    ]
-                },
-                {
-                    "name": "Show Project (with Units)",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/projects/{{project_id}}",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "projects",
-                                "{{project_id}}"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Project Detail",
-                            "originalRequest": {
-                                "method": "GET",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{base_url}}/projects/{{project_id}}",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "projects",
-                                        "{{project_id}}"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "{\n    \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n    \"name\": \"Skyline Tower\",\n    \"client_name\": \"Emaar\",\n    \"location\": \"Dubai\",\n    \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n    \"updated_at\": \"2026-01-27T12:00:00.000000Z\",\n    \"completion_percentage\": 64,\n    \"units\": [\n        {\n            \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-unit1uuid\",\n            \"project_id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n            \"unit_type\": \"KONE MonoSpace 700\",\n            \"serial_number\": \"SKY-001\",\n            \"category\": \"elevator\",\n            \"progress_percent\": 37\n        },\n        {\n            \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-unit2uuid\",\n            \"project_id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n            \"unit_type\": \"KONE MonoSpace 700\",\n            \"serial_number\": \"SKY-002\",\n            \"category\": \"elevator\",\n            \"progress_percent\": 90\n        }\n    ]\n}"
-                        }
-                    ]
-                },
-                {
-                    "name": "Update Project",
-                    "request": {
-                        "method": "PUT",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"name\": \"Updated Project Name\"\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/projects/{{project_id}}",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "projects",
-                                "{{project_id}}"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Project Updated",
-                            "originalRequest": {
-                                "method": "PUT",
-                                "header": [],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n    \"name\": \"Updated Project Name\"\n}"
-                                },
-                                "url": {
-                                    "raw": "{{base_url}}/projects/{{project_id}}",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "projects",
-                                        "{{project_id}}"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "{\n    \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n    \"name\": \"Updated Project Name\",\n    \"client_name\": \"Emaar\",\n    \"location\": \"Dubai\",\n    \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n    \"updated_at\": \"2026-01-27T16:30:00.000000Z\",\n    \"completion_percentage\": 64\n}"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Units",
-            "item": [
-                {
-                    "name": "Create Unit (Auto-Generate Stages)",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"unit_type\": \"KONE MonoSpace 700\",\n    \"serial_number\": \"UNIT-001\",\n    \"category\": \"elevator\"\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/projects/{{project_id}}/units",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "projects",
-                                "{{project_id}}",
-                                "units"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Unit Created",
-                            "originalRequest": {
-                                "method": "POST",
-                                "header": [],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n    \"unit_type\": \"KONE MonoSpace 700\",\n    \"serial_number\": \"UNIT-001\",\n    \"category\": \"elevator\"\n}"
-                                },
-                                "url": {
-                                    "raw": "{{base_url}}/projects/{{project_id}}/units",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "projects",
-                                        "{{project_id}}",
-                                        "units"
-                                    ]
-                                }
-                            },
-                            "status": "Created",
-                            "code": 201,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "{\n    \"unit_type\": \"KONE MonoSpace 700\",\n    \"serial_number\": \"UNIT-001\",\n    \"category\": \"elevator\",\n    \"project_id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n    \"progress_percent\": 0,\n    \"updated_at\": \"2026-01-27T16:45:00.000000Z\",\n    \"created_at\": \"2026-01-27T16:45:00.000000Z\",\n    \"id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\"\n}"
-                        }
-                    ]
-                },
-                {
-                    "name": "List Project Units",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/projects/{{project_id}}/units",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "projects",
-                                "{{project_id}}",
-                                "units"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "List Units Response",
-                            "originalRequest": {
-                                "method": "GET",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{base_url}}/projects/{{project_id}}/units",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "projects",
-                                        "{{project_id}}",
-                                        "units"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "[\n    {\n        \"id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n        \"project_id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n        \"unit_type\": \"KONE MonoSpace 700\",\n        \"serial_number\": \"SKY-001\",\n        \"category\": \"elevator\",\n        \"progress_percent\": 37,\n        \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n        \"updated_at\": \"2026-01-27T14:30:00.000000Z\"\n    },\n    {\n        \"id\": \"9df9cde3-7a8b-4c9d-0e1f-unit2uuid\",\n        \"project_id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n        \"unit_type\": \"KONE MonoSpace 700\",\n        \"serial_number\": \"SKY-002\",\n        \"category\": \"elevator\",\n        \"progress_percent\": 90,\n        \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n        \"updated_at\": \"2026-01-27T15:00:00.000000Z\"\n    }\n]"
-                        }
-                    ]
-                },
-                {
-                    "name": "Show Unit",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/units/{{unit_id}}",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "units",
-                                "{{unit_id}}"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Unit Detail",
-                            "originalRequest": {
-                                "method": "GET",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{base_url}}/units/{{unit_id}}",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "units",
-                                        "{{unit_id}}"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "{\n    \"id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n    \"project_id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n    \"unit_type\": \"KONE MonoSpace 700\",\n    \"serial_number\": \"SKY-001\",\n    \"category\": \"elevator\",\n    \"progress_percent\": 37,\n    \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n    \"updated_at\": \"2026-01-27T14:30:00.000000Z\"\n}"
-                        }
-                    ]
-                },
-                {
-                    "name": "Get Unit Progress",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/units/{{unit_id}}/progress",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "units",
-                                "{{unit_id}}",
-                                "progress"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Progress Response",
-                            "originalRequest": {
-                                "method": "GET",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{base_url}}/units/{{unit_id}}/progress",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "units",
-                                        "{{unit_id}}",
-                                        "progress"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "{\n    \"unit_id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n    \"progress\": 37\n}"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Stages & Tasks",
-            "item": [
-                {
-                    "name": "List Unit Stages",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/units/{{unit_id}}/stages",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "units",
-                                "{{unit_id}}",
-                                "stages"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "List Stages",
-                            "originalRequest": {
-                                "method": "GET",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{base_url}}/units/{{unit_id}}/stages",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "units",
-                                        "{{unit_id}}",
-                                        "stages"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "[\n    {\n        \"id\": \"9df9d8f1-2c3d-4e5f-6a7b-8c9d0e1f2g3h\",\n        \"unit_id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n        \"stage_template_id\": 1,\n        \"status\": \"completed\",\n        \"started_at\": \"2026-01-27T12:05:00.000000Z\",\n        \"completed_at\": \"2026-01-27T13:00:00.000000Z\",\n        \"template\": {\n            \"id\": 1,\n            \"name\": \"Installation Start\",\n            \"stage_number\": 1\n        }\n    },\n    {\n        \"id\": \"9df9d8f1-2c3d-4e5f-6a7b-stage2uuid\",\n        \"unit_id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n        \"stage_template_id\": 2,\n        \"status\": \"in_progress\",\n        \"started_at\": \"2026-01-27T13:05:00.000000Z\",\n        \"completed_at\": null,\n        \"template\": {\n            \"id\": 2,\n            \"name\": \"Guide Rail Installation\",\n            \"stage_number\": 2\n        }\n    }\n]"
-                        }
-                    ]
-                },
-                {
-                    "name": "Show Stage",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/stages/{{stage_id}}",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "stages",
-                                "{{stage_id}}"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Stage Detail",
-                            "originalRequest": {
-                                "method": "GET",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{base_url}}/stages/{{stage_id}}",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "stages",
-                                        "{{stage_id}}"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "{\n    \"id\": \"9df9d8f1-2c3d-4e5f-6a7b-8c9d0e1f2g3h\",\n    \"unit_id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n    \"stage_template_id\": 1,\n    \"status\": \"completed\",\n    \"started_at\": \"2026-01-27T12:05:00.000000Z\",\n    \"completed_at\": \"2026-01-27T13:00:00.000000Z\",\n    \"template\": {\n        \"id\": 1,\n        \"name\": \"Installation Start\",\n        \"stage_number\": 1\n    },\n    \"tasks\": [\n        {\n            \"id\": \"9df9e1a2-3b4c-5d6e-7f8g-9h0i1j2k3l4m\",\n            \"unit_stage_id\": \"9df9d8f1-2c3d-4e5f-6a7b-8c9d0e1f2g3h\",\n            \"task_template_id\": 101,\n            \"status\": \"pass\",\n            \"notes\": null,\n            \"template\": {\n                \"id\": 101,\n                \"name\": \"Verify SiteReadiness\",\n                \"task_code\": \"1.1\"\n            }\n        }\n    ]\n}"
-                        }
-                    ]
-                },
-                {
-                    "name": "Update Stage Status",
-                    "request": {
-                        "method": "PUT",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"status\": \"completed\"\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/stages/{{stage_id}}",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "stages",
-                                "{{stage_id}}"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Stage Updated",
-                            "originalRequest": {
-                                "method": "PUT",
-                                "header": [],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n    \"status\": \"completed\"\n}"
-                                },
-                                "url": {
-                                    "raw": "{{base_url}}/stages/{{stage_id}}",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "stages",
-                                        "{{stage_id}}"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "{\n    \"id\": \"9df9d8f1-2c3d-4e5f-6a7b-8c9d0e1f2g3h\",\n    \"unit_id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n    \"stage_template_id\": 1,\n    \"status\": \"completed\",\n    \"started_at\": \"2026-01-27T12:05:00.000000Z\",\n    \"completed_at\": \"2026-01-28T16:00:00.000000Z\",\n    \"template\": {\n        \"id\": 1,\n        \"name\": \"Installation Start\",\n        \"stage_number\": 1\n    }\n}"
-                        }
-                    ]
-                },
-                {
-                    "name": "List Stage Tasks",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/stages/{{stage_id}}/tasks",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "stages",
-                                "{{stage_id}}",
-                                "tasks"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "List Tasks",
-                            "originalRequest": {
-                                "method": "GET",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{base_url}}/stages/{{stage_id}}/tasks",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "stages",
-                                        "{{stage_id}}",
-                                        "tasks"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "[\n    {\n        \"id\": \"9df9e1a2-3b4c-5d6e-7f8g-9h0i1j2k3l4m\",\n        \"unit_stage_id\": \"9df9d8f1-2c3d-4e5f-6a7b-8c9d0e1f2g3h\",\n        \"task_template_id\": 101,\n        \"status\": \"pass\",\n        \"notes\": null,\n        \"template\": {\n            \"id\": 101,\n            \"name\": \"Verify SiteReadiness\",\n            \"task_code\": \"1.1\"\n        }\n    },\n    {\n        \"id\": \"9df9e1a2-3b4c-5d6e-7f8g-task2uuid\",\n        \"unit_stage_id\": \"9df9d8f1-2c3d-4e5f-6a7b-8c9d0e1f2g3h\",\n        \"task_template_id\": 102,\n        \"status\": \"pending\",\n        \"notes\": null,\n        \"template\": {\n            \"id\": 102,\n            \"name\": \"Safety Guidelines Check\",\n            \"task_code\": \"1.2\"\n        }\n    }\n]"
-                        }
-                    ]
-                },
-                {
-                    "name": "Update Task (Complete/Measure)",
-                    "request": {
-                        "method": "PUT",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"status\": \"pass\",\n    \"notes\": \"Completed successfully\"\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/tasks/{{task_id}}",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "tasks",
-                                "{{task_id}}"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Task Updated",
-                            "originalRequest": {
-                                "method": "PUT",
-                                "header": [],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n    \"status\": \"pass\",\n    \"notes\": \"Completed successfully\"\n}"
-                                },
-                                "url": {
-                                    "raw": "{{base_url}}/tasks/{{task_id}}",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "tasks",
-                                        "{{task_id}}"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "{\n    \"id\": \"9df9e1a2-3b4c-5d6e-7f8g-9h0i1j2k3l4m\",\n    \"unit_stage_id\": \"9df9d8f1-2c3d-4e5f-6a7b-8c9d0e1f2g3h\",\n    \"task_template_id\": 102,\n    \"status\": \"pass\",\n    \"notes\": \"Completed successfully\",\n    \"checked_by\": 1,\n    \"checked_at\": \"2026-01-27T17:00:00.000000Z\",\n    \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n    \"updated_at\": \"2026-01-27T17:00:00.000000Z\"\n}"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Ride Comfort",
-            "item": [
-                {
-                    "name": "List Ride Comfort Results",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/units/{{unit_id}}/ride-comfort",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "units",
-                                "{{unit_id}}",
-                                "ride-comfort"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "List Results",
-                            "originalRequest": {
-                                "method": "GET",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{base_url}}/units/{{unit_id}}/ride-comfort",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "units",
-                                        "{{unit_id}}",
-                                        "ride-comfort"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "[\n    {\n        \"id\": \"9df9ea1b-4c5d-6e7f-8g9h-0i1j2k3l4m5n\",\n        \"unit_id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n        \"vibration_value\": 0.5,\n        \"noise_db\": 45,\n        \"jerk_value\": 0.8,\n        \"device_used\": \"Device A\",\n        \"passed\": true,\n        \"created_at\": \"2026-01-27T16:00:00.000000Z\"\n    }\n]"
-                        }
-                    ]
-                },
-                {
-                    "name": "Submit Ride Comfort (Pass)",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"vibration\": 0.5,\n    \"noise\": 45,\n    \"jerk\": 0.8,\n    \"device_used\": \"Device A\"\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/units/{{unit_id}}/ride-comfort",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "units",
-                                "{{unit_id}}",
-                                "ride-comfort"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Result Created",
-                            "originalRequest": {
-                                "method": "POST",
-                                "header": [],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n    \"vibration\": 0.5,\n    \"noise\": 45,\n    \"jerk\": 0.8,\n    \"device_used\": \"Device A\"\n}"
-                                },
-                                "url": {
-                                    "raw": "{{base_url}}/units/{{unit_id}}/ride-comfort",
-                                    "host": [
-                                        "{{base_url}}"
-                                    ],
-                                    "path": [
-                                        "units",
-                                        "{{unit_id}}",
-                                        "ride-comfort"
-                                    ]
-                                }
-                            },
-                            "status": "Created",
-                            "code": 201,
-                            "_postman_previewlanguage": "json",
-                            "header": [],
-                            "cookie": [],
-                            "body": "{\n    \"vibration\": 0.5,\n    \"noise\": 45,\n    \"jerk\": 0.8,\n    \"device_used\": \"Device A\",\n    \"passed\": true,\n    \"unit_id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n    \"updated_at\": \"2026-01-27T17:05:00.000000Z\",\n    \"created_at\": \"2026-01-27T17:05:00.000000Z\",\n    \"id\": \"9df9fbc1-5d4e-6f7g-8h9i-0j1k2l3m4n5o\"\n}"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Engineering Submissions",
-            "item": [
-                {
-                    "name": "List Submissions",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/engineering-submissions",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "engineering-submissions"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "List Submissions Response",
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "cookie": [],
-                            "body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"equip_n\": 123456,\n            \"asset_name\": \"Tower A Lift 1\",\n            \"unit_id\": \"U-1001\",\n            \"material_code\": \"MAT-XYZ\",\n            \"so_no\": 123,\n            \"network_no\": 456,\n            \"status_update\": {\n                \"id\": 1,\n                \"tech_sub_status\": \"In Progress\",\n                \"sample_status\": \"Submitted\",\n                \"layout_status\": null,\n                \"car_m_dwg_status\": null,\n                \"cop_dwg_status\": null,\n                \"landing_dwg_status\": null,\n                \"tech_sub_rejection_count\": 0,\n                \"sample_rejection_count\": 0,\n                \"layout_rejection_count\": 0,\n                \"car_m_dwg_rejection_count\": 0,\n                \"cop_dwg_rejection_count\": 0,\n                \"landing_dwg_rejection_count\": 0,\n                \"tech_sub_status_pdf_url\": \"http://localhost:8000/storage/engineering-submissions/123456/tech_sub_status_pdf/123.pdf\",\n                \"sample_status_pdf_url\": null,\n                \"layout_status_pdf_url\": null,\n                \"car_m_dwg_status_pdf_url\": null,\n                \"cop_dwg_status_pdf_url\": null,\n                \"landing_dwg_status_pdf_url\": null\n            },\n            \"dg1_milestone\": {\n                \"id\": 1,\n                \"ms2\": \"2025-01-01\",\n                \"ms2a\": \"2025-01-05\",\n                \"ms2_3s\": 0,\n                \"ms3\": \"2025-02-01\"\n            },\n            \"created_at\": \"2026-02-04T12:00:00.000000Z\",\n            \"updated_at\": \"2026-02-04T12:00:00.000000Z\"\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://localhost:8000/api/engineering-submissions?page=1\",\n        \"last\": \"http://localhost:8000/api/engineering-submissions?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"path\": \"http://localhost:8000/api/engineering-submissions\",\n        \"per_page\": 15,\n        \"to\": 1,\n        \"total\": 1\n    }\n}"
-                        }
-                    ]
-                },
-                {
-                    "name": "Show Submission",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/engineering-submissions/{{cse_id}}",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "engineering-submissions",
-                                "{{cse_id}}"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Show Submission Response",
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"equip_n\": 123456,\n        \"asset_name\": \"Tower A Lift 1\",\n        \"unit_id\": \"U-1001\",\n        \"material_code\": \"MAT-XYZ\",\n        \"so_no\": 123,\n        \"network_no\": 456,\n        \"status_update\": {\n            \"id\": 1,\n            \"tech_sub_status\": \"In Progress\",\n            \"sample_status\": \"Submitted\",\n            \"layout_status\": null,\n            \"car_m_dwg_status\": null,\n            \"cop_dwg_status\": null,\n            \"landing_dwg_status\": null,\n            \"tech_sub_rejection_count\": 0,\n            \"sample_rejection_count\": 0,\n            \"layout_rejection_count\": 0,\n            \"car_m_dwg_rejection_count\": 0,\n            \"cop_dwg_rejection_count\": 0,\n            \"landing_dwg_rejection_count\": 0,\n            \"tech_sub_status_pdf_url\": \"http://localhost:8000/storage/engineering-submissions/123456/tech_sub_status_pdf/123.pdf\",\n            \"sample_status_pdf_url\": null,\n            \"layout_status_pdf_url\": null,\n            \"car_m_dwg_status_pdf_url\": null,\n            \"cop_dwg_status_pdf_url\": null,\n            \"landing_dwg_status_pdf_url\": null\n        },\n        \"dg1_milestone\": {\n            \"id\": 1,\n            \"ms2\": \"2025-01-01\",\n            \"ms2a\": \"2025-01-05\",\n            \"ms2_3s\": 0,\n            \"ms3\": \"2025-02-01\"\n        },\n        \"created_at\": \"2026-02-04T12:00:00.000000Z\",\n        \"updated_at\": \"2026-02-04T12:00:00.000000Z\"\n    }\n}"
-                        }
-                    ]
-                },
-                {
-                    "name": "Create Submission",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"equip_n\": 123456,\n    \"asset_name\": \"Tower A Lift 1\",\n    \"unit_id\": \"U-1001\",\n    \"material_code\": \"MAT-XYZ\",\n    \"so_no\": 123,\n    \"network_no\": 456,\n    \"status_update\": {\n        \"tech_sub_status\": \"In Progress\"\n    },\n    \"dg1_milestone\": {\n        \"ms2\": \"2025-01-01\",\n        \"ms2a\": \"2025-01-05\",\n        \"ms3\": \"2025-02-01\"\n    }\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/engineering-submissions",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "engineering-submissions"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Create Submission Success",
-                            "status": "Created",
-                            "code": 201,
-                            "_postman_previewlanguage": "json",
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"equip_n\": 123456,\n        \"asset_name\": \"Tower A Lift 1\",\n        \"unit_id\": \"U-1001\",\n        \"material_code\": \"MAT-XYZ\",\n        \"so_no\": 123,\n        \"network_no\": 456,\n        \"status_update\": {\n            \"id\": 1,\n            \"tech_sub_status\": \"In Progress\",\n            \"sample_status\": null,\n            \"layout_status\": null,\n            \"car_m_dwg_status\": null,\n            \"cop_dwg_status\": null,\n            \"landing_dwg_status\": null,\n            \"tech_sub_rejection_count\": 0,\n            \"sample_rejection_count\": 0,\n            \"layout_rejection_count\": 0,\n            \"car_m_dwg_rejection_count\": 0,\n            \"cop_dwg_rejection_count\": 0,\n            \"landing_dwg_rejection_count\": 0,\n            \"tech_sub_status_pdf_url\": null,\n            \"sample_status_pdf_url\": null,\n            \"layout_status_pdf_url\": null,\n            \"car_m_dwg_status_pdf_url\": null,\n            \"cop_dwg_status_pdf_url\": null,\n            \"landing_dwg_status_pdf_url\": null\n        },\n        \"dg1_milestone\": {\n            \"id\": 1,\n            \"ms2\": \"2025-01-01\",\n            \"ms2a\": \"2025-01-05\",\n            \"ms2_3s\": 0,\n            \"ms3\": \"2025-02-01\"\n        },\n        \"created_at\": \"2026-02-04T12:00:00.000000Z\",\n        \"updated_at\": \"2026-02-04T12:00:00.000000Z\"\n    }\n}"
-                        }
-                    ]
-                },
-                {
-                    "name": "Update Submission",
-                    "request": {
-                        "method": "PUT",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"asset_name\": \"Updated Asset Name\",\n    \"status_update\": {\n        \"tech_sub_status\": \"Approved\"\n    }\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/engineering-submissions/{{cse_id}}",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "engineering-submissions",
-                                "{{cse_id}}"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Update Submission Success",
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"equip_n\": 123456,\n        \"asset_name\": \"Updated Asset Name\",\n        \"unit_id\": \"U-1001\",\n        \"material_code\": \"MAT-XYZ\",\n        \"so_no\": 123,\n        \"network_no\": 456,\n        \"status_update\": {\n            \"id\": 1,\n            \"tech_sub_status\": \"Approved\",\n            \"sample_status\": null,\n            \"layout_status\": null,\n            \"car_m_dwg_status\": null,\n            \"cop_dwg_status\": null,\n            \"landing_dwg_status\": null,\n            \"tech_sub_rejection_count\": 0,\n            \"sample_rejection_count\": 0,\n            \"layout_rejection_count\": 0,\n            \"car_m_dwg_rejection_count\": 0,\n            \"cop_dwg_rejection_count\": 0,\n            \"landing_dwg_rejection_count\": 0,\n            \"tech_sub_status_pdf_url\": null,\n            \"sample_status_pdf_url\": null,\n            \"layout_status_pdf_url\": null,\n            \"car_m_dwg_status_pdf_url\": null,\n            \"cop_dwg_status_pdf_url\": null,\n            \"landing_dwg_status_pdf_url\": null\n        },\n        \"dg1_milestone\": {\n            \"id\": 1,\n            \"ms2\": \"2025-01-01\",\n            \"ms2a\": \"2025-01-05\",\n            \"ms2_3s\": 0,\n            \"ms3\": \"2025-02-01\"\n        },\n        \"created_at\": \"2026-02-04T12:00:00.000000Z\",\n        \"updated_at\": \"2026-02-04T12:05:00.000000Z\"\n    }\n}"
-                        }
-                    ]
-                },
-                {
-                    "name": "Upload Status PDF",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "file",
-                                    "type": "file",
-                                    "src": []
-                                }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/engineering-submissions/{{cse_id}}/status-pdfs/tech_sub_status_pdf",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "engineering-submissions",
-                                "{{cse_id}}",
-                                "status-pdfs",
-                                "tech_sub_status_pdf"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Upload Success",
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"equip_n\": 123456,\n        \"asset_name\": \"Tower A Lift 1\",\n        \"unit_id\": \"U-1001\",\n        \"material_code\": \"MAT-XYZ\",\n        \"so_no\": 123,\n        \"network_no\": 456,\n        \"status_update\": {\n            \"id\": 1,\n            \"tech_sub_status\": \"In Progress\",\n            \"tech_sub_status_pdf_url\": \"http://localhost:8000/storage/engineering-submissions/123456/tech_sub_status_pdf/1738670000_tech_spec.pdf\"\n        },\n        \"dg1_milestone\": {\n            \"id\": 1,\n            \"ms2\": \"2025-01-01\"\n        },\n        \"created_at\": \"2026-02-04T12:00:00.000000Z\",\n        \"updated_at\": \"2026-02-04T12:10:00.000000Z\"\n    }\n}"
-                        }
-                    ]
-                },
-                {
-                    "name": "Delete Status PDF",
-                    "request": {
-                        "method": "DELETE",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/engineering-submissions/{{cse_id}}/status-pdfs/tech_sub_status_pdf",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "engineering-submissions",
-                                "{{cse_id}}",
-                                "status-pdfs",
-                                "tech_sub_status_pdf"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Delete Success",
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"equip_n\": 123456,\n        \"status_update\": {\n            \"id\": 1,\n            \"tech_sub_status_pdf_url\": null\n        }\n    }\n}"
-                        }
-                    ]
-                },
-                {
-                    "name": "Import Submission",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "file",
-                                    "type": "file",
-                                    "src": []
-                                }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/engineering-submissions/import",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "engineering-submissions",
-                                "import"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Import Result",
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "cookie": [],
-                            "body": "{\n    \"processed\": 10,\n    \"created\": 5,\n    \"updated\": 5,\n    \"errors\": []\n}"
-                        }
-                    ]
-                },
-                {
-                    "name": "Export Submission",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{base_url}}/engineering-submissions/export",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "engineering-submissions",
-                                "export"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Export Success",
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                                },
-                                {
-                                    "key": "Content-Disposition",
-                                    "value": "attachment; filename=engineering_submissions.xlsx"
-                                }
-                            ],
-                            "cookie": [],
-                            "body": "(Binary file content)"
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "auth": {
-        "type": "bearer",
-        "bearer": [
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": [
             {
-                "key": "token",
-                "value": "{{token}}",
-                "type": "string"
+              "name": "Login Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"admin@vttracker.com\",\n    \"password\": \"password123\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"token\": \"1|laravel_sanctum_token_string\",\n    \"user\": {\n        \"id\": 1,\n        \"name\": \"Admin User\",\n        \"email\": \"admin@vttracker.com\"\n    }\n}"
             }
-        ]
+          ]
+        },
+        {
+          "name": "Get User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/user",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "user"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "User Profile",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/user",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"name\": \"Admin User\",\n    \"email\": \"admin@vttracker.com\",\n    \"email_verified_at\": \"2026-01-27T12:00:00.000000Z\",\n    \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n    \"updated_at\": \"2026-01-27T12:00:00.000000Z\"\n}"
+            }
+          ]
+        }
+      ]
     },
-    "event": [
+    {
+      "name": "Projects",
+      "item": [
         {
-            "listen": "prerequest",
-            "script": {
-                "type": "text/javascript",
-                "exec": [
-                    ""
-                ]
+          "name": "List Projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/projects?include=units.statusUpdates.revisions,units.statusUpdates.approvals&page=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "projects"
+              ],
+              "query": [
+                {
+                  "key": "include",
+                  "value": "units.statusUpdates.revisions,units.statusUpdates.approvals"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
             }
-        },
-        {
-            "listen": "test",
-            "script": {
-                "type": "text/javascript",
-                "exec": [
-                    ""
-                ]
+          },
+          "response": [
+            {
+              "name": "List Projects Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/projects?include=units.statusUpdates.revisions,units.statusUpdates.approvals&page=1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "projects"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "units.statusUpdates.revisions,units.statusUpdates.approvals"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        {\n            \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n            \"name\": \"Skyline Tower\",\n            \"client_name\": \"Emaar\",\n            \"location\": \"Dubai\",\n            \"completion_percentage\": 64,\n            \"installation_progress\": 45,\n            \"commissioning_progress\": 20,\n            \"units_count\": 2,\n            \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n            \"updated_at\": \"2026-01-27T12:00:00.000000Z\",\n            \"units\": [\n                {\n                    \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-unit1uuid\",\n                    \"project_id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n                    \"unit_type\": \"KONE MonoSpace 700\",\n                    \"equipment_number\": \"SKY-001\",\n                    \"category\": \"elevator\",\n                    \"progress_percent\": 37,\n                    \"installation_progress\": 40,\n                    \"commissioning_progress\": 0,\n                    \"status_updates\": [\n                        {\n                            \"id\": \"su-uuid-1\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"tech\",\n                            \"status\": \"submitted\",\n                            \"revisions\": [\n                                {\n                                    \"id\": \"rev-uuid-1\",\n                                    \"revision_number\": 0,\n                                    \"pdf_path\": \"revisions/rev0.pdf\",\n                                    \"revision_date\": \"2026-02-06T10:00:00Z\"\n                                }\n                            ],\n                            \"approvals\": []\n                        },\n                        {\n                            \"id\": \"su-uuid-2\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"sample\",\n                            \"status\": \"approved\",\n                            \"revisions\": [],\n                            \"approvals\": [\n                                {\n                                    \"id\": \"app-uuid-1\",\n                                    \"approval_code\": \"A\",\n                                    \"pdf_path\": \"approvals/app1.pdf\",\n                                    \"comment\": \"Approved as noted\",\n                                    \"approved_at\": \"2026-02-06T11:00:00Z\"\n                                }\n                            ]\n                        },\n                        {\n                            \"id\": \"su-uuid-3\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"layout\",\n                            \"status\": \"in_progress\",\n                            \"revisions\": [],\n                            \"approvals\": []\n                        },\n                        {\n                            \"id\": \"su-uuid-4\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"car_m_dwg\",\n                            \"status\": \"in_progress\",\n                            \"revisions\": [],\n                            \"approvals\": []\n                        },\n                        {\n                            \"id\": \"su-uuid-5\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"cop_dwg\",\n                            \"status\": \"in_progress\",\n                            \"revisions\": [],\n                            \"approvals\": []\n                        },\n                        {\n                            \"id\": \"su-uuid-6\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"landing_dwg\",\n                            \"status\": \"in_progress\",\n                            \"revisions\": [],\n                            \"approvals\": []\n                        }\n                    ]\n                }\n            ]\n        }\n    ],\n    \"links\": {\n        \"first\": \"{{base_url}}/projects?page=1\",\n        \"last\": \"{{base_url}}/projects?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"path\": \"{{base_url}}/projects\",\n        \"per_page\": 15,\n        \"to\": 1,\n        \"total\": 1\n    }\n}"
             }
+          ]
+        },
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"New Tower Project\",\n    \"client_name\": \"Client Corp\",\n    \"location\": \"Location City\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/projects",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "projects"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Project Created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"New Tower Project\",\n    \"client_name\": \"Client Corp\",\n    \"location\": \"Location City\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/projects",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "projects"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": \"9df9cb31-5f21-4d9e-8a1b-2c3d4e5f6a7b\",\n        \"name\": \"New Tower Project\",\n        \"client_name\": \"Client Corp\",\n        \"location\": \"Location City\",\n        \"completion_percentage\": 0,\n        \"installation_progress\": 0,\n        \"commissioning_progress\": 0,\n        \"units_count\": 0,\n        \"created_at\": \"2026-01-27T16:00:00.000000Z\",\n        \"updated_at\": \"2026-01-27T16:00:00.000000Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Show Project (with Units)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/projects/{{project_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "projects",
+                "{{project_id}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Project Detail",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/projects/{{project_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "projects",
+                    "{{project_id}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n        \"name\": \"Skyline Tower\",\n        \"client_name\": \"Emaar\",\n        \"location\": \"Dubai\",\n        \"completion_percentage\": 64,\n        \"installation_progress\": 45,\n        \"commissioning_progress\": 20,\n        \"units_count\": 2,\n        \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n        \"updated_at\": \"2026-01-27T12:00:00.000000Z\",\n        \"units\": [\n            {\n                \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-unit1uuid\",\n                \"project_id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n                \"unit_type\": \"KONE MonoSpace 700\",\n                \"equipment_number\": \"SKY-001\",\n                \"category\": \"elevator\",\n                \"progress_percent\": 37,\n                \"installation_progress\": 40,\n                \"commissioning_progress\": 0,\n                \"status_updates\": [\n                    {\n                        \"id\": \"su-uuid-1\",\n                        \"unit_id\": \"unit1uuid\",\n                        \"category\": \"tech\",\n                        \"status\": \"submitted\",\n                        \"revisions\": [],\n                        \"approvals\": []\n                    }\n                ]\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Project",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Updated Project Name\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/projects/{{project_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "projects",
+                "{{project_id}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Project Updated",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Updated Project Name\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/projects/{{project_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "projects",
+                    "{{project_id}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n        \"name\": \"Updated Project Name\",\n        \"client_name\": \"Emaar\",\n        \"location\": \"Dubai\",\n        \"completion_percentage\": 64,\n        \"installation_progress\": 45,\n        \"commissioning_progress\": 20,\n        \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n        \"updated_at\": \"2026-01-27T16:30:00.000000Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Project Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/projects/{{project_id}}/stats",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "projects",
+                "{{project_id}}",
+                "stats"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Statistics Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/projects/{{project_id}}/stats",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "projects",
+                    "{{project_id}}",
+                    "stats"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"tech\": {\n            \"approved\": 50,\n            \"submitted\": 50\n        },\n        \"layout\": {\n            \"in_progress\": 100\n        },\n        \"sample\": {\n            \"approved\": 100\n        }\n    }\n}"
+            }
+          ]
         }
-    ],
-    "variable": [
+      ]
+    },
+    {
+      "name": "Units",
+      "item": [
         {
-            "key": "base_url",
-            "value": "http://localhost:8000/api",
-            "type": "string"
+          "name": "Create Unit (Auto-Generate Stages)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"unit_type\": \"KONE MonoSpace 700\",\n    \"equipment_number\": \"UNIT-001\",\n    \"category\": \"elevator\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/projects/{{project_id}}/units",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "projects",
+                "{{project_id}}",
+                "units"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Unit Created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"unit_type\": \"KONE MonoSpace 700\",\n    \"equipment_number\": \"UNIT-001\",\n    \"category\": \"elevator\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/projects/{{project_id}}/units",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "projects",
+                    "{{project_id}}",
+                    "units"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n        \"project_id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n        \"unit_type\": \"KONE MonoSpace 700\",\n        \"equipment_number\": \"UNIT-001\",\n        \"category\": \"elevator\",\n        \"progress_percent\": 0,\n        \"installation_progress\": 0,\n        \"commissioning_progress\": 0,\n        \"status_updates\": [],\n        \"created_at\": \"2026-01-27T16:45:00.000000Z\",\n        \"updated_at\": \"2026-01-27T16:45:00.000000Z\"\n    }\n}"
+            }
+          ]
         },
         {
-            "key": "token",
-            "value": "",
-            "type": "string"
+          "name": "List Project Units",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/projects/{{project_id}}/units?include=statusUpdates.revisions,statusUpdates.approvals&page=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "projects",
+                "{{project_id}}",
+                "units"
+              ],
+              "query": [
+                {
+                  "key": "include",
+                  "value": "statusUpdates.revisions,statusUpdates.approvals"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "List Units Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/projects/{{project_id}}/units",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "projects",
+                    "{{project_id}}",
+                    "units"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        {\n            \"id\": \"9df9cde3-7a8b-4c9d-0e1f-unit1uuid\",\n            \"project_id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n            \"unit_type\": \"KONE MonoSpace 700\",\n            \"equipment_number\": \"SKY-001\",\n            \"category\": \"elevator\",\n            \"progress_percent\": 37,\n            \"installation_progress\": 40,\n            \"commissioning_progress\": 0,\n            \"status_updates\": [\n                {\n                    \"id\": \"su-uuid-1\",\n                    \"unit_id\": \"unit1uuid\",\n                    \"category\": \"tech\",\n                    \"status\": \"submitted\",\n                    \"revisions\": [],\n                    \"approvals\": []\n                }\n            ],\n            \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n            \"updated_at\": \"2026-01-27T14:30:00.000000Z\"\n        }\n    ]\n}"
+            }
+          ]
         },
         {
-            "key": "project_id",
-            "value": "",
-            "type": "string"
+          "name": "Show Unit",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/units/{{unit_id}}?include=statusUpdates.revisions,statusUpdates.approvals,stages.tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "units",
+                "{{unit_id}}"
+              ],
+              "query": [
+                {
+                  "key": "include",
+                  "value": "statusUpdates.revisions,statusUpdates.approvals,stages.tasks"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Unit Detail",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/units/{{unit_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "units",
+                    "{{unit_id}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-unit1uuid\",\n    \"project_id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n    \"unit_type\": \"KONE MonoSpace 700\",\n    \"equipment_number\": \"SKY-001\",\n    \"category\": \"elevator\",\n    \"progress_percent\": 37,\n    \"installation_progress\": 40,\n    \"commissioning_progress\": 0,\n    \"status_updates\": [\n        {\n            \"id\": \"su-uuid-1\",\n            \"unit_id\": \"unit1uuid\",\n            \"category\": \"tech\",\n            \"status\": \"submitted\",\n            \"revisions\": [],\n            \"approvals\": []\n        }\n    ],\n    \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n    \"updated_at\": \"2026-01-27T14:30:00.000000Z\"\n}"
+            }
+          ]
         },
         {
-            "key": "unit_id",
-            "value": "",
-            "type": "string"
-        },
-        {
-            "key": "stage_id",
-            "value": "",
-            "type": "string"
-        },
-        {
-            "key": "task_id",
-            "value": "",
-            "type": "string"
-        },
-        {
-            "key": "cse_id",
-            "value": "",
-            "type": "string"
+          "name": "Get Unit Progress",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/units/{{unit_id}}/progress",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "units",
+                "{{unit_id}}",
+                "progress"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Progress Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/units/{{unit_id}}/progress",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "units",
+                    "{{unit_id}}",
+                    "progress"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"unit_id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n    \"progress\": 37,\n    \"installation_progress\": 40,\n    \"commissioning_progress\": 0\n}"
+            }
+          ]
         }
+      ]
+    },
+    {
+      "name": "Stages & Tasks",
+      "item": [
+        {
+          "name": "List Unit Stages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/units/{{unit_id}}/stages",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "units",
+                "{{unit_id}}",
+                "stages"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "List Stages",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/units/{{unit_id}}/stages",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "units",
+                    "{{unit_id}}",
+                    "stages"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": \"9df9d8f1-2c3d-4e5f-6a7b-8c9d0e1f2g3h\",\n        \"unit_id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n        \"stage_template_id\": 1,\n        \"status\": \"completed\",\n        \"started_at\": \"2026-01-27T12:05:00.000000Z\",\n        \"completed_at\": \"2026-01-27T13:00:00.000000Z\",\n        \"progress_percent\": 100,\n        \"template\": {\n            \"id\": 1,\n            \"name\": \"Installation Start\",\n            \"category\": \"elevator\",\n            \"stage_number\": 1,\n            \"progress_group\": \"installation\"\n        }\n    },\n    {\n        \"id\": \"9df9d8f1-2c3d-4e5f-6a7b-stage2uuid\",\n        \"unit_id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n        \"stage_template_id\": 2,\n        \"status\": \"in_progress\",\n        \"started_at\": \"2026-01-27T13:05:00.000000Z\",\n        \"completed_at\": null,\n        \"progress_percent\": 45,\n        \"template\": {\n            \"id\": 2,\n            \"name\": \"Guide Rail Installation\",\n            \"category\": \"elevator\",\n            \"stage_number\": 2,\n            \"progress_group\": \"installation\"\n        }\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Show Stage",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/stages/{{stage_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "stages",
+                "{{stage_id}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Stage Detail",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/stages/{{stage_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "stages",
+                    "{{stage_id}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"id\": \"9df9d8f1-2c3d-4e5f-6a7b-8c9d0e1f2g3h\",\n    \"unit_id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n    \"stage_template_id\": 1,\n    \"status\": \"completed\",\n    \"started_at\": \"2026-01-27T12:05:00.000000Z\",\n    \"completed_at\": \"2026-01-27T13:00:00.000000Z\",\n    \"progress_percent\": 100,\n    \"template\": {\n        \"id\": 1,\n        \"name\": \"Installation Start\",\n        \"category\": \"elevator\",\n        \"stage_number\": 1,\n        \"progress_group\": \"installation\"\n    },\n    \"tasks\": [\n        {\n            \"id\": \"9df9e1a2-3b4c-5d6e-7f8g-9h0i1j2k3l4m\",\n            \"unit_stage_id\": \"9df9d8f1-2c3d-4e5f-6a7b-8c9d0e1f2g3h\",\n            \"task_template_id\": 101,\n            \"status\": \"pass\",\n            \"notes\": null,\n            \"checked_by\": 1,\n            \"checked_at\": \"2026-01-27T13:00:00.000000Z\",\n            \"template\": {\n                \"id\": 101,\n                \"title\": \"Verify Site Readiness\",\n                \"task_code\": \"1.1\",\n                \"description\": \"Verify if the site is ready for installation\",\n                \"order_index\": 1\n            }\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Stage Status",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"completed\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/stages/{{stage_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "stages",
+                "{{stage_id}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Stage Updated",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"status\": \"completed\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/stages/{{stage_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "stages",
+                    "{{stage_id}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"id\": \"9df9d8f1-2c3d-4e5f-6a7b-8c9d0e1f2g3h\",\n    \"unit_id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n    \"stage_template_id\": 1,\n    \"status\": \"completed\",\n    \"started_at\": \"2026-01-27T12:05:00.000000Z\",\n    \"completed_at\": \"2026-01-28T16:00:00.000000Z\",\n    \"progress_percent\": 100,\n    \"template\": {\n        \"id\": 1,\n        \"name\": \"Installation Start\",\n        \"category\": \"elevator\",\n        \"stage_number\": 1,\n        \"progress_group\": \"installation\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "List Stage Tasks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/stages/{{stage_id}}/tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "stages",
+                "{{stage_id}}",
+                "tasks"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "List Tasks",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/stages/{{stage_id}}/tasks",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "stages",
+                    "{{stage_id}}",
+                    "tasks"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": \"9df9e1a2-3b4c-5d6e-7f8g-9h0i1j2k3l4m\",\n        \"unit_stage_id\": \"9df9d8f1-2c3d-4e5f-6a7b-8c9d0e1f2g3h\",\n        \"task_template_id\": 101,\n        \"status\": \"pass\",\n        \"notes\": null,\n        \"checked_by\": 1,\n        \"checked_at\": \"2026-01-27T13:00:00.000000Z\",\n        \"template\": {\n            \"id\": 101,\n            \"title\": \"Verify Site Readiness\",\n            \"task_code\": \"1.1\",\n            \"description\": \"Verify if the site is ready for installation\",\n            \"order_index\": 1\n        }\n    },\n    {\n        \"id\": \"9df9e1a2-3b4c-5d6e-7f8g-task2uuid\",\n        \"unit_stage_id\": \"9df9d8f1-2c3d-4e5f-6a7b-8c9d0e1f2g3h\",\n        \"task_template_id\": 102,\n        \"status\": \"pending\",\n        \"notes\": null,\n        \"checked_by\": null,\n        \"checked_at\": null,\n        \"template\": {\n            \"id\": 102,\n            \"title\": \"Safety Guidelines Check\",\n            \"task_code\": \"1.2\",\n            \"description\": \"Check safety guidelines\",\n            \"order_index\": 2\n        }\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Update Task (Complete/Measure)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"pass\",\n    \"notes\": \"Completed successfully\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/tasks/{{task_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tasks",
+                "{{task_id}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Task Updated",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"status\": \"pass\",\n    \"notes\": \"Completed successfully\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/tasks/{{task_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "tasks",
+                    "{{task_id}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"id\": \"9df9e1a2-3b4c-5d6e-7f8g-9h0i1j2k3l4m\",\n    \"unit_stage_id\": \"9df9d8f1-2c3d-4e5f-6a7b-8c9d0e1f2g3h\",\n    \"task_template_id\": 102,\n    \"status\": \"pass\",\n    \"notes\": \"Completed successfully\",\n    \"checked_by\": 1,\n    \"checked_at\": \"2026-01-27T17:00:00.000000Z\",\n    \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n    \"updated_at\": \"2026-01-27T17:00:00.000000Z\",\n    \"template\": {\n        \"id\": 102,\n        \"title\": \"Safety Guidelines Check\",\n        \"task_code\": \"1.2\",\n        \"description\": \"Check safety guidelines\",\n        \"order_index\": 2\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Status Updates",
+      "item": [
+        {
+          "name": "Update Status",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"submitted\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/status-updates/{{status_update_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "status-updates",
+                "{{status_update_id}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Status Updated",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"status\": \"submitted\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/status-updates/{{status_update_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "status-updates",
+                    "{{status_update_id}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": \"9df9cde3-7a8b-4c9d-0e1f-statusupdateuuid\",\n        \"unit_id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n        \"category\": \"tech\",\n        \"status\": \"submitted\",\n        \"created_at\": \"2026-02-06T12:00:00.000000Z\",\n        \"updated_at\": \"2026-02-06T13:00:00.000000Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Upload PDF",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "pdf",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/status-updates/{{status_update_id}}/upload-pdf",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "status-updates",
+                "{{status_update_id}}",
+                "upload-pdf"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Status Approval",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"approved_at\": \"2026-02-15 12:00:00\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/status-approvals/{{status_approval_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "status-approvals",
+                "{{status_approval_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Status Revision",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"revision_date\": \"2026-02-15 12:00:00\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/status-revisions/{{status_revision_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "status-revisions",
+                "{{status_revision_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Status Approval",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status_update_id\": \"{{status_update_id}}\",\n    \"approval_code\": \"A\",\n    \"approved_at\": \"{{$isoTimestamp}}\",\n    \"comment\": \"Initial approval\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/status-approvals",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "status-approvals"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Status Revision",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status_update_id\": \"{{status_update_id}}\",\n    \"revision_number\": 2,\n    \"revision_date\": \"{{$isoTimestamp}}\",\n    \"pdf_path\": \"revisions/manual.pdf\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/status-revisions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "status-revisions"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Ride Comfort",
+      "item": [
+        {
+          "name": "List Ride Comfort Results",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/units/{{unit_id}}/ride-comfort",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "units",
+                "{{unit_id}}",
+                "ride-comfort"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "List Results",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/units/{{unit_id}}/ride-comfort",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "units",
+                    "{{unit_id}}",
+                    "ride-comfort"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": \"9df9ea1b-4c5d-6e7f-8g9h-0i1j2k3l4m5n\",\n        \"unit_id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n        \"vibration_value\": 0.5,\n        \"noise_db\": 45,\n        \"jerk_value\": 0.8,\n        \"passed\": true,\n        \"measured_at\": \"2026-01-27T16:00:00.000000Z\",\n        \"device_used\": \"Device A\",\n        \"notes\": \"Smooth ride\",\n        \"created_at\": \"2026-01-27T16:00:00.000000Z\",\n        \"updated_at\": \"2026-01-27T16:00:00.000000Z\"\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Submit Ride Comfort (Pass)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"vibration_value\": 0.5,\n    \"noise_db\": 45,\n    \"jerk_value\": 0.8,\n    \"device_used\": \"Device A\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/units/{{unit_id}}/ride-comfort",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "units",
+                "{{unit_id}}",
+                "ride-comfort"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Result Created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"vibration_value\": 0.5,\n    \"noise_db\": 45,\n    \"jerk_value\": 0.8,\n    \"device_used\": \"Device A\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/units/{{unit_id}}/ride-comfort",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "units",
+                    "{{unit_id}}",
+                    "ride-comfort"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"id\": \"9df9fbc1-5d4e-6f7g-8h9i-0j1k2l3m4n5o\",\n    \"unit_id\": \"9df9cde3-7a8b-4c9d-0e1f-2g3h4i5j6k7l\",\n    \"vibration_value\": 0.5,\n    \"noise_db\": 45,\n    \"jerk_value\": 0.8,\n    \"passed\": true,\n    \"measured_at\": \"2026-01-27T17:05:00.000000Z\",\n    \"device_used\": \"Device A\",\n    \"notes\": null,\n    \"created_at\": \"2026-01-27T17:05:00.000000Z\",\n    \"updated_at\": \"2026-01-27T17:05:00.000000Z\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
     ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "project_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "unit_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "stage_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "task_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cse_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "status_approval_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "status_revision_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "status_update_id",
+      "value": "",
+      "type": "string"
+    }
+  ]
 }

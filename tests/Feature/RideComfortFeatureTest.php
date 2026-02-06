@@ -82,8 +82,8 @@ class RideComfortFeatureTest extends TestCase
         ]);
 
         $response->assertStatus(201);
-        $this->assertEquals(false, $response->json('passed'));
-        $this->assertEquals('eva_625', $response->json('device_used'));
+        $this->assertEquals(false, $response->json('data.passed'));
+        $this->assertEquals('eva_625', $response->json('data.device_used'));
 
         // Stage 8 should NOT be completed
         $stage8 = $unit->stages()->whereHas('template', fn ($q) => $q->where('stage_number', 8))->first();

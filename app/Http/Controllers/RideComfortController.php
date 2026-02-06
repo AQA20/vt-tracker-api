@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RideComfort\StoreRideComfortRequest;
+use App\Http\Resources\RideComfortResource;
 use App\Models\Unit;
 use OpenApi\Attributes as OA;
 
@@ -26,7 +27,7 @@ class RideComfortController extends Controller
     )]
     public function index(Unit $unit)
     {
-        return $unit->rideComfortResults;
+        return RideComfortResource::collection($unit->rideComfortResults);
     }
 
     #[OA\Post(
@@ -99,13 +100,12 @@ class RideComfortController extends Controller
                 $rideComfortStage->update([
                     'status' => 'completed',
                     'completed_at' => now(),
-                    'started_at' => $rideComfortStage->started_at ?? now(),
                 ]);
 
                 \App\Services\ProgressService::calculate($unit);
             }
         }
 
-        return response()->json($result, 201);
+        return new RideComfortResource($result);
     }
 }

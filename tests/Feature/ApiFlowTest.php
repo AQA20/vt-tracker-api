@@ -25,7 +25,7 @@ class ApiFlowTest extends TestCase
             'location' => 'API City',
         ]);
         $projectResponse->assertStatus(201);
-        $projectId = $projectResponse->json('id');
+        $projectId = $projectResponse->json('data.id');
 
         // 2. Create Unit (Trigger Auto-Generation via Service)
         $unitResponse = $this->actingAs($user)->postJson("/api/projects/{$projectId}/units", [
@@ -34,19 +34,19 @@ class ApiFlowTest extends TestCase
             'category' => UnitCategory::ELEVATOR,
         ]);
         $unitResponse->assertStatus(201);
-        $unitId = $unitResponse->json('id');
+        $unitId = $unitResponse->json('data.id');
 
         $this->assertDatabaseHas('unit_stages', ['unit_id' => $unitId]);
 
         // 3. Get Stages
         $stagesResponse = $this->actingAs($user)->getJson("/api/units/{$unitId}/stages");
         $stagesResponse->assertStatus(200);
-        $stage1Id = $stagesResponse->json('0.id');
+        $stage1Id = $stagesResponse->json('data.0.id');
 
         // 4. Get Tasks for Stage 1
         $tasksResponse = $this->actingAs($user)->getJson("/api/stages/{$stage1Id}/tasks");
         $tasksResponse->assertStatus(200);
-        $tasks = $tasksResponse->json();
+        $tasks = $tasksResponse->json('data');
 
         // 5. Complete Tasks via API
         foreach ($tasks as $task) {
@@ -60,7 +60,7 @@ class ApiFlowTest extends TestCase
 
         // 6. Check Stage 1 Completion
         $this->actingAs($user)->getJson("/api/stages/{$stage1Id}")
-            ->assertJson(['status' => 'completed']);
+            ->assertJson(['data' => ['status' => 'completed']]);
 
         // 7. Check Progress (S1 done = 5/69 = 8%)
         $this->actingAs($user)->getJson("/api/units/{$unitId}/progress")

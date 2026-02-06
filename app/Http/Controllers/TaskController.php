@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Task\UpdateTaskRequest;
+use App\Http\Resources\UnitTaskResource;
 use App\Models\UnitStage;
 use App\Models\UnitTask;
 use App\Services\TaskService;
@@ -28,12 +29,14 @@ class TaskController extends Controller
     )]
     public function index(UnitStage $stage)
     {
-        return $stage->tasks()
-            ->join('task_templates', 'unit_tasks.task_template_id', '=', 'task_templates.id')
-            ->select('unit_tasks.*')
-            ->orderBy('task_templates.order_index')
-            ->with('template')
-            ->get();
+        return UnitTaskResource::collection(
+            $stage->tasks()
+                ->join('task_templates', 'unit_tasks.task_template_id', '=', 'task_templates.id')
+                ->select('unit_tasks.*')
+                ->orderBy('task_templates.order_index')
+                ->with('template')
+                ->get()
+        );
     }
 
     #[OA\Put(
@@ -73,6 +76,6 @@ class TaskController extends Controller
             auth()->id()
         );
 
-        return response()->json($task->fresh());
+        return new UnitTaskResource($task->fresh());
     }
 }

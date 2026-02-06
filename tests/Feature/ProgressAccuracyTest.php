@@ -26,7 +26,7 @@ class ProgressAccuracyTest extends TestCase
             'category' => UnitCategory::ELEVATOR,
         ]);
 
-        $unit = Unit::find($response->json('id'));
+        $unit = Unit::find($response->json('data.id'));
 
         // Complete all tasks in ALL stages (1-8) EXCEPT the very last one
         $allStages = $unit->stages()->with('tasks')->get();

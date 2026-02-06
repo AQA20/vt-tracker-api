@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Project\StoreProjectRequest;
 use App\Http\Requests\Project\UpdateProjectRequest;
+use App\Http\Resources\ProjectResource;
 use App\Models\Project;
+use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 class ProjectController extends Controller
@@ -14,17 +16,46 @@ class ProjectController extends Controller
         summary: 'List Projects',
         tags: ['Projects'],
         security: [['sanctum' => []]],
+        parameters: [
+            new OA\Parameter(
+                name: 'include',
+                in: 'query',
+                description: 'Comma-separated list of relationships to include (e.g., units.statusUpdates.revisions,units.statusUpdates.approvals)',
+                required: false,
+                schema: new OA\Schema(type: 'string')
+            ),
+            new OA\Parameter(
+                name: 'page',
+                in: 'query',
+                description: 'Page number',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+        ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'List of projects',
-                content: new OA\JsonContent(type: 'array', items: new OA\Items(ref: '#/components/schemas/Project'))
+                description: 'Paginated list of projects',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/Project')),
+                        new OA\Property(property: 'links', type: 'object'),
+                        new OA\Property(property: 'meta', type: 'object'),
+                    ]
+                )
             ),
         ]
     )]
-    public function index()
+    public function index(Request $request)
     {
-        return Project::withCount('units')->get();
+        $query = Project::withCount('units');
+
+        if ($request->has('include')) {
+            $includes = $this->allowedProjectIncludes($request);
+            $query->with($includes);
+        }
+
+        return ProjectResource::collection($query->paginate(9));
     }
 
     #[OA\Post(
@@ -53,7 +84,9 @@ class ProjectController extends Controller
     )]
     public function store(StoreProjectRequest $request)
     {
-        return Project::create($request->validated());
+        $project = Project::create($request->validated());
+
+        return new ProjectResource($project);
     }
 
     #[OA\Get(
@@ -74,7 +107,7 @@ class ProjectController extends Controller
     )]
     public function show(Project $project)
     {
-        return $project->load('units');
+        return new ProjectResource($project->load('units'));
     }
 
     #[OA\Put(
@@ -106,6 +139,21 @@ class ProjectController extends Controller
     {
         $project->update($request->validated());
 
-        return $project;
+        return new ProjectResource($project);
+    }
+
+    private function allowedProjectIncludes(Request $request): array
+    {
+        $allowed = [
+            'units',
+            'units.statusUpdates',
+            'units.statusUpdates.revisions',
+            'units.statusUpdates.approvals',
+        ];
+
+        $includes = array_map('trim', explode(',', $request->query('include', '')));
+        $includes = array_filter($includes);
+
+        return array_values(array_intersect($allowed, $includes));
     }
 }

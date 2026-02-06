@@ -39,6 +39,18 @@ class Unit extends Model
         'commissioning_progress' => 'integer',
     ];
 
+    protected static function booted()
+    {
+        static::created(function (Unit $unit) {
+            foreach (\App\Enums\StatusCategory::cases() as $category) {
+                $unit->statusUpdates()->create([
+                    'category' => $category,
+                    'status' => null,
+                ]);
+            }
+        });
+    }
+
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
@@ -52,5 +64,10 @@ class Unit extends Model
     public function rideComfortResults(): HasMany
     {
         return $this->hasMany(RideComfortResult::class);
+    }
+
+    public function statusUpdates(): HasMany
+    {
+        return $this->hasMany(StatusUpdate::class);
     }
 }

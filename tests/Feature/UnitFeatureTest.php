@@ -25,7 +25,7 @@ class UnitFeatureTest extends TestCase
         ]);
 
         $response->assertStatus(201);
-        $unitId = $response->json('id');
+        $unitId = $response->json('data.id');
 
         // Check DB side effects
         $this->assertDatabaseHas('units', ['id' => $unitId, 'equipment_number' => 'FT-001']);

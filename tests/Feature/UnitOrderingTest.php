@@ -41,7 +41,7 @@ class UnitOrderingTest extends TestCase
         $response = $this->actingAs($user)->getJson("/api/projects/{$project->id}/units");
 
         $response->assertStatus(200);
-        $units = $response->json();
+        $units = $response->json('data');
 
         $this->assertCount(3, $units);
         $this->assertEquals('A', $units[0]['equipment_number']);

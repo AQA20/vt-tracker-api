@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\EngineeringSubmissionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -12,24 +11,12 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    Route::prefix('engineering-submissions')->group(function () {
-        Route::get('/', [EngineeringSubmissionController::class, 'index']);
-        Route::post('/', [EngineeringSubmissionController::class, 'store']);
-        Route::post('/import', [EngineeringSubmissionController::class, 'import']);
-        Route::get('/export', [EngineeringSubmissionController::class, 'export']);
-        Route::get('/{cse}', [EngineeringSubmissionController::class, 'show']);
-        Route::put('/{cse}', [EngineeringSubmissionController::class, 'update']);
-
-        // PDF Upload/Delete
-        Route::post('/{cse}/status-pdfs/{field}', [EngineeringSubmissionController::class, 'uploadStatusPdf']);
-        Route::delete('/{cse}/status-pdfs/{field}', [EngineeringSubmissionController::class, 'deleteStatusPdf']);
-    });
-
     // Projects
     Route::get('/projects', [App\Http\Controllers\ProjectController::class, 'index']);
     Route::post('/projects', [App\Http\Controllers\ProjectController::class, 'store']);
     Route::get('/projects/{project}', [App\Http\Controllers\ProjectController::class, 'show']);
     Route::put('/projects/{project}', [App\Http\Controllers\ProjectController::class, 'update']);
+    Route::get('/projects/{project}/stats', [App\Http\Controllers\ProjectStatsController::class, 'index']);
 
     // Units
     Route::get('/projects/{project}/units', [App\Http\Controllers\UnitController::class, 'index']);
@@ -52,4 +39,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Progress
     Route::get('/units/{unit}/progress', [App\Http\Controllers\ProgressController::class, 'show']);
+
+    // Status Updates
+    Route::patch('/status-updates/{statusUpdate}', [App\Http\Controllers\StatusUpdateController::class, 'update']);
+    Route::post('/status-updates/{statusUpdate}/upload-pdf', [App\Http\Controllers\StatusUpdateController::class, 'uploadPdf']);
+    Route::apiResource('status-approvals', \App\Http\Controllers\StatusApprovalController::class)->only(['store', 'update']);
+    Route::apiResource('status-revisions', \App\Http\Controllers\StatusRevisionController::class)->only(['store', 'update']);
 });

@@ -22,7 +22,7 @@ class ProjectFeatureTest extends TestCase
         ]);
 
         $response->assertStatus(201)
-            ->assertJson(['name' => 'Feature Test Project']);
+            ->assertJson(['data' => ['name' => 'Feature Test Project']]);
 
         $this->assertDatabaseHas('projects', ['name' => 'Feature Test Project']);
     }
@@ -35,9 +35,11 @@ class ProjectFeatureTest extends TestCase
         $response = $this->actingAs($user)->getJson('/api/projects');
 
         $response->assertStatus(200)
-            ->assertJsonCount(3)
+            ->assertJsonCount(3, 'data')
             ->assertJsonStructure([
-                '*' => ['id', 'name', 'units_count'],
+                'data' => [
+                    '*' => ['id', 'name', 'units_count'],
+                ],
             ]);
     }
 
@@ -64,7 +66,9 @@ class ProjectFeatureTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJson([
-                'completion_percentage' => 75,
+                'data' => [
+                    'completion_percentage' => 75,
+                ],
             ])
             ->assertJsonMissing(['units_count']);
     }

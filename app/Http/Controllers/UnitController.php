@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Unit\StoreUnitRequest;
 use App\Http\Requests\Unit\UpdateUnitRequest;
+use App\Http\Resources\UnitResource;
 use App\Models\Project;
 use App\Models\Unit;
 use App\Services\UnitService;
+use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 class UnitController extends Controller
@@ -18,6 +20,14 @@ class UnitController extends Controller
         security: [['sanctum' => []]],
         parameters: [
             new OA\Parameter(name: 'projectId', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
+            new OA\Parameter(
+                name: 'include',
+                in: 'query',
+                description: 'Comma-separated relations to include (statusUpdates, statusUpdates.revisions, statusUpdates.approvals)',
+                required: false,
+                schema: new OA\Schema(type: 'string')
+            ),
+            new OA\Parameter(name: 'page', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
             new OA\Response(
@@ -27,9 +37,16 @@ class UnitController extends Controller
             ),
         ]
     )]
-    public function index(Project $project)
+    public function index(Request $request, Project $project)
     {
-        return $project->units()->orderBy('equipment_number')->get();
+        $query = $project->units()->orderBy('created_at');
+
+        if ($request->has('include')) {
+            $includes = $this->allowedUnitIncludes($request);
+            $query->with($includes);
+        }
+
+        return UnitResource::collection($query->paginate(9));
     }
 
     #[OA\Post(
@@ -65,7 +82,7 @@ class UnitController extends Controller
 
         UnitService::generateStagesAndTasks($unit);
 
-        return response()->json($unit, 201);
+        return new UnitResource($unit);
     }
 
     #[OA\Get(
@@ -75,6 +92,13 @@ class UnitController extends Controller
         security: [['sanctum' => []]],
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
+            new OA\Parameter(
+                name: 'include',
+                in: 'query',
+                description: 'Comma-separated relations to include (statusUpdates, statusUpdates.revisions, statusUpdates.approvals, stages.tasks)',
+                required: false,
+                schema: new OA\Schema(type: 'string')
+            ),
         ],
         responses: [
             new OA\Response(
@@ -84,9 +108,14 @@ class UnitController extends Controller
             ),
         ]
     )]
-    public function show(Unit $unit)
+    public function show(Request $request, Unit $unit)
     {
-        return $unit->load('stages.tasks');
+        $includes = ['stages.tasks'];
+        if ($request->has('include')) {
+            $includes = array_merge($includes, $this->allowedUnitIncludes($request));
+        }
+
+        return new UnitResource($unit->load($includes));
     }
 
     #[OA\Put(
@@ -117,6 +146,21 @@ class UnitController extends Controller
     {
         $unit->update($request->validated());
 
-        return $unit;
+        return new UnitResource($unit);
+    }
+
+    private function allowedUnitIncludes(Request $request): array
+    {
+        $allowed = [
+            'statusUpdates',
+            'statusUpdates.revisions',
+            'statusUpdates.approvals',
+            'stages.tasks',
+        ];
+
+        $includes = array_map('trim', explode(',', $request->query('include', '')));
+        $includes = array_filter($includes);
+
+        return array_values(array_intersect($allowed, $includes));
     }
 }
