@@ -35,7 +35,6 @@ class UnitStatusCopyService
             // 2. Update target status update main fields
             $targetUpdate->update([
                 'status' => $sourceUpdate->status,
-                'pdf_path' => $sourceUpdate->pdf_path,
             ]);
 
             // 3. Copy approvals
@@ -44,7 +43,7 @@ class UnitStatusCopyService
                     'approval_code' => $approval->approval_code,
                     'comment' => $approval->comment,
                     'approved_at' => $approval->approved_at,
-                    'approved_by' => $approval->approved_by,
+                    'pdf_path' => $approval->pdf_path,
                 ]);
             }
 
@@ -59,6 +58,20 @@ class UnitStatusCopyService
             }
 
             return $targetUpdate->load(['revisions', 'approvals']);
+        });
+    }
+
+    /**
+     * Copy status to multiple units.
+     */
+    public function bulkCopyToUnits(Unit $sourceUnit, string $category, array $targetUnitIds): void
+    {
+        DB::transaction(function () use ($sourceUnit, $category, $targetUnitIds) {
+            $targetUnits = Unit::whereIn('id', $targetUnitIds)->get();
+
+            foreach ($targetUnits as $targetUnit) {
+                $this->copyStatus($targetUnit, $category, $sourceUnit, $category);
+            }
         });
     }
 }

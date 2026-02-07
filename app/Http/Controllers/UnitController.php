@@ -149,6 +149,32 @@ class UnitController extends Controller
         return new UnitResource($unit);
     }
 
+    #[OA\Delete(
+        path: '/api/units/{id}',
+        summary: 'Delete Unit',
+        tags: ['Units'],
+        security: [['sanctum' => []]],
+        parameters: [
+            new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
+        ],
+        responses: [
+            new OA\Response(
+                response: 204,
+                description: 'Unit Deleted'
+            ),
+            new OA\Response(
+                response: 404,
+                description: 'Unit Not Found'
+            ),
+        ]
+    )]
+    public function destroy(Unit $unit)
+    {
+        $unit->delete();
+
+        return response()->noContent();
+    }
+
     private function allowedUnitIncludes(Request $request): array
     {
         $allowed = [

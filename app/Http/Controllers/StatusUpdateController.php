@@ -151,4 +151,56 @@ class StatusUpdateController extends Controller
 
         return new StatusUpdateResource($updated);
     }
+
+    #[OA\Post(
+        path: '/api/units/{unit}/statuses/{category}/copy-to-units',
+        summary: 'Copy Status to multiple other units',
+        tags: ['Status Updates'],
+        security: [['sanctum' => []]],
+        parameters: [
+            new OA\Parameter(name: 'unit', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
+            new OA\Parameter(name: 'category', in: 'path', required: true, schema: new OA\Schema(type: 'string')),
+        ],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ['target_unit_ids'],
+                properties: [
+                    new OA\Property(
+                        property: 'target_unit_ids',
+                        type: 'array',
+                        items: new OA\Items(type: 'string', format: 'uuid')
+                    ),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Status Copied to Units',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'message', type: 'string', example: 'Status copied successfully'),
+                    ]
+                )
+            ),
+            new OA\Response(response: 404, description: 'Unit or Status not found'),
+            new OA\Response(response: 422, description: 'Validation Error'),
+        ]
+    )]
+    public function copyToUnits(\Illuminate\Http\Request $request, \App\Models\Unit $unit, string $category)
+    {
+        $request->validate([
+            'target_unit_ids' => 'required|array',
+            'target_unit_ids.*' => 'required|exists:units,id',
+        ]);
+
+        $this->copyService->bulkCopyToUnits(
+            $unit,
+            $category,
+            $request->target_unit_ids
+        );
+
+        return response()->json(['message' => 'Status copied successfully']);
+    }
 }

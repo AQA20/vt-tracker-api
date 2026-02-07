@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/projects/{project}/units', [App\Http\Controllers\UnitController::class, 'store']);
     Route::get('/units/{unit}', [App\Http\Controllers\UnitController::class, 'show']);
     Route::put('/units/{unit}', [App\Http\Controllers\UnitController::class, 'update']);
+    Route::delete('/units/{unit}', [App\Http\Controllers\UnitController::class, 'destroy']);
 
     // Stages
     Route::get('/units/{unit}/stages', [App\Http\Controllers\StageController::class, 'index']);
@@ -44,6 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/status-updates/{statusUpdate}', [App\Http\Controllers\StatusUpdateController::class, 'update']);
     Route::post('/status-updates/{statusUpdate}/upload-pdf', [App\Http\Controllers\StatusUpdateController::class, 'uploadPdf']);
     Route::post('/units/{unit}/statuses/{category}/copy-from', [App\Http\Controllers\StatusUpdateController::class, 'copyFrom']);
+    Route::post('/units/{unit}/statuses/{category}/copy-to-units', [App\Http\Controllers\StatusUpdateController::class, 'copyToUnits']);
     Route::apiResource('status-approvals', \App\Http\Controllers\StatusApprovalController::class)->only(['store', 'update']);
     Route::apiResource('status-revisions', \App\Http\Controllers\StatusRevisionController::class)->only(['store', 'update']);
 });
