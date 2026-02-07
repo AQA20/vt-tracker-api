@@ -43,6 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Status Updates
     Route::patch('/status-updates/{statusUpdate}', [App\Http\Controllers\StatusUpdateController::class, 'update']);
     Route::post('/status-updates/{statusUpdate}/upload-pdf', [App\Http\Controllers\StatusUpdateController::class, 'uploadPdf']);
+    Route::post('/units/{unit}/statuses/{category}/copy-from', [App\Http\Controllers\StatusUpdateController::class, 'copyFrom']);
     Route::apiResource('status-approvals', \App\Http\Controllers\StatusApprovalController::class)->only(['store', 'update']);
     Route::apiResource('status-revisions', \App\Http\Controllers\StatusRevisionController::class)->only(['store', 'update']);
 });

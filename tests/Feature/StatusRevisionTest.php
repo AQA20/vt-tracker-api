@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Enums\Status;
 use App\Enums\StatusCategory;
 use App\Models\Project;
-use App\Models\StatusRevision;
 use App\Models\StatusUpdate;
 use App\Models\Unit;
 use App\Models\User;
@@ -58,7 +57,7 @@ class StatusRevisionTest extends TestCase
         $this->assertEquals($newDate, $revision->fresh()->revision_date->format('Y-m-d H:i:s'));
     }
 
-    public function test_increment_revision_number_on_rejection()
+    public function test_rejection_no_longer_increments_revision_number()
     {
         // Create initial revision
         $this->statusUpdate->revisions()->create([
@@ -74,61 +73,123 @@ class StatusRevisionTest extends TestCase
 
         $response->assertStatus(200);
 
-        // Verify new revision was created with incremented number
-        $this->assertEquals(2, $this->statusUpdate->revisions()->count());
-        $latestRevision = $this->statusUpdate->revisions()->reorder()->orderByDesc('revision_number')->first();
-        $this->assertEquals(1, $latestRevision->revision_number);
+        // Verify NO new revision was created
+        $this->assertEquals(1, $this->statusUpdate->revisions()->count());
     }
 
-    public function test_create_initial_revision_on_rejection_if_none_exists()
+    public function test_can_create_status_revision_with_automatic_numbering()
     {
-        // Reject without any existing revisions
+        // Create first revision (0) for category 'submitted'
+        $this->statusUpdate->revisions()->create([
+            'revision_number' => 0,
+            'category' => 'submitted',
+            'revision_date' => now()->subDay(),
+        ]);
+
+        // Create second revision via API for 'submitted' without providing revision_number
         $response = $this->actingAs($this->user)
-            ->patchJson("/api/status-updates/{$this->statusUpdate->id}", [
-                'status' => 'rejected',
+            ->postJson('/api/status-revisions', [
+                'status_update_id' => $this->statusUpdate->id,
+                'category' => 'submitted',
+                'revision_date' => now()->toIso8601String(),
+                'pdf_path' => 'manual/rev1.pdf',
             ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201)
+            ->assertJsonPath('data.revision_number', 1)
+            ->assertJsonPath('data.category', 'submitted');
 
-        $this->assertEquals(1, $this->statusUpdate->revisions()->count());
-        $this->assertEquals(1, $this->statusUpdate->revisions()->first()->revision_number);
+        $this->assertDatabaseHas('status_revisions', [
+            'status_update_id' => $this->statusUpdate->id,
+            'category' => 'submitted',
+            'revision_number' => 1,
+        ]);
     }
 
-    public function test_can_create_status_revision()
+    public function test_can_create_revisions_for_different_categories_with_separate_numbering()
+    {
+        // Create submitted revision 0
+        $this->statusUpdate->revisions()->create([
+            'revision_number' => 0,
+            'category' => 'submitted',
+        ]);
+
+        // Create rejected revision via API - should get number 0
+        $response = $this->actingAs($this->user)
+            ->postJson('/api/status-revisions', [
+                'status_update_id' => $this->statusUpdate->id,
+                'category' => 'rejected',
+            ]);
+
+        $response->assertStatus(201)
+            ->assertJsonPath('data.revision_number', 0)
+            ->assertJsonPath('data.category', 'rejected');
+    }
+
+    public function test_can_create_status_revision_explicitly()
     {
         $response = $this->actingAs($this->user)
             ->postJson('/api/status-revisions', [
                 'status_update_id' => $this->statusUpdate->id,
+                'category' => 'submitted',
                 'revision_number' => 5,
                 'revision_date' => now()->toIso8601String(),
                 'pdf_path' => 'manual/rev5.pdf',
             ]);
 
         $response->assertStatus(201)
-            ->assertJsonPath('data.revision_number', 5);
+            ->assertJsonPath('data.revision_number', 5)
+            ->assertJsonPath('data.category', 'submitted');
 
         $this->assertDatabaseHas('status_revisions', [
             'status_update_id' => $this->statusUpdate->id,
+            'category' => 'submitted',
             'revision_number' => 5,
         ]);
     }
 
-    public function test_cannot_create_duplicate_status_revision()
+    public function test_cannot_create_duplicate_status_revision_within_same_category()
     {
         // Create first revision
-        StatusRevision::create([
-            'status_update_id' => $this->statusUpdate->id,
+        $this->statusUpdate->revisions()->create([
             'revision_number' => 2,
+            'category' => 'submitted',
         ]);
 
-        // Try to create another one with same update and number
+        // Try to create another one with same update, category and number
         $response = $this->actingAs($this->user)
             ->postJson('/api/status-revisions', [
                 'status_update_id' => $this->statusUpdate->id,
+                'category' => 'submitted',
                 'revision_number' => 2,
             ]);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['status_update_id']);
+    }
+
+    public function test_status_update_resource_groups_revisions_by_category()
+    {
+        // Create 1 submitted and 1 rejected revision
+        $this->statusUpdate->revisions()->create(['revision_number' => 0, 'category' => 'submitted']);
+        $this->statusUpdate->revisions()->create(['revision_number' => 0, 'category' => 'rejected']);
+
+        $response = $this->actingAs($this->user)
+            ->getJson('/api/projects'); // This endpoint includes statusUpdates.revisions via IncludeSupport or similar if tested like this
+
+        // Actually better to test via direct StatusUpdate endpoint if it exists or units with include
+        $unitId = $this->statusUpdate->unit_id;
+        $response = $this->actingAs($this->user)
+            ->getJson("/api/units/{$unitId}?include=statusUpdates.revisions");
+
+        $response->assertStatus(200);
+
+        $suData = collect($response->json('data.status_updates'))->where('id', $this->statusUpdate->id)->first();
+
+        $this->assertArrayHasKey('revisions', $suData);
+        $this->assertArrayHasKey('submitted', $suData['revisions']);
+        $this->assertArrayHasKey('rejected', $suData['revisions']);
+        $this->assertCount(1, $suData['revisions']['submitted']);
+        $this->assertCount(1, $suData['revisions']['rejected']);
     }
 }

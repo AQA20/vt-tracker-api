@@ -18,6 +18,7 @@ class StatusRevisionResource extends JsonResource
             'id' => $this->id,
             'status_update_id' => $this->status_update_id,
             'revision_number' => $this->revision_number,
+            'category' => $this->category->value,
             'pdf_path' => $this->pdf_path ? \Illuminate\Support\Facades\Storage::disk('public')->url($this->pdf_path) : null,
             'revision_date' => $this->revision_date,
             'created_at' => $this->created_at,

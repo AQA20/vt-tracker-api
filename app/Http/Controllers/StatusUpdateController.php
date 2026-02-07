@@ -12,9 +12,12 @@ class StatusUpdateController extends Controller
 {
     protected StatusUpdateService $service;
 
-    public function __construct(StatusUpdateService $service)
+    protected \App\Services\UnitStatusCopyService $copyService;
+
+    public function __construct(StatusUpdateService $service, \App\Services\UnitStatusCopyService $copyService)
     {
         $this->service = $service;
+        $this->copyService = $copyService;
     }
 
     #[OA\Patch(
@@ -89,6 +92,62 @@ class StatusUpdateController extends Controller
         ]);
 
         $updated = $this->service->uploadPdf($statusUpdate, $request->file('pdf'));
+
+        return new StatusUpdateResource($updated);
+    }
+
+    #[OA\Post(
+        path: '/api/units/{unit}/statuses/{category}/copy-from',
+        summary: 'Copy Status from another unit',
+        tags: ['Status Updates'],
+        security: [['sanctum' => []]],
+        parameters: [
+            new OA\Parameter(name: 'unit', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
+            new OA\Parameter(name: 'category', in: 'path', required: true, schema: new OA\Schema(type: 'string')),
+        ],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ['source_unit_id', 'source_status_key'],
+                properties: [
+                    new OA\Property(property: 'source_unit_id', type: 'string', format: 'uuid'),
+                    new OA\Property(property: 'source_status_key', type: 'string'),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Status Copied',
+                content: new OA\JsonContent(ref: '#/components/schemas/StatusUpdate')
+            ),
+            new OA\Response(response: 404, description: 'Unit or Status not found'),
+            new OA\Response(response: 422, description: 'Validation Error'),
+        ]
+    )]
+    public function copyFrom(\Illuminate\Http\Request $request, \App\Models\Unit $unit, string $category)
+    {
+        $request->validate([
+            'source_unit_id' => 'required|exists:units,id',
+            'source_status_key' => 'required|string',
+        ]);
+
+        $sourceUnit = \App\Models\Unit::findOrFail($request->source_unit_id);
+
+        if ($unit->project_id !== $sourceUnit->project_id) {
+            return response()->json(['message' => 'Source unit must belong to the same project'], 422);
+        }
+
+        if ($unit->id === $sourceUnit->id) {
+            return response()->json(['message' => 'Source unit and target unit must be different'], 422);
+        }
+
+        $updated = $this->copyService->copyStatus(
+            $unit,
+            $category,
+            $sourceUnit,
+            $request->source_status_key
+        );
 
         return new StatusUpdateResource($updated);
     }

@@ -29,11 +29,13 @@ class StoreStatusRevisionRequest extends FormRequest
                 'exists:status_updates,id',
                 Rule::unique('status_revisions')->where(function ($query) {
                     return $query->where('status_update_id', $this->status_update_id)
+                        ->where('category', $this->category)
                         ->where('revision_number', $this->revision_number);
                 }),
             ],
-            'revision_number' => ['required', 'integer', 'min:0', 'max:9'],
+            'revision_number' => ['nullable', 'integer', 'min:0', 'max:9'],
             'revision_date' => ['date'],
+            'category' => ['required', Rule::enum(\App\Enums\StatusRevisionCategory::class)],
         ];
     }
 }

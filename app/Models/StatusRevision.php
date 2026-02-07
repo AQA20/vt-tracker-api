@@ -15,6 +15,7 @@ class StatusRevision extends Model
     protected $casts = [
         'revision_date' => 'datetime',
         'revision_number' => 'integer',
+        'category' => \App\Enums\StatusRevisionCategory::class,
     ];
 
     protected static function booted()

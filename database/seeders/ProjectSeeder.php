@@ -99,6 +99,29 @@ class ProjectSeeder extends Seeder
         \App\Services\UnitService::generateStagesAndTasks($u11);
         $this->randomizeStatusUpdates($u11);
         // No progress
+
+        // 7-18. Additional Projects
+        for ($i = 7; $i <= 18; $i++) {
+            $p = Project::create([
+                'name' => 'Project '.$i,
+                'client_name' => 'Client '.$i,
+                'location' => 'Location '.$i,
+            ]);
+            $u = Unit::create([
+                'project_id' => $p->id,
+                'unit_type' => 'KONE MonoSpace 500',
+                'equipment_number' => 'UNIT-'.$i,
+                'category' => UnitCategory::ELEVATOR,
+            ]);
+            \App\Services\UnitService::generateStagesAndTasks($u);
+            $this->randomizeStatusUpdates($u);
+
+            // Randomly complete some stages
+            $completeCount = rand(0, 5);
+            if ($completeCount > 0) {
+                $this->completeStages($u, range(1, $completeCount));
+            }
+        }
     }
 
     private function randomizeStatusUpdates(Unit $unit)
@@ -115,13 +138,27 @@ class ProjectSeeder extends Seeder
 
             // Add revisions
             if ($status !== Status::IN_PROGRESS) {
-                $revCount = rand(1, 3);
-                for ($i = 0; $i < $revCount; $i++) {
+                // Add some submitted revisions
+                $subRevCount = rand(0, 3);
+                for ($i = 0; $i < $subRevCount; $i++) {
                     StatusRevision::create([
                         'status_update_id' => $update->id,
+                        'category' => \App\Enums\StatusRevisionCategory::SUBMITTED,
                         'revision_number' => $i,
                         'pdf_path' => null,
-                        'revision_date' => now()->subDays(rand(1, 10)),
+                        'revision_date' => now()->subDays(rand(5, 10)),
+                    ]);
+                }
+
+                // Add some rejected revisions if needed or random
+                $rejRevCount = rand(0, 2);
+                for ($i = 0; $i < $rejRevCount; $i++) {
+                    StatusRevision::create([
+                        'status_update_id' => $update->id,
+                        'category' => \App\Enums\StatusRevisionCategory::REJECTED,
+                        'revision_number' => $i,
+                        'pdf_path' => null,
+                        'revision_date' => now()->subDays(rand(1, 5)),
                     ]);
                 }
             }

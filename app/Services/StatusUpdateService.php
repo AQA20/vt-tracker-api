@@ -16,16 +16,6 @@ class StatusUpdateService
             'status' => $status,
         ]);
 
-        if ($status === Status::REJECTED) {
-            $maxRev = $statusUpdate->revisions()->max('revision_number');
-            $nextRev = (is_null($maxRev)) ? 1 : min($maxRev + 1, 9);
-
-            $statusUpdate->revisions()->create([
-                'revision_number' => $nextRev,
-                'revision_date' => now(),
-            ]);
-        }
-
         return $statusUpdate;
     }
 
@@ -62,12 +52,17 @@ class StatusUpdateService
                 abort(500, 'Failed to store revision PDF.');
             }
 
+            $category = ($status === Status::REJECTED) ? \App\Enums\StatusRevisionCategory::REJECTED : \App\Enums\StatusRevisionCategory::SUBMITTED;
+
             // Get latest revision number using max() to avoid conflicting ORDER BY from relationship
-            $maxRev = $statusUpdate->revisions()->max('revision_number');
+            $maxRev = $statusUpdate->revisions()
+                ->where('category', $category)
+                ->max('revision_number');
             $nextRev = (is_null($maxRev)) ? 0 : min($maxRev + 1, 9);
 
             $statusUpdate->revisions()->create([
                 'pdf_path' => $path,
+                'category' => $category,
                 'revision_number' => $nextRev,
                 'revision_date' => now(),
             ]);

@@ -21,7 +21,14 @@ class StatusUpdateResource extends JsonResource
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'revisions' => StatusRevisionResource::collection($this->whenLoaded('revisions')),
+            'revisions' => $this->whenLoaded('revisions', function () {
+                $grouped = $this->revisions->groupBy(fn ($rev) => $rev->category->value);
+
+                return [
+                    'submitted' => StatusRevisionResource::collection($grouped->get('submitted', collect())),
+                    'rejected' => StatusRevisionResource::collection($grouped->get('rejected', collect())),
+                ];
+            }),
             'approvals' => StatusApprovalResource::collection($this->whenLoaded('approvals')),
         ];
     }

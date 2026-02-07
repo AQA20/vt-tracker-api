@@ -36,21 +36,21 @@ class StatusUpdateServiceTest extends TestCase
         $this->assertEquals(Status::SUBMITTED, $result->fresh()->status);
     }
 
-    public function test_update_status_increments_revision_on_rejection()
+    public function test_update_status_does_not_increment_revision_on_rejection()
     {
         $project = Project::factory()->create();
         $unit = Unit::factory()->create(['project_id' => $project->id]);
         $statusUpdate = $unit->statusUpdates()->first();
 
-        // Initial revision created by seeder/factory usually 0
+        // Initial revision created
         $statusUpdate->revisions()->create(['revision_number' => 0, 'revision_date' => now()]);
 
         $this->assertEquals(1, $statusUpdate->revisions()->count());
 
         $this->service->updateStatus($statusUpdate, Status::REJECTED);
 
-        $this->assertEquals(2, $statusUpdate->revisions()->count());
-        $this->assertEquals(1, $statusUpdate->revisions()->reorder()->orderByDesc('revision_number')->first()->revision_number);
+        // Verify NO new revision was created
+        $this->assertEquals(1, $statusUpdate->revisions()->count());
     }
 
     public function test_upload_pdf_for_approved_status()
