@@ -52,7 +52,7 @@ class ProjectListingTest extends TestCase
         $response->assertStatus(200);
 
         // Verify nested structure
-        $response->assertJsonPath('data.0.units.0.status_updates.0.revisions.0.revision_number', 0);
+        $response->assertJsonPath('data.0.units.0.status_updates.0.revisions.submitted.0.revision_number', 0);
         $response->assertJsonPath('data.0.units.0.status_updates.0.approvals.0.approval_code', 'A');
     }
 
