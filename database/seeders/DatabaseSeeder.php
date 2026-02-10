@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TemplateSeeder::class,
             ProjectSeeder::class,
+            DeliveryDataSeeder::class,
         ]);
     }
 }

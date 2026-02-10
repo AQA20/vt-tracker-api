@@ -48,7 +48,7 @@ class ProjectController extends Controller
     )]
     public function index(Request $request)
     {
-        $query = Project::withCount('units');
+        $query = Project::withCount('units')->orderBy('created_at', 'desc');
 
         if ($request->has('include')) {
             $includes = $this->allowedProjectIncludes($request);
@@ -149,6 +149,8 @@ class ProjectController extends Controller
             'units.statusUpdates',
             'units.statusUpdates.revisions',
             'units.statusUpdates.approvals',
+            'units.deliveryGroups',
+            'units.deliveryGroups.milestones',
         ];
 
         $includes = array_map('trim', explode(',', $request->query('include', '')));

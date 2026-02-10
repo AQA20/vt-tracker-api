@@ -23,9 +23,14 @@ class UnitResource extends JsonResource
             'progress_percent' => $this->progress_percent,
             'installation_progress' => $this->installation_progress,
             'commissioning_progress' => $this->commissioning_progress,
+            'sl_reference_no' => $this->sl_reference_no,
+            'fl_unit_name' => $this->fl_unit_name,
+            'unit_description' => $this->unit_description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'status_updates' => StatusUpdateResource::collection($this->whenLoaded('statusUpdates')),
+            'supply_chain_reference' => new SupplyChainReferenceResource($this->whenLoaded('supplyChainReference')),
+            'delivery_groups' => DeliveryGroupResource::collection($this->whenLoaded('deliveryGroups')),
         ];
     }
 }

@@ -18,6 +18,9 @@ class UpdateUnitRequest extends FormRequest
         return [
             'equipment_number' => 'string|unique:units,equipment_number,'.$this->route('unit')->id,
             'category' => [new Enum(UnitCategory::class)],
+            'sl_reference_no' => 'nullable|string',
+            'fl_unit_name' => 'nullable|string',
+            'unit_description' => 'nullable|string',
         ];
     }
 }

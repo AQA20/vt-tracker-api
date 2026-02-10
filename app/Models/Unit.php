@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
@@ -22,6 +23,9 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'progress_percent', type: 'integer'),
         new OA\Property(property: 'installation_progress', type: 'integer'),
         new OA\Property(property: 'commissioning_progress', type: 'integer'),
+        new OA\Property(property: 'sl_reference_no', type: 'string', nullable: true),
+        new OA\Property(property: 'fl_unit_name', type: 'string', nullable: true),
+        new OA\Property(property: 'unit_description', type: 'string', nullable: true),
         new OA\Property(property: 'created_at', type: 'string', format: 'date-time'),
         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time'),
     ]
@@ -69,5 +73,15 @@ class Unit extends Model
     public function statusUpdates(): HasMany
     {
         return $this->hasMany(StatusUpdate::class);
+    }
+
+    public function deliveryGroups(): HasMany
+    {
+        return $this->hasMany(DeliveryGroup::class)->orderBy('group_number');
+    }
+
+    public function supplyChainReference(): HasOne
+    {
+        return $this->hasOne(SupplyChainReference::class);
     }
 }

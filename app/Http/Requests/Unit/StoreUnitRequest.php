@@ -19,6 +19,9 @@ class StoreUnitRequest extends FormRequest
             'unit_type' => 'required|string|in:KONE MonoSpace 700',
             'equipment_number' => 'required|string|unique:units,equipment_number',
             'category' => ['required', new Enum(UnitCategory::class)],
+            'sl_reference_no' => 'nullable|string',
+            'fl_unit_name' => 'nullable|string',
+            'unit_description' => 'nullable|string',
         ];
     }
 }

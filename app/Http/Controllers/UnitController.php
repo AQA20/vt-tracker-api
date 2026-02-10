@@ -182,6 +182,9 @@ class UnitController extends Controller
             'statusUpdates.revisions',
             'statusUpdates.approvals',
             'stages.tasks',
+            'supplyChainReference',
+            'deliveryGroups',
+            'deliveryGroups.milestones',
         ];
 
         $includes = array_map('trim', explode(',', $request->query('include', '')));

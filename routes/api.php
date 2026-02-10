@@ -48,4 +48,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/units/{unit}/statuses/{category}/copy-to-units', [App\Http\Controllers\StatusUpdateController::class, 'copyToUnits']);
     Route::apiResource('status-approvals', \App\Http\Controllers\StatusApprovalController::class)->only(['store', 'update']);
     Route::apiResource('status-revisions', \App\Http\Controllers\StatusRevisionController::class)->only(['store', 'update']);
+
+    // Delivery Tracking
+    Route::get('/units/{unit}/delivery-groups', [App\Http\Controllers\DeliveryGroupController::class, 'index']);
+    Route::post('/units/{unit}/delivery-groups', [App\Http\Controllers\DeliveryGroupController::class, 'store']);
+    Route::get('/delivery-groups/{deliveryGroup}/milestones', [App\Http\Controllers\DeliveryGroupController::class, 'milestones']);
+    Route::patch('/delivery-milestones/{milestone}', [App\Http\Controllers\DeliveryMilestoneController::class, 'update']);
+    Route::patch('/units/{unit}/supply-chain-reference', [App\Http\Controllers\SupplyChainReferenceController::class, 'update']);
 });
