@@ -33,7 +33,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TemplateSeeder::class,
             ProjectSeeder::class,
+            DeliveryCatalogSeeder::class,
             DeliveryDataSeeder::class,
+            DeliveryGroupItemSeeder::class,
         ]);
     }
 }

@@ -55,4 +55,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/delivery-groups/{deliveryGroup}/milestones', [App\Http\Controllers\DeliveryGroupController::class, 'milestones']);
     Route::patch('/delivery-milestones/{milestone}', [App\Http\Controllers\DeliveryMilestoneController::class, 'update']);
     Route::patch('/delivery-groups/{deliveryGroup}/supply-chain-reference', [App\Http\Controllers\SupplyChainReferenceController::class, 'update']);
+
+    // Delivery Group Items & Catalog
+    Route::get('/delivery-modules', [App\Http\Controllers\DeliveryModuleController::class, 'index']);
+    Route::get('/delivery-groups/{deliveryGroup}/items', [App\Http\Controllers\DeliveryGroupItemController::class, 'index']);
+    Route::post('/delivery-groups/{deliveryGroup}/items', [App\Http\Controllers\DeliveryGroupItemController::class, 'store']);
+    Route::delete('/delivery-groups/{deliveryGroup}/items/{item}', [App\Http\Controllers\DeliveryGroupItemController::class, 'destroy']);
 });

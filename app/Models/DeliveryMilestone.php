@@ -7,7 +7,22 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(
+    schema: 'DeliveryMilestone',
+    required: ['delivery_group_id', 'milestone_code'],
+    properties: [
+        new OA\Property(property: 'id', type: 'string', format: 'uuid'),
+        new OA\Property(property: 'delivery_group_id', type: 'string', format: 'uuid'),
+        new OA\Property(property: 'milestone_code', type: 'string', enum: ['PO_SENT', 'READY_FOR_SHIPMENT', 'DELIVERED_TO_SITE', 'RECEIVED_BY_INSTALLATION']),
+        new OA\Property(property: 'planned_leadtime_days', type: 'integer', nullable: true),
+        new OA\Property(property: 'planned_completion_date', type: 'string', format: 'date', nullable: true),
+        new OA\Property(property: 'actual_completion_date', type: 'string', format: 'date', nullable: true),
+        new OA\Property(property: 'difference_days', type: 'integer', nullable: true),
+        new OA\Property(property: 'status', type: 'string', enum: ['on-track', 'overdue', 'completed-on-time', 'completed-late']),
+    ]
+)]
 class DeliveryMilestone extends Model
 {
     use HasFactory, HasUuids;

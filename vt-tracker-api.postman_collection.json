@@ -1464,6 +1464,173 @@
               "body": "{\n    \"data\": {\n        \"unit_id\": \"{{unit_id}}\",\n        \"dir_reference\": \"DIR123\",\n        \"csp_reference\": \"CSP456\",\n        \"source\": \"Factory\",\n        \"delivery_terms\": \"FOB\"\n    },\n    \"message\": \"Supply chain references updated successfully\"\n}"
             }
           ]
+        },
+        {
+          "name": "List Delivery Modules (Catalog)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/delivery-modules",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "delivery-modules"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "List Modules Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/delivery-modules",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "delivery-modules"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        {\n            \"id\": \"module-uuid-1\",\n            \"name\": \"Module_1_Machinery_unit\",\n            \"contents\": [\n                {\n                    \"id\": \"content-uuid-1\",\n                    \"delivery_module_id\": \"module-uuid-1\",\n                    \"name\": \"1. Machinery module\"\n                }\n            ]\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "List Items for Delivery Group",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/delivery-groups/{{delivery_group_id}}/items",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "delivery-groups",
+                "{{delivery_group_id}}",
+                "items"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "List Items Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/delivery-groups/{{delivery_group_id}}/items",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "delivery-groups",
+                    "{{delivery_group_id}}",
+                    "items"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        {\n            \"id\": \"item-uuid-1\",\n            \"delivery_group_id\": \"{{delivery_group_id}}\",\n            \"delivery_module_content_id\": \"content-uuid-1\",\n            \"content\": {\n                \"id\": \"content-uuid-1\",\n                \"name\": \"1. Machinery module\"\n            },\n            \"module_name\": \"Module_1_Machinery_unit\",\n            \"remarks\": \"Sample remark\",\n            \"package_type\": \"Standard Packing\",\n            \"special_delivery_address\": \"Port A, South Dock\"\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Add Item to Delivery Group",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"delivery_module_content_id\": \"content-uuid-1\",\n    \"package_type\": \"Sea Packing\",\n    \"remarks\": \"Fragile items\",\n    \"special_delivery_address\": \"Warehouse B\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/delivery-groups/{{delivery_group_id}}/items",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "delivery-groups",
+                "{{delivery_group_id}}",
+                "items"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Item Added",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"delivery_module_content_id\": \"content-uuid-1\",\n    \"package_type\": \"Sea Packing\",\n    \"remarks\": \"Fragile items\",\n    \"special_delivery_address\": \"Warehouse B\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/delivery-groups/{{delivery_group_id}}/items",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "delivery-groups",
+                    "{{delivery_group_id}}",
+                    "items"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": \"item-uuid-2\",\n        \"delivery_group_id\": \"{{delivery_group_id}}\",\n        \"delivery_module_content_id\": \"content-uuid-1\",\n        \"module_name\": \"Module_1_Machinery_unit\",\n        \"package_type\": \"Sea Packing\",\n        \"remarks\": \"Fragile items\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Remove Item from Delivery Group",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/delivery-groups/{{delivery_group_id}}/items/{{item_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "delivery-groups",
+                "{{delivery_group_id}}",
+                "items",
+                "{{item_id}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Item Removed",
+              "status": "No Content",
+              "code": 204
+            }
+          ]
         }
       ]
     }
@@ -1556,6 +1723,11 @@
     },
     {
       "key": "milestone_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "item_id",
       "value": "",
       "type": "string"
     }
