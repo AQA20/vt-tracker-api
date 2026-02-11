@@ -19,11 +19,13 @@ class DeliveryGroupItemSeeder extends Seeder
 
         if ($contents->isEmpty()) {
             $this->command->warn('No delivery module contents found. Please run DeliveryCatalogSeeder first.');
+
             return;
         }
 
         if ($groups->isEmpty()) {
             $this->command->warn('No delivery groups found. Please run DeliveryDataSeeder first.');
+
             return;
         }
 
@@ -43,6 +45,6 @@ class DeliveryGroupItemSeeder extends Seeder
             }
         }
 
-        $this->command->info('Seed completed: Added items to ' . $groups->count() . ' delivery groups.');
+        $this->command->info('Seed completed: Added items to '.$groups->count().' delivery groups.');
     }
 }
