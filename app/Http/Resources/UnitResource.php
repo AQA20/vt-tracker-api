@@ -29,7 +29,6 @@ class UnitResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'status_updates' => StatusUpdateResource::collection($this->whenLoaded('statusUpdates')),
-            'supply_chain_reference' => new SupplyChainReferenceResource($this->whenLoaded('supplyChainReference')),
             'delivery_groups' => DeliveryGroupResource::collection($this->whenLoaded('deliveryGroups')),
         ];
     }

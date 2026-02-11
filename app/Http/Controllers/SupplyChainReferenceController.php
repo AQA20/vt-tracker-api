@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Unit;
+use App\Models\DeliveryGroup;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
@@ -10,12 +10,12 @@ use OpenApi\Attributes as OA;
 class SupplyChainReferenceController extends Controller
 {
     #[OA\Patch(
-        path: '/api/units/{unitId}/supply-chain-reference',
-        summary: 'Update Supply Chain Reference',
-        tags: ['Units'],
+        path: '/api/delivery-groups/{deliveryGroupId}/supply-chain-reference',
+        summary: 'Update Supply Chain Reference for Delivery Group',
+        tags: ['Delivery Groups'],
         security: [['sanctum' => []]],
         parameters: [
-            new OA\Parameter(name: 'unitId', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
+            new OA\Parameter(name: 'deliveryGroupId', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
         ],
         requestBody: new OA\RequestBody(
             required: true,
@@ -41,7 +41,7 @@ class SupplyChainReferenceController extends Controller
             ),
         ]
     )]
-    public function update(Request $request, Unit $unit): JsonResponse
+    public function update(Request $request, DeliveryGroup $deliveryGroup): JsonResponse
     {
         $validated = $request->validate([
             'dir_reference' => 'nullable|string|max:255',
@@ -50,8 +50,8 @@ class SupplyChainReferenceController extends Controller
             'delivery_terms' => 'nullable|string|max:255',
         ]);
 
-        $reference = $unit->supplyChainReference()->updateOrCreate(
-            ['unit_id' => $unit->id],
+        $reference = $deliveryGroup->supplyChainReference()->updateOrCreate(
+            ['delivery_group_id' => $deliveryGroup->id],
             [
                 'dir_reference' => $validated['dir_reference'],
                 'csp_reference' => $validated['csp_reference'],

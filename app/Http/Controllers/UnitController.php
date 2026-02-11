@@ -182,7 +182,6 @@ class UnitController extends Controller
             'statusUpdates.revisions',
             'statusUpdates.approvals',
             'stages.tasks',
-            'supplyChainReference',
             'deliveryGroups',
             'deliveryGroups.milestones',
         ];

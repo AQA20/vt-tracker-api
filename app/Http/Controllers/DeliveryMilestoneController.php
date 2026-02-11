@@ -24,7 +24,6 @@ class DeliveryMilestoneController extends Controller
                 properties: [
                     new OA\Property(property: 'actual_completion_date', type: 'string', format: 'date', nullable: true),
                     new OA\Property(property: 'planned_completion_date', type: 'string', format: 'date', nullable: true),
-                    new OA\Property(property: 'planned_leadtime_days', type: 'integer', nullable: true),
                 ]
             )
         ),
@@ -45,7 +44,6 @@ class DeliveryMilestoneController extends Controller
         $validated = $request->validate([
             'actual_completion_date' => 'nullable|date',
             'planned_completion_date' => 'nullable|date',
-            'planned_leadtime_days' => 'nullable|integer',
         ]);
 
         $milestone->update($validated);

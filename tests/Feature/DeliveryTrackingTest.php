@@ -91,7 +91,7 @@ class DeliveryTrackingTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [
-                    '*' => ['id', 'group_name', 'milestones'],
+                    '*' => ['id', 'group_name', 'milestones', 'supply_chain_reference'],
                 ],
             ]);
     }
@@ -178,8 +178,9 @@ class DeliveryTrackingTest extends TestCase
 
         $project = Project::factory()->create();
         $unit = Unit::factory()->create(['project_id' => $project->id]);
+        $deliveryGroup = DeliveryGroup::factory()->create(['unit_id' => $unit->id]);
 
-        $response = $this->patchJson("/api/units/{$unit->id}/supply-chain-reference", [
+        $response = $this->patchJson("/api/delivery-groups/{$deliveryGroup->id}/supply-chain-reference", [
             'dir_reference' => 'DIR-123',
             'csp_reference' => 'CSP-456',
         ]);
@@ -188,7 +189,7 @@ class DeliveryTrackingTest extends TestCase
             ->assertJsonPath('message', 'Supply chain references updated successfully');
 
         $this->assertDatabaseHas('supply_chain_references', [
-            'unit_id' => $unit->id,
+            'delivery_group_id' => $deliveryGroup->id,
             'dir_reference' => 'DIR-123',
             'csp_reference' => 'CSP-456',
         ]);

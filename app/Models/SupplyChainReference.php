@@ -13,8 +13,8 @@ class SupplyChainReference extends Model
 
     protected $guarded = ['id'];
 
-    public function unit(): BelongsTo
+    public function deliveryGroup(): BelongsTo
     {
-        return $this->belongsTo(Unit::class);
+        return $this->belongsTo(DeliveryGroup::class);
     }
 }

@@ -15,111 +15,78 @@ class ProjectSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Skyline Tower (2 Units)
-        $skyline = Project::create(['name' => 'Skyline Tower', 'client_name' => 'Emaar', 'location' => 'Dubai']);
-        $u1 = Unit::create(['project_id' => $skyline->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'SKY-001', 'category' => UnitCategory::ELEVATOR]);
-        \App\Services\UnitService::generateStagesAndTasks($u1);
-        $this->randomizeStatusUpdates($u1);
+        $projectNames = [
+            'Skyline Tower', 'City Mall', 'The Grand Hotel', 'Tech Park',
+            'Ocean View Residency', 'Central Station', 'Marina Plaza',
+            'Golden Gate Complex', 'Riverside Towers', 'Phoenix Mall',
+            'Crystal Heights', 'Diamond Square', 'Silver Lake Apartments',
+            'Atlantic Business Center', 'Metropolitan Plaza', 'Royal Gardens',
+            'Vista Boulevard', 'Empire State Complex', 'Horizon Towers',
+            'Liberty Square', 'Victory Plaza', 'Heritage Center',
+            'Innovation Hub', 'Summit Residences', 'Parkside Towers',
+            'Waterfront Complex', 'Continental Building',
+        ];
 
-        $u2 = Unit::create(['project_id' => $skyline->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'SKY-002', 'category' => UnitCategory::ELEVATOR]);
-        \App\Services\UnitService::generateStagesAndTasks($u2);
-        $this->randomizeStatusUpdates($u2);
+        $clientNames = [
+            'Emaar', 'Westfield', 'Hilton', 'Google', 'Damac',
+            'Transport Auth', 'Brookfield', 'Related Companies', 'Tishman Speyer',
+            'Boston Properties', 'Vornado Realty', 'SL Green', 'Equity Residential',
+            'AvalonBay', 'Simon Property Group', 'Prologis', 'Digital Realty',
+            'Alexandria Real Estate', 'Welltower', 'Ventas', 'Duke Realty',
+            'Kimco Realty', 'Regency Centers', 'Federal Realty', 'Brixmor',
+            'Weingarten Realty', 'Acadia Realty',
+        ];
 
-        $this->completeStages($u1, [1, 2, 3]); // Complete first 3 stages
-        $this->completeStages($u2, [1, 2, 3, 4, 5, 6, 7]); // Ready for Ride Comfort
+        $locations = [
+            'Dubai', 'London', 'New York', 'Singapore', 'Miami',
+            'Berlin', 'Hong Kong', 'Tokyo', 'Paris', 'Sydney',
+            'Toronto', 'Los Angeles', 'Chicago', 'San Francisco', 'Boston',
+            'Seattle', 'Washington DC', 'Dallas', 'Atlanta', 'Houston',
+            'Denver', 'Phoenix', 'Las Vegas', 'Portland', 'Austin',
+            'Nashville', 'Orlando',
+        ];
 
-        // 2. City Mall (1 Unit)
-        $mall = Project::create(['name' => 'City Mall', 'client_name' => 'Westfield', 'location' => 'London']);
-        $u3 = Unit::create(['project_id' => $mall->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'CM-E1', 'category' => UnitCategory::ELEVATOR]);
-        \App\Services\UnitService::generateStagesAndTasks($u3);
-        $this->randomizeStatusUpdates($u3);
-
-        $this->completeStages($u3, [1, 2, 3, 4, 5, 6, 7]);
-        // Add Ride Comfort Result (Completes Stage 8)
-        \App\Models\RideComfortResult::create([
-            'unit_id' => $u3->id,
-            'vibration_value' => 0.45,
-            'noise_db' => 48.5,
-            'jerk_value' => 0.75,
-            'passed' => true,
-            'device_used' => 'eva_625',
-        ]);
-
-        // 3. The Grand Hotel (3 Units)
-        $grand = Project::create(['name' => 'The Grand Hotel', 'client_name' => 'Hilton', 'location' => 'New York']);
-        $u4 = Unit::create(['project_id' => $grand->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'GH-01', 'category' => UnitCategory::ELEVATOR]);
-        \App\Services\UnitService::generateStagesAndTasks($u4);
-        $this->randomizeStatusUpdates($u4);
-        $this->completeStages($u4, [1]); // Just started
-
-        $u5 = Unit::create(['project_id' => $grand->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'GH-02', 'category' => UnitCategory::ELEVATOR]); // 0 progress
-        \App\Services\UnitService::generateStagesAndTasks($u5);
-        $this->randomizeStatusUpdates($u5);
-
-        $u6 = Unit::create(['project_id' => $grand->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'GH-03', 'category' => UnitCategory::ELEVATOR]); // 0 progress
-        \App\Services\UnitService::generateStagesAndTasks($u6);
-        $this->randomizeStatusUpdates($u6);
-
-        // 4. Tech Park (2 Units)
-        $tech = Project::create(['name' => 'Tech Park', 'client_name' => 'Google', 'location' => 'Singapore']);
-        $u7 = Unit::create(['project_id' => $tech->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'TP-A1', 'category' => UnitCategory::ELEVATOR]);
-        \App\Services\UnitService::generateStagesAndTasks($u7);
-        $this->randomizeStatusUpdates($u7);
-        $this->completeStages($u7, [1, 2]);
-
-        $u8 = Unit::create(['project_id' => $tech->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'TP-B1', 'category' => UnitCategory::ELEVATOR]);
-        \App\Services\UnitService::generateStagesAndTasks($u8);
-        $this->randomizeStatusUpdates($u8);
-        $this->completeStages($u8, [1, 2, 3, 4]);
-
-        // 5. Ocean View Residency (1 Unit)
-        $ocean = Project::create(['name' => 'Ocean View Residency', 'client_name' => 'Damac', 'location' => 'Miami']);
-        $u9 = Unit::create(['project_id' => $ocean->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'OV-101', 'category' => UnitCategory::ELEVATOR]);
-        \App\Services\UnitService::generateStagesAndTasks($u9);
-        $this->randomizeStatusUpdates($u9);
-        // Complete all including Ride Comfort
-        $this->completeStages($u9, [1, 2, 3, 4, 5, 6, 7]);
-        \App\Models\RideComfortResult::create([
-            'unit_id' => $u9->id,
-            'vibration_value' => 0.3,
-            'noise_db' => 45.0,
-            'jerk_value' => 0.6,
-            'passed' => true,
-            'device_used' => 'eva_625',
-        ]);
-
-        // 6. Central Station (2 Units)
-        $station = Project::create(['name' => 'Central Station', 'client_name' => 'Transport Auth', 'location' => 'Berlin']);
-        $u10 = Unit::create(['project_id' => $station->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'CS-L1', 'category' => UnitCategory::ELEVATOR]);
-        \App\Services\UnitService::generateStagesAndTasks($u10);
-        $this->randomizeStatusUpdates($u10);
-        $this->completeStages($u10, [1, 2, 3, 4, 5]);
-
-        $u11 = Unit::create(['project_id' => $station->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'CS-L2', 'category' => UnitCategory::ELEVATOR]);
-        \App\Services\UnitService::generateStagesAndTasks($u11);
-        $this->randomizeStatusUpdates($u11);
-        // No progress
-
-        // 7-18. Additional Projects
-        for ($i = 7; $i <= 18; $i++) {
-            $p = Project::create([
-                'name' => 'Project '.$i,
-                'client_name' => 'Client '.$i,
-                'location' => 'Location '.$i,
+        // Create exactly 27 projects
+        for ($i = 0; $i < 27; $i++) {
+            $project = Project::create([
+                'name' => $projectNames[$i],
+                'client_name' => $clientNames[$i],
+                'location' => $locations[$i],
             ]);
-            $u = Unit::create([
-                'project_id' => $p->id,
-                'unit_type' => 'KONE MonoSpace 500',
-                'equipment_number' => 'UNIT-'.$i,
-                'category' => UnitCategory::ELEVATOR,
-            ]);
-            \App\Services\UnitService::generateStagesAndTasks($u);
-            $this->randomizeStatusUpdates($u);
 
-            // Randomly complete some stages
-            $completeCount = rand(0, 5);
-            if ($completeCount > 0) {
-                $this->completeStages($u, range(1, $completeCount));
+            // Create 5-10 units per project
+            $unitCount = rand(5, 10);
+            for ($j = 1; $j <= $unitCount; $j++) {
+                $unit = Unit::create([
+                    'project_id' => $project->id,
+                    'unit_type' => 'KONE MonoSpace '.(rand(0, 1) ? '700' : '500'),
+                    'equipment_number' => strtoupper(substr($project->name, 0, 3)).'-'.str_pad($j, 3, '0', STR_PAD_LEFT),
+                    'category' => UnitCategory::ELEVATOR,
+                    'sl_reference_no' => 'SL-REF-'.($i * 100 + $j),
+                    'fl_unit_name' => 'L'.$j,
+                    'unit_description' => 'Unit '.$j.' for '.$project->name,
+                ]);
+
+                \App\Services\UnitService::generateStagesAndTasks($unit);
+                $this->randomizeStatusUpdates($unit);
+
+                // Randomly complete some stages (0-7 stages)
+                $completeCount = rand(0, 7);
+                if ($completeCount > 0) {
+                    $this->completeStages($unit, range(1, $completeCount));
+                }
+
+                // Occasionally add a ride comfort result if stage 7 is complete
+                if ($completeCount == 7 && rand(1, 100) <= 30) { // 30% chance
+                    \App\Models\RideComfortResult::create([
+                        'unit_id' => $unit->id,
+                        'vibration_value' => round(rand(20, 50) / 100, 2),
+                        'noise_db' => round(rand(40, 55) + (rand(0, 9) / 10), 1),
+                        'jerk_value' => round(rand(50, 90) / 100, 2),
+                        'passed' => rand(0, 1) == 1,
+                        'device_used' => 'eva_625',
+                    ]);
+                }
             }
         }
     }

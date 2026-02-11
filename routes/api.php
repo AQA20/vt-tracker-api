@@ -54,5 +54,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/units/{unit}/delivery-groups', [App\Http\Controllers\DeliveryGroupController::class, 'store']);
     Route::get('/delivery-groups/{deliveryGroup}/milestones', [App\Http\Controllers\DeliveryGroupController::class, 'milestones']);
     Route::patch('/delivery-milestones/{milestone}', [App\Http\Controllers\DeliveryMilestoneController::class, 'update']);
-    Route::patch('/units/{unit}/supply-chain-reference', [App\Http\Controllers\SupplyChainReferenceController::class, 'update']);
+    Route::patch('/delivery-groups/{deliveryGroup}/supply-chain-reference', [App\Http\Controllers\SupplyChainReferenceController::class, 'update']);
 });

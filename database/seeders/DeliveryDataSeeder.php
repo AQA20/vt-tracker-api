@@ -2,11 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\UnitCategory;
-use App\Models\Project;
 use App\Models\SupplyChainReference;
-// use App\Models\DeliveryGroup; // No longer used directly
-// use App\Models\DeliveryMilestone; // No longer used directly
 use App\Models\Unit;
 use App\Services\DeliveryService;
 use Illuminate\Database\Seeder;
@@ -20,59 +16,38 @@ class DeliveryDataSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create a dedicated project for Testing Delivery
-        $project = Project::factory()->create([
-            'name' => 'DGP Test Project',
-            'client_name' => 'KONE Corporation',
-            'location' => 'Helsinki, Finland',
-        ]);
+        // Get all existing units from ProjectSeeder
+        $allUnits = Unit::all();
 
-        // Create 5 units for this project
-        $units = Unit::factory()->count(5)->create([
-            'project_id' => $project->id,
-            'category' => UnitCategory::ELEVATOR,
-            'unit_type' => 'Passenger Elevator',
-        ]);
+        if ($allUnits->isEmpty()) {
+            $this->command->warn('No units found. Please run ProjectSeeder first.');
 
-        foreach ($units as $index => $unit) {
-            // Update unit details
-            $unit->update([
-                'equipment_number' => 'EQ-'.($index + 100),
-                'fl_unit_name' => 'L'.($index + 1),
-                'sl_reference_no' => 'SL-REF-'.($index + 500),
-            ]);
+            return;
+        }
 
-            // Create Supply Chain Reference
-            SupplyChainReference::factory()->create([
-                'unit_id' => $unit->id,
-                'dir_reference' => 'DIR-TEST-'.$index,
-                'csp_reference' => 'CSP-TEST-'.$index,
-            ]);
+        // Add delivery groups to all units
+        foreach ($allUnits as $unit) {
+            // Create 2-4 Delivery Groups per unit
+            $groupCount = rand(2, 4);
 
-            // Create 3 Delivery Groups per unit using Service
-            for ($i = 1; $i <= 3; $i++) {
+            for ($i = 1; $i <= $groupCount; $i++) {
                 $group = $this->deliveryService->createGroup($unit, "Delivery Group $i", $i);
 
-                // Populate random dates for some milestones
+                // Create supply chain reference for the group
+                SupplyChainReference::create([
+                    'delivery_group_id' => $group->id,
+                    'dir_reference' => 'DIR-'.$unit->equipment_number.'-DG'.$i,
+                    'csp_reference' => 'CSP-'.$unit->equipment_number.'-DG'.$i,
+                    'source' => 'Europe Supply',
+                    'delivery_terms' => 'CIF',
+                ]);
+
+                // Randomize milestone dates
                 $this->randomizeMilestones($group);
             }
         }
 
-        // Now populate ALL other units (from ProjectSeeder) that don't have delivery groups
-        $otherUnits = Unit::whereDoesntHave('deliveryGroups')->get();
-        foreach ($otherUnits as $unit) {
-            // Create Supply Chain Reference if missing
-            if (! $unit->supplyChainReference()->exists()) {
-                SupplyChainReference::factory()->create(['unit_id' => $unit->id]);
-            }
-
-            // Create 1-2 Delivery Groups
-            $count = rand(1, 2);
-            for ($i = 1; $i <= $count; $i++) {
-                $group = $this->deliveryService->createGroup($unit, "Delivery Group $i", $i);
-                $this->randomizeMilestones($group);
-            }
-        }
+        $this->command->info('Created delivery groups and milestones for '.$allUnits->count().' units.');
     }
 
     private function randomizeMilestones($group)

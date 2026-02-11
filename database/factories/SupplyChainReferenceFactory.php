@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Unit;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +17,7 @@ class SupplyChainReferenceFactory extends Factory
     public function definition(): array
     {
         return [
-            'unit_id' => Unit::factory(),
+            'delivery_milestone_id' => null, // Should be provided by seeder
             'dir_reference' => $this->faker->bothify('DIR-####'),
             'csp_reference' => $this->faker->bothify('CSP-####'),
             'source' => 'Europe Supply',

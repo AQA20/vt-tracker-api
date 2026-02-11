@@ -1423,13 +1423,13 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/units/{{unit_id}}/supply-chain-reference",
+              "raw": "{{base_url}}/delivery-groups/{{delivery_group_id}}/supply-chain-reference",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "units",
-                "{{unit_id}}",
+                "delivery-groups",
+                "{{delivery_group_id}}",
                 "supply-chain-reference"
               ]
             }
@@ -1445,13 +1445,13 @@
                   "raw": "{\n    \"dir_reference\": \"DIR123\",\n    \"csp_reference\": \"CSP456\",\n    \"source\": \"Factory\",\n    \"delivery_terms\": \"FOB\"\n}"
                 },
                 "url": {
-                  "raw": "{{base_url}}/units/{{unit_id}}/supply-chain-reference",
+                  "raw": "{{base_url}}/delivery-groups/{{delivery_group_id}}/supply-chain-reference",
                   "host": [
                     "{{base_url}}"
                   ],
                   "path": [
-                    "units",
-                    "{{unit_id}}",
+                    "delivery-groups",
+                    "{{delivery_group_id}}",
                     "supply-chain-reference"
                   ]
                 }

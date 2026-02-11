@@ -27,4 +27,9 @@ class DeliveryGroup extends Model
     {
         return $this->hasMany(DeliveryMilestone::class)->orderBy('milestone_code');
     }
+
+    public function supplyChainReference()
+    {
+        return $this->hasOne(SupplyChainReference::class);
+    }
 }

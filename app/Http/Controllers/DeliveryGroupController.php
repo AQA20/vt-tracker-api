@@ -63,7 +63,7 @@ class DeliveryGroupController extends Controller
         );
 
         return response()->json([
-            'data' => new DeliveryGroupResource($group->load('milestones')),
+            'data' => new DeliveryGroupResource($group->load(['milestones', 'supplyChainReference'])),
             'message' => 'Delivery group created successfully',
         ], 201);
     }
@@ -91,7 +91,7 @@ class DeliveryGroupController extends Controller
     public function index(Unit $unit): JsonResponse
     {
         $deliveryGroups = $unit->deliveryGroups()
-            ->with('milestones')
+            ->with(['milestones', 'supplyChainReference'])
             ->get();
 
         return response()->json([

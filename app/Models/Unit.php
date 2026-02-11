@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
@@ -78,10 +77,5 @@ class Unit extends Model
     public function deliveryGroups(): HasMany
     {
         return $this->hasMany(DeliveryGroup::class)->orderBy('group_number');
-    }
-
-    public function supplyChainReference(): HasOne
-    {
-        return $this->hasOne(SupplyChainReference::class);
     }
 }
