@@ -25,6 +25,13 @@ class ProjectController extends Controller
                 schema: new OA\Schema(type: 'string')
             ),
             new OA\Parameter(
+                name: 'search',
+                in: 'query',
+                description: 'Search projects by KONE project ID, name, client name, or location',
+                required: false,
+                schema: new OA\Schema(type: 'string')
+            ),
+            new OA\Parameter(
                 name: 'page',
                 in: 'query',
                 description: 'Page number',
@@ -55,6 +62,16 @@ class ProjectController extends Controller
             $query->with($includes);
         }
 
+        if ($request->has('search') && ! empty($request->search)) {
+            $searchTerm = strtolower($request->search);
+            $query->where(function ($q) use ($searchTerm) {
+                $q->whereRaw('LOWER(kone_project_id) LIKE ?', ["%{$searchTerm}%"])
+                    ->orWhereRaw('LOWER(name) LIKE ?', ["%{$searchTerm}%"])
+                    ->orWhereRaw('LOWER(client_name) LIKE ?', ["%{$searchTerm}%"])
+                    ->orWhereRaw('LOWER(location) LIKE ?', ["%{$searchTerm}%"]);
+            });
+        }
+
         return ProjectResource::collection($query->paginate(9));
     }
 
@@ -69,6 +86,7 @@ class ProjectController extends Controller
                 required: ['name', 'client_name', 'location'],
                 properties: [
                     new OA\Property(property: 'name', type: 'string'),
+                    new OA\Property(property: 'kone_project_id', type: 'string', nullable: true),
                     new OA\Property(property: 'client_name', type: 'string'),
                     new OA\Property(property: 'location', type: 'string'),
                 ]
@@ -122,6 +140,7 @@ class ProjectController extends Controller
             content: new OA\JsonContent(
                 properties: [
                     new OA\Property(property: 'name', type: 'string'),
+                    new OA\Property(property: 'kone_project_id', type: 'string', nullable: true),
                     new OA\Property(property: 'client_name', type: 'string'),
                     new OA\Property(property: 'location', type: 'string'),
                 ]

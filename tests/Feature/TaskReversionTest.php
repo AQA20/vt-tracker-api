@@ -26,6 +26,7 @@ class TaskReversionTest extends TestCase
         // 1. Setup Project, Unit, Stages and Tasks
         $project = Project::create([
             'name' => 'Test Project',
+            'kone_project_id' => 'KP001584',
             'client_name' => 'Test Client',
             'location' => 'Test Location',
         ]);
@@ -73,6 +74,7 @@ class TaskReversionTest extends TestCase
         // 1. Setup Project, Unit, Stages and Tasks
         $project = Project::create([
             'name' => 'Test Project',
+            'kone_project_id' => 'KP001584',
             'client_name' => 'Test Client',
             'location' => 'Test Location',
         ]);
@@ -105,7 +107,7 @@ class TaskReversionTest extends TestCase
     public function test_can_revert_last_task_in_stage()
     {
         // 1. Setup
-        $project = Project::create(['name' => 'Test', 'client_name' => 'T', 'location' => 'L']);
+        $project = Project::create(['name' => 'Test', 'kone_project_id' => 'KP001584', 'client_name' => 'T', 'location' => 'L']);
         $unit = Unit::create(['project_id' => $project->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'REVERT-LAST', 'category' => UnitCategory::ELEVATOR]);
         UnitService::generateStagesAndTasks($unit);
         $stage1 = $unit->refresh()->stages->where('template.stage_number', 1)->first();
@@ -127,7 +129,7 @@ class TaskReversionTest extends TestCase
     public function test_must_revert_tasks_in_reverse_order()
     {
         // 1. Setup
-        $project = Project::create(['name' => 'Test', 'client_name' => 'T', 'location' => 'L']);
+        $project = Project::create(['name' => 'Test', 'kone_project_id' => 'KP001584', 'client_name' => 'T', 'location' => 'L']);
         $unit = Unit::create(['project_id' => $project->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'REVERSE', 'category' => UnitCategory::ELEVATOR]);
         UnitService::generateStagesAndTasks($unit);
         $stage1 = $unit->refresh()->stages->where('template.stage_number', 1)->first();

@@ -15,6 +15,7 @@ class StoreProjectRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
+            'kone_project_id' => 'nullable|string',
             'client_name' => 'required|string',
             'location' => 'required|string',
         ];

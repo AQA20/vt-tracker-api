@@ -138,6 +138,11 @@
                 {
                   "key": "page",
                   "value": "1"
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "description": "Search projects by KONE project ID, name, client name, or location"
                 }
               ]
             }
@@ -164,6 +169,11 @@
                     {
                       "key": "page",
                       "value": "1"
+                    },
+                    {
+                      "key": "search",
+                      "value": "",
+                      "description": "Search projects by KONE project ID, name, client name, or location"
                     }
                   ]
                 }
@@ -173,7 +183,7 @@
               "_postman_previewlanguage": "json",
               "header": [],
               "cookie": [],
-              "body": "{\n    \"data\": [\n        {\n            \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n            \"name\": \"Skyline Tower\",\n            \"client_name\": \"Emaar\",\n            \"location\": \"Dubai\",\n            \"completion_percentage\": 64,\n            \"installation_progress\": 45,\n            \"commissioning_progress\": 20,\n            \"units_count\": 2,\n            \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n            \"updated_at\": \"2026-01-27T12:00:00.000000Z\",\n            \"units\": [\n                {\n                    \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-unit1uuid\",\n                    \"project_id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n                    \"unit_type\": \"KONE MonoSpace 700\",\n                    \"equipment_number\": \"SKY-001\",\n                    \"category\": \"elevator\",\n                    \"progress_percent\": 37,\n                    \"installation_progress\": 40,\n                    \"commissioning_progress\": 0,\n                    \"status_updates\": [\n                        {\n                            \"id\": \"su-uuid-1\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"tech\",\n                            \"status\": \"submitted\",\n                            \"revisions\": {\n                                \"submitted\": [\n                                    {\n                                        \"id\": \"rev-uuid-1\",\n                                        \"revision_number\": 0,\n                                        \"pdf_path\": \"revisions/rev0.pdf\",\n                                        \"revision_date\": \"2026-02-06T10:00:00Z\",\n                                        \"category\": \"submitted\"\n                                    }\n                                ],\n                                \"rejected\": []\n                            },\n                            \"approvals\": []\n                        },\n                        {\n                            \"id\": \"su-uuid-2\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"sample\",\n                            \"status\": \"approved\",\n                            \"revisions\": [],\n                            \"approvals\": [\n                                {\n                                    \"id\": \"app-uuid-1\",\n                                    \"approval_code\": \"A\",\n                                    \"pdf_path\": \"approvals/app1.pdf\",\n                                    \"comment\": \"Approved as noted\",\n                                    \"approved_at\": \"2026-02-06T11:00:00Z\"\n                                }\n                            ]\n                        },\n                        {\n                            \"id\": \"su-uuid-3\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"layout\",\n                            \"status\": \"in_progress\",\n                            \"revisions\": [],\n                            \"approvals\": []\n                        },\n                        {\n                            \"id\": \"su-uuid-4\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"car_m_dwg\",\n                            \"status\": \"in_progress\",\n                            \"revisions\": [],\n                            \"approvals\": []\n                        },\n                        {\n                            \"id\": \"su-uuid-5\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"cop_dwg\",\n                            \"status\": \"in_progress\",\n                            \"revisions\": [],\n                            \"approvals\": []\n                        },\n                        {\n                            \"id\": \"su-uuid-6\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"landing_dwg\",\n                            \"status\": \"in_progress\",\n                            \"revisions\": [],\n                            \"approvals\": []\n                        }\n                    ]\n                }\n            ]\n        }\n    ],\n    \"links\": {\n        \"first\": \"{{base_url}}/projects?page=1\",\n        \"last\": \"{{base_url}}/projects?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"path\": \"{{base_url}}/projects\",\n        \"per_page\": 15,\n        \"to\": 1,\n        \"total\": 1\n    }\n}"
+              "body": "{\n    \"data\": [\n        {\n            \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n            \"name\": \"Skyline Tower\",\n            \"kone_project_id\": \"KP001584\",\n            \"client_name\": \"Emaar\",\n            \"location\": \"Dubai\",\n            \"completion_percentage\": 64,\n            \"installation_progress\": 45,\n            \"commissioning_progress\": 20,\n            \"units_count\": 2,\n            \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n            \"updated_at\": \"2026-01-27T12:00:00.000000Z\",\n            \"units\": [\n                {\n                    \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-unit1uuid\",\n                    \"project_id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n                    \"unit_type\": \"KONE MonoSpace 700\",\n                    \"equipment_number\": \"SKY-001\",\n                    \"category\": \"elevator\",\n                    \"progress_percent\": 37,\n                    \"installation_progress\": 40,\n                    \"commissioning_progress\": 0,\n                    \"status_updates\": [\n                        {\n                            \"id\": \"su-uuid-1\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"tech\",\n                            \"status\": \"submitted\",\n                            \"revisions\": {\n                                \"submitted\": [\n                                    {\n                                        \"id\": \"rev-uuid-1\",\n                                        \"revision_number\": 0,\n                                        \"pdf_path\": \"revisions/rev0.pdf\",\n                                        \"revision_date\": \"2026-02-06T10:00:00Z\",\n                                        \"category\": \"submitted\"\n                                    }\n                                ],\n                                \"rejected\": []\n                            },\n                            \"approvals\": []\n                        },\n                        {\n                            \"id\": \"su-uuid-2\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"sample\",\n                            \"status\": \"approved\",\n                            \"revisions\": [],\n                            \"approvals\": [\n                                {\n                                    \"id\": \"app-uuid-1\",\n                                    \"approval_code\": \"A\",\n                                    \"pdf_path\": \"approvals/app1.pdf\",\n                                    \"comment\": \"Approved as noted\",\n                                    \"approved_at\": \"2026-02-06T11:00:00Z\"\n                                }\n                            ]\n                        },\n                        {\n                            \"id\": \"su-uuid-3\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"layout\",\n                            \"status\": \"in_progress\",\n                            \"revisions\": [],\n                            \"approvals\": []\n                        },\n                        {\n                            \"id\": \"su-uuid-4\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"car_m_dwg\",\n                            \"status\": \"in_progress\",\n                            \"revisions\": [],\n                            \"approvals\": []\n                        },\n                        {\n                            \"id\": \"su-uuid-5\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"cop_dwg\",\n                            \"status\": \"in_progress\",\n                            \"revisions\": [],\n                            \"approvals\": []\n                        },\n                        {\n                            \"id\": \"su-uuid-6\",\n                            \"unit_id\": \"unit1uuid\",\n                            \"category\": \"landing_dwg\",\n                            \"status\": \"in_progress\",\n                            \"revisions\": [],\n                            \"approvals\": []\n                        }\n                    ]\n                }\n            ]\n        }\n    ],\n    \"links\": {\n        \"first\": \"{{base_url}}/projects?page=1\",\n        \"last\": \"{{base_url}}/projects?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"path\": \"{{base_url}}/projects\",\n        \"per_page\": 15,\n        \"to\": 1,\n        \"total\": 1\n    }\n}"
             }
           ]
         },
@@ -184,7 +194,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"New Tower Project\",\n    \"client_name\": \"Client Corp\",\n    \"location\": \"Location City\"\n}",
+              "raw": "{\n    \"name\": \"New Tower Project\",\n    \"kone_project_id\": \"KP001585\",\n    \"client_name\": \"Client Corp\",\n    \"location\": \"Location City\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -209,7 +219,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"name\": \"New Tower Project\",\n    \"client_name\": \"Client Corp\",\n    \"location\": \"Location City\"\n}"
+                  "raw": "{\n    \"name\": \"New Tower Project\",\n    \"kone_project_id\": \"KP001585\",\n    \"client_name\": \"Client Corp\",\n    \"location\": \"Location City\"\n}"
                 },
                 "url": {
                   "raw": "{{base_url}}/projects",
@@ -226,7 +236,7 @@
               "_postman_previewlanguage": "json",
               "header": [],
               "cookie": [],
-              "body": "{\n    \"data\": {\n        \"id\": \"9df9cb31-5f21-4d9e-8a1b-2c3d4e5f6a7b\",\n        \"name\": \"New Tower Project\",\n        \"client_name\": \"Client Corp\",\n        \"location\": \"Location City\",\n        \"completion_percentage\": 0,\n        \"installation_progress\": 0,\n        \"commissioning_progress\": 0,\n        \"units_count\": 0,\n        \"created_at\": \"2026-01-27T16:00:00.000000Z\",\n        \"updated_at\": \"2026-01-27T16:00:00.000000Z\"\n    }\n}"
+              "body": "{\n    \"data\": {\n        \"id\": \"9df9cb31-5f21-4d9e-8a1b-2c3d4e5f6a7b\",\n        \"name\": \"New Tower Project\",\n        \"kone_project_id\": \"KP001585\",\n        \"client_name\": \"Client Corp\",\n        \"location\": \"Location City\",\n        \"completion_percentage\": 0,\n        \"installation_progress\": 0,\n        \"commissioning_progress\": 0,\n        \"units_count\": 0,\n        \"created_at\": \"2026-01-27T16:00:00.000000Z\",\n        \"updated_at\": \"2026-01-27T16:00:00.000000Z\"\n    }\n}"
             }
           ]
         },
@@ -268,7 +278,7 @@
               "_postman_previewlanguage": "json",
               "header": [],
               "cookie": [],
-              "body": "{\n    \"data\": {\n        \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n        \"name\": \"Skyline Tower\",\n        \"client_name\": \"Emaar\",\n        \"location\": \"Dubai\",\n        \"completion_percentage\": 64,\n        \"installation_progress\": 45,\n        \"commissioning_progress\": 20,\n        \"units_count\": 2,\n        \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n        \"updated_at\": \"2026-01-27T12:00:00.000000Z\",\n        \"units\": [\n            {\n                \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-unit1uuid\",\n                \"project_id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n                \"unit_type\": \"KONE MonoSpace 700\",\n                \"equipment_number\": \"SKY-001\",\n                \"category\": \"elevator\",\n                \"progress_percent\": 37,\n                \"installation_progress\": 40,\n                \"commissioning_progress\": 0,\n                \"status_updates\": [\n                    {\n                        \"id\": \"su-uuid-1\",\n                        \"unit_id\": \"unit1uuid\",\n                        \"category\": \"tech\",\n                        \"status\": \"submitted\",\n                        \"revisions\": [],\n                        \"approvals\": []\n                    }\n                ]\n            }\n        ]\n    }\n}"
+              "body": "{\n    \"data\": {\n        \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n        \"name\": \"Skyline Tower\",\n        \"kone_project_id\": \"KP001584\",\n        \"client_name\": \"Emaar\",\n        \"location\": \"Dubai\",\n        \"completion_percentage\": 64,\n        \"installation_progress\": 45,\n        \"commissioning_progress\": 20,\n        \"units_count\": 2,\n        \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n        \"updated_at\": \"2026-01-27T12:00:00.000000Z\",\n        \"units\": [\n            {\n                \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-unit1uuid\",\n                \"project_id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n                \"unit_type\": \"KONE MonoSpace 700\",\n                \"equipment_number\": \"SKY-001\",\n                \"category\": \"elevator\",\n                \"progress_percent\": 37,\n                \"installation_progress\": 40,\n                \"commissioning_progress\": 0,\n                \"status_updates\": [\n                    {\n                        \"id\": \"su-uuid-1\",\n                        \"unit_id\": \"unit1uuid\",\n                        \"category\": \"tech\",\n                        \"status\": \"submitted\",\n                        \"revisions\": [],\n                        \"approvals\": []\n                    }\n                ]\n            }\n        ]\n    }\n}"
             }
           ]
         },
@@ -279,7 +289,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"Updated Project Name\"\n}",
+              "raw": "{\n    \"name\": \"Updated Project Name\",\n    \"kone_project_id\": \"KP001586\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -305,7 +315,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"name\": \"Updated Project Name\"\n}"
+                  "raw": "{\n    \"name\": \"Updated Project Name\",\n    \"kone_project_id\": \"KP001586\"\n}"
                 },
                 "url": {
                   "raw": "{{base_url}}/projects/{{project_id}}",
@@ -323,7 +333,7 @@
               "_postman_previewlanguage": "json",
               "header": [],
               "cookie": [],
-              "body": "{\n    \"data\": {\n        \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n        \"name\": \"Updated Project Name\",\n        \"client_name\": \"Emaar\",\n        \"location\": \"Dubai\",\n        \"completion_percentage\": 64,\n        \"installation_progress\": 45,\n        \"commissioning_progress\": 20,\n        \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n        \"updated_at\": \"2026-01-27T16:30:00.000000Z\"\n    }\n}"
+              "body": "{\n    \"data\": {\n        \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n        \"name\": \"Updated Project Name\",\n        \"kone_project_id\": \"KP001586\",\n        \"client_name\": \"Emaar\",\n        \"location\": \"Dubai\",\n        \"completion_percentage\": 64,\n        \"installation_progress\": 45,\n        \"commissioning_progress\": 20,\n        \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n        \"updated_at\": \"2026-01-27T16:30:00.000000Z\"\n    }\n}"
             }
           ]
         },
@@ -368,6 +378,60 @@
               "header": [],
               "cookie": [],
               "body": "{\n    \"data\": {\n        \"tech\": {\n            \"approved\": 50,\n            \"submitted\": 50\n        },\n        \"layout\": {\n            \"in_progress\": 100\n        },\n        \"sample\": {\n            \"approved\": 100\n        }\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Search Projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/projects?search=KP00158",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "projects"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "KP00158",
+                  "description": "Search projects by KONE project ID, name, client name, or location"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Search Results",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/projects?search=KP00158",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "projects"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "KP00158",
+                      "description": "Search projects by KONE project ID, name, client name, or location"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        {\n            \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-1a2b3c4d5e6f\",\n            \"name\": \"Skyline Tower\",\n            \"kone_project_id\": \"KP001584\",\n            \"client_name\": \"Emaar\",\n            \"location\": \"Dubai\",\n            \"completion_percentage\": 64,\n            \"installation_progress\": 45,\n            \"commissioning_progress\": 20,\n            \"units_count\": 2,\n            \"created_at\": \"2026-01-27T12:00:00.000000Z\",\n            \"updated_at\": \"2026-01-27T12:00:00.000000Z\"\n        },\n        {\n            \"id\": \"9df9b1c2-3e4f-4a5b-9c8d-2b3c4d5e6f7a\",\n            \"name\": \"Ocean View Complex\",\n            \"kone_project_id\": \"KP001585\",\n            \"client_name\": \"Ocean Properties\",\n            \"location\": \"Miami\",\n            \"completion_percentage\": 30,\n            \"installation_progress\": 25,\n            \"commissioning_progress\": 5,\n            \"units_count\": 3,\n            \"created_at\": \"2026-01-28T10:00:00.000000Z\",\n            \"updated_at\": \"2026-01-28T10:00:00.000000Z\"\n        }\n    ],\n    \"links\": {\n        \"first\": \"{{base_url}}/projects?page=1\",\n        \"last\": \"{{base_url}}/projects?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"path\": \"{{base_url}}/projects\",\n        \"per_page\": 15,\n        \"to\": 2,\n        \"total\": 2\n    }\n}"
             }
           ]
         }

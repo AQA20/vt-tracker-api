@@ -26,6 +26,7 @@ class LogicVerificationTest extends TestCase
         // 1. Create Project & Unit
         $project = Project::create([
             'name' => 'Test Project',
+            'kone_project_id' => 'KP001584',
             'client_name' => 'Test Client',
             'location' => 'Test Location',
         ]);

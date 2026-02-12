@@ -26,6 +26,7 @@ class StageToggleTest extends TestCase
 
         $project = Project::create([
             'name' => 'Test Project',
+            'kone_project_id' => 'KP001584',
             'client_name' => 'Test Client',
             'location' => 'Test Location',
         ]);

@@ -50,6 +50,7 @@ class ProjectSeeder extends Seeder
         for ($i = 0; $i < 27; $i++) {
             $project = Project::create([
                 'name' => $projectNames[$i],
+                'kone_project_id' => 'KP'.str_pad(1584 + $i, 6, '0', STR_PAD_LEFT),
                 'client_name' => $clientNames[$i],
                 'location' => $locations[$i],
             ]);

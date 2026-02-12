@@ -15,6 +15,7 @@ class UpdateProjectRequest extends FormRequest
     {
         return [
             'name' => 'string',
+            'kone_project_id' => 'nullable|string',
             'client_name' => 'string',
             'location' => 'string',
         ];

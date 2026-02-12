@@ -24,7 +24,7 @@ class StatusRevisionTest extends TestCase
         parent::setUp();
         $this->user = User::factory()->create();
 
-        $project = Project::create(['name' => 'Test Project', 'client_name' => 'Test Client', 'location' => 'Test Location']);
+        $project = Project::create(['name' => 'Test Project', 'kone_project_id' => 'KP001584', 'client_name' => 'Test Client', 'location' => 'Test Location']);
         $unit = Unit::create([
             'project_id' => $project->id,
             'unit_type' => 'Test Type',

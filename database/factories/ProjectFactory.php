@@ -18,6 +18,7 @@ class ProjectFactory extends Factory
     {
         return [
             'name' => $this->faker->company.' Tower',
+            'kone_project_id' => 'KP'.$this->faker->unique()->numberBetween(100000, 999999),
             'client_name' => $this->faker->company,
             'location' => $this->faker->city,
         ];

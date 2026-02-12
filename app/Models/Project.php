@@ -14,6 +14,7 @@ use OpenApi\Attributes as OA;
     properties: [
         new OA\Property(property: 'id', type: 'string', format: 'uuid'),
         new OA\Property(property: 'name', type: 'string'),
+        new OA\Property(property: 'kone_project_id', type: 'string', nullable: true),
         new OA\Property(property: 'client_name', type: 'string'),
         new OA\Property(property: 'location', type: 'string'),
         new OA\Property(property: 'completion_percentage', type: 'integer', example: 65),
