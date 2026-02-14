@@ -198,7 +198,10 @@ class UnitController extends Controller
             'statusUpdates',
             'statusUpdates.revisions',
             'statusUpdates.approvals',
+            'stages',
+            'stages.template',
             'stages.tasks',
+            'stages.tasks.template',
             'deliveryGroups',
             'deliveryGroups.milestones',
         ];

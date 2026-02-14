@@ -28,6 +28,7 @@ class UnitResource extends JsonResource
             'unit_description' => $this->unit_description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'stages' => UnitStageResource::collection($this->whenLoaded('stages')),
             'status_updates' => StatusUpdateResource::collection($this->whenLoaded('statusUpdates')),
             'delivery_groups' => DeliveryGroupResource::collection($this->whenLoaded('deliveryGroups')),
         ];

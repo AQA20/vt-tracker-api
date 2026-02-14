@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Enums\UnitCategory;
 use App\Models\StageTemplate;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +12,8 @@ class TemplateSeeder extends Seeder
      */
     public function run(): void
     {
-        $unitType = 'KONE MonoSpace 700';
+        // Seed templates for both unit types
+        $unitTypes = ['KONE MonoSpace 700', 'KONE MonoSpace 500'];
 
         $stages = [
             [
@@ -139,32 +139,44 @@ class TemplateSeeder extends Seeder
             ],
         ];
 
-        foreach ($stages as $stageData) {
-            $progressGroup = null;
-            if ($stageData['stage_number'] >= 1 && $stageData['stage_number'] <= 6) {
-                $progressGroup = 'installation';
-            } elseif ($stageData['stage_number'] >= 7 && $stageData['stage_number'] <= 8) {
-                $progressGroup = 'commissioning';
-            }
+        // Create templates for each unit type and category
+        foreach ($unitTypes as $unitType) {
+            foreach ($stages as $stageData) {
+                $progressGroup = null;
+                if ($stageData['stage_number'] >= 1 && $stageData['stage_number'] <= 6) {
+                    $progressGroup = 'installation';
+                } elseif ($stageData['stage_number'] >= 7 && $stageData['stage_number'] <= 8) {
+                    $progressGroup = 'commissioning';
+                }
 
-            $stage = StageTemplate::create([
-                'unit_type' => $unitType,
-                'category' => UnitCategory::ELEVATOR,
-                'stage_number' => $stageData['stage_number'],
-                'title' => $stageData['title'],
-                'description' => $stageData['description'],
-                'order_index' => $stageData['stage_number'],
-                'progress_group' => $progressGroup,
-            ]);
+                $stage = StageTemplate::firstOrCreate(
+                    [
+                        'unit_type' => $unitType,
+                        'category' => 'elevator',
+                        'stage_number' => $stageData['stage_number'],
+                    ],
+                    [
+                        'title' => $stageData['title'],
+                        'description' => $stageData['description'],
+                        'order_index' => $stageData['stage_number'],
+                        'progress_group' => $progressGroup,
+                    ]
+                );
 
-            $taskIndex = 1;
-            foreach ($stageData['tasks'] as $taskData) {
-                $stage->taskTemplates()->create([
-                    'task_code' => $taskData['code'],
-                    'title' => $taskData['title'],
-                    'description' => $taskData['title'],
-                    'order_index' => $taskIndex++,
-                ]);
+                $taskIndex = 1;
+                foreach ($stageData['tasks'] as $taskData) {
+                    $stage->taskTemplates()->firstOrCreate(
+                        [
+                            'stage_template_id' => $stage->id,
+                            'task_code' => $taskData['code'],
+                        ],
+                        [
+                            'title' => $taskData['title'],
+                            'description' => $taskData['title'],
+                            'order_index' => $taskIndex++,
+                        ]
+                    );
+                }
             }
         }
     }
