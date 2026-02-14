@@ -39,14 +39,30 @@ class UnitController extends Controller
     )]
     public function index(Request $request, Project $project)
     {
-        $query = $project->units()->orderBy('created_at');
+
+        $query = $project->units()->orderByDesc('created_at');
+
+        // Search by Equipment Number, Type, Category, or id
+        if ($request->has('search') && $search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('equipment_number', 'like', "%$search%")
+                    ->orWhere('unit_type', 'like', "%$search%")
+                    ->orWhere('category', 'like', "%$search%")
+                    ->orWhere('sl_reference_no', 'like', "%$search%")
+                    ->orWhere('fl_unit_name', 'like', "%$search%");
+                // Only search by id if search is a valid UUID
+                if (preg_match('/^[0-9a-fA-F-]{36}$/', $search)) {
+                    $q->orWhere('id', $search);
+                }
+            });
+        }
 
         if ($request->has('include')) {
             $includes = $this->allowedUnitIncludes($request);
             $query->with($includes);
         }
 
-        return UnitResource::collection($query->paginate(9));
+        return UnitResource::collection($query->paginate(5));
     }
 
     #[OA\Post(
