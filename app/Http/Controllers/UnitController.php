@@ -48,7 +48,7 @@ class UnitController extends Controller
             $query->where(function ($q) use ($searchTerm, $search) {
                 $q->whereRaw('LOWER(equipment_number) LIKE ?', ["%{$searchTerm}%"])
                     ->orWhereRaw('LOWER(unit_type) LIKE ?', ["%{$searchTerm}%"])
-                    ->orWhereRaw('LOWER(category) LIKE ?', ["%{$searchTerm}%"])
+                    ->orWhereRaw('LOWER(category::text) LIKE ?', ["%{$searchTerm}%"])
                     ->orWhereRaw('LOWER(sl_reference_no) LIKE ?', ["%{$searchTerm}%"])
                     ->orWhereRaw('LOWER(fl_unit_name) LIKE ?', ["%{$searchTerm}%"]);
                 // Only search by id if search is a valid UUID
