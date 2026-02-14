@@ -44,12 +44,13 @@ class UnitController extends Controller
 
         // Search by Equipment Number, Type, Category, or id
         if ($request->has('search') && $search = $request->input('search')) {
-            $query->where(function ($q) use ($search) {
-                $q->where('equipment_number', 'like', "%$search%")
-                    ->orWhere('unit_type', 'like', "%$search%")
-                    ->orWhere('category', 'like', "%$search%")
-                    ->orWhere('sl_reference_no', 'like', "%$search%")
-                    ->orWhere('fl_unit_name', 'like', "%$search%");
+            $searchTerm = strtolower($search);
+            $query->where(function ($q) use ($searchTerm, $search) {
+                $q->whereRaw('LOWER(equipment_number) LIKE ?', ["%{$searchTerm}%"])
+                    ->orWhereRaw('LOWER(unit_type) LIKE ?', ["%{$searchTerm}%"])
+                    ->orWhereRaw('LOWER(category) LIKE ?', ["%{$searchTerm}%"])
+                    ->orWhereRaw('LOWER(sl_reference_no) LIKE ?', ["%{$searchTerm}%"])
+                    ->orWhereRaw('LOWER(fl_unit_name) LIKE ?', ["%{$searchTerm}%"]);
                 // Only search by id if search is a valid UUID
                 if (preg_match('/^[0-9a-fA-F-]{36}$/', $search)) {
                     $q->orWhere('id', $search);
