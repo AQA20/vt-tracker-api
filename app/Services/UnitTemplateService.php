@@ -8,7 +8,7 @@ class UnitTemplateService
 {
     public function applyTemplate(Unit $unit, string $type)
     {
-        if ($type === 'KONE MonoSpace 700' || true) { // Defaulting to this for now as it's the only supported type
+        if ($type === 'Company MonoSpace 700' || true) { // Defaulting to this for now as it's the only supported type
             $this->applyKoneMonoSpace700($unit);
         }
     }

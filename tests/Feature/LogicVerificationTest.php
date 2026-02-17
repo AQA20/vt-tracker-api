@@ -33,7 +33,7 @@ class LogicVerificationTest extends TestCase
 
         $unit = Unit::create([
             'project_id' => $project->id,
-            'unit_type' => 'KONE MonoSpace 700',
+            'unit_type' => 'Company MonoSpace 700',
             'equipment_number' => '12345',
             'category' => UnitCategory::ELEVATOR,
         ]);

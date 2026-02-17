@@ -20,7 +20,7 @@ class UnitFactory extends Factory
     {
         return [
             'project_id' => Project::factory(),
-            'unit_type' => 'KONE MonoSpace 700',
+            'unit_type' => 'Company MonoSpace 700',
             'equipment_number' => $this->faker->unique()->bothify('SN-#####'),
             'category' => UnitCategory::ELEVATOR,
             'progress_percent' => 0,

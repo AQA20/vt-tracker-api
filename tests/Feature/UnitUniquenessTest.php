@@ -24,7 +24,7 @@ class UnitUniquenessTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)->postJson("/api/projects/{$project->id}/units", [
-            'unit_type' => 'KONE MonoSpace 700',
+            'unit_type' => 'Company MonoSpace 700',
             'equipment_number' => 'DUPE-001',
             'category' => UnitCategory::ELEVATOR,
         ]);

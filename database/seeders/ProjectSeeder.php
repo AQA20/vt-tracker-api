@@ -60,7 +60,7 @@ class ProjectSeeder extends Seeder
             for ($j = 1; $j <= $unitCount; $j++) {
                 $unit = Unit::create([
                     'project_id' => $project->id,
-                    'unit_type' => 'KONE MonoSpace '.(rand(0, 1) ? '700' : '500'),
+                    'unit_type' => 'Company MonoSpace '.(rand(0, 1) ? '700' : '500'),
                     'equipment_number' => strtoupper(substr($project->name, 0, 3)).'-'.str_pad($j, 3, '0', STR_PAD_LEFT),
                     'category' => UnitCategory::ELEVATOR,
                     'sl_reference_no' => 'SL-REF-'.($i * 100 + $j),

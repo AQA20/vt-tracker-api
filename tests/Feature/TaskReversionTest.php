@@ -33,7 +33,7 @@ class TaskReversionTest extends TestCase
 
         $unit = Unit::create([
             'project_id' => $project->id,
-            'unit_type' => 'KONE MonoSpace 700',
+            'unit_type' => 'Company MonoSpace 700',
             'equipment_number' => '12345',
             'category' => UnitCategory::ELEVATOR,
         ]);
@@ -81,7 +81,7 @@ class TaskReversionTest extends TestCase
 
         $unit = Unit::create([
             'project_id' => $project->id,
-            'unit_type' => 'KONE MonoSpace 700',
+            'unit_type' => 'Company MonoSpace 700',
             'equipment_number' => 'SAME-STAGE',
             'category' => UnitCategory::ELEVATOR,
         ]);
@@ -108,7 +108,7 @@ class TaskReversionTest extends TestCase
     {
         // 1. Setup
         $project = Project::create(['name' => 'Test', 'kone_project_id' => 'KP001584', 'client_name' => 'T', 'location' => 'L']);
-        $unit = Unit::create(['project_id' => $project->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'REVERT-LAST', 'category' => UnitCategory::ELEVATOR]);
+        $unit = Unit::create(['project_id' => $project->id, 'unit_type' => 'Company MonoSpace 700', 'equipment_number' => 'REVERT-LAST', 'category' => UnitCategory::ELEVATOR]);
         UnitService::generateStagesAndTasks($unit);
         $stage1 = $unit->refresh()->stages->where('template.stage_number', 1)->first();
 
@@ -130,7 +130,7 @@ class TaskReversionTest extends TestCase
     {
         // 1. Setup
         $project = Project::create(['name' => 'Test', 'kone_project_id' => 'KP001584', 'client_name' => 'T', 'location' => 'L']);
-        $unit = Unit::create(['project_id' => $project->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'REVERSE', 'category' => UnitCategory::ELEVATOR]);
+        $unit = Unit::create(['project_id' => $project->id, 'unit_type' => 'Company MonoSpace 700', 'equipment_number' => 'REVERSE', 'category' => UnitCategory::ELEVATOR]);
         UnitService::generateStagesAndTasks($unit);
         $stage1 = $unit->refresh()->stages->where('template.stage_number', 1)->first();
         $tasks = $stage1->tasks->sortBy(fn ($t) => $t->template->order_index);

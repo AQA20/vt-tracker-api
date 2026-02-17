@@ -16,7 +16,7 @@ class StoreUnitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'unit_type' => 'required|string|in:KONE MonoSpace 700,KONE MonoSpace 500',
+            'unit_type' => 'required|string|in:Company MonoSpace 700,Company MonoSpace 500',
             'equipment_number' => 'required|string|unique:units,equipment_number',
             'category' => ['required', new Enum(UnitCategory::class)],
             'sl_reference_no' => 'nullable|string',

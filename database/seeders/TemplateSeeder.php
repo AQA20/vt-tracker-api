@@ -13,7 +13,7 @@ class TemplateSeeder extends Seeder
     public function run(): void
     {
         // Seed templates for both unit types
-        $unitTypes = ['KONE MonoSpace 700', 'KONE MonoSpace 500'];
+        $unitTypes = ['Company MonoSpace 700', 'Company MonoSpace 500'];
 
         $stages = [
             [

@@ -21,7 +21,7 @@ class ProgressRecalculationTest extends TestCase
 
         // Create unit and trigger stage/task generation
         $response = $this->actingAs($user)->postJson("/api/projects/{$project->id}/units", [
-            'unit_type' => 'KONE MonoSpace 700',
+            'unit_type' => 'Company MonoSpace 700',
             'equipment_number' => 'RE-101',
             'category' => UnitCategory::ELEVATOR,
         ]);

@@ -21,7 +21,7 @@ class ProgressAccuracyTest extends TestCase
 
         // Create an Elevator unit
         $response = $this->actingAs($user)->postJson("/api/projects/{$project->id}/units", [
-            'unit_type' => 'KONE MonoSpace 700',
+            'unit_type' => 'Company MonoSpace 700',
             'equipment_number' => 'ACC-001',
             'category' => UnitCategory::ELEVATOR,
         ]);

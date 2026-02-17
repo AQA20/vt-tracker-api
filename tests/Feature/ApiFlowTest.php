@@ -29,7 +29,7 @@ class ApiFlowTest extends TestCase
 
         // 2. Create Unit (Trigger Auto-Generation via Service)
         $unitResponse = $this->actingAs($user)->postJson("/api/projects/{$projectId}/units", [
-            'unit_type' => 'KONE MonoSpace 700',
+            'unit_type' => 'Company MonoSpace 700',
             'equipment_number' => 'API-001',
             'category' => UnitCategory::ELEVATOR,
         ]);

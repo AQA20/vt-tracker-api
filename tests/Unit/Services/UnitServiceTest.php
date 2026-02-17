@@ -20,7 +20,7 @@ class UnitServiceTest extends TestCase
         $project = Project::factory()->create(['name' => 'Test Project', 'client_name' => 'Test Client', 'location' => 'Test Loc']);
         $unit = Unit::create([
             'project_id' => $project->id,
-            'unit_type' => 'KONE MonoSpace 700',
+            'unit_type' => 'Company MonoSpace 700',
             'equipment_number' => 'U-001',
             'category' => UnitCategory::ELEVATOR,
         ]);
@@ -43,7 +43,7 @@ class UnitServiceTest extends TestCase
         // Use a different category
         $unit = Unit::create([
             'project_id' => $project->id,
-            'unit_type' => 'KONE MonoSpace 700',
+            'unit_type' => 'Company MonoSpace 700',
             'equipment_number' => 'U-001',
             'category' => UnitCategory::ESCALATOR,
         ]);

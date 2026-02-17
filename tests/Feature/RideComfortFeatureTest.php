@@ -19,7 +19,7 @@ class RideComfortFeatureTest extends TestCase
         $this->seed(\Database\Seeders\TemplateSeeder::class);
         $user = User::factory()->create();
         $project = Project::factory()->create();
-        $unit = Unit::create(['project_id' => $project->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'RC-001', 'category' => UnitCategory::ELEVATOR]);
+        $unit = Unit::create(['project_id' => $project->id, 'unit_type' => 'Company MonoSpace 700', 'equipment_number' => 'RC-001', 'category' => UnitCategory::ELEVATOR]);
         UnitService::generateStagesAndTasks($unit);
 
         // Stage 7 is pending by default
@@ -39,7 +39,7 @@ class RideComfortFeatureTest extends TestCase
         $this->seed(\Database\Seeders\TemplateSeeder::class);
         $user = User::factory()->create();
         $project = Project::factory()->create();
-        $unit = Unit::create(['project_id' => $project->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'RC-001', 'category' => UnitCategory::ELEVATOR]);
+        $unit = Unit::create(['project_id' => $project->id, 'unit_type' => 'Company MonoSpace 700', 'equipment_number' => 'RC-001', 'category' => UnitCategory::ELEVATOR]);
         UnitService::generateStagesAndTasks($unit);
 
         // Complete Stage 7
@@ -66,7 +66,7 @@ class RideComfortFeatureTest extends TestCase
         $this->seed(\Database\Seeders\TemplateSeeder::class);
         $user = User::factory()->create();
         $project = Project::factory()->create();
-        $unit = Unit::create(['project_id' => $project->id, 'unit_type' => 'KONE MonoSpace 700', 'equipment_number' => 'RC-001', 'category' => UnitCategory::ELEVATOR]);
+        $unit = Unit::create(['project_id' => $project->id, 'unit_type' => 'Company MonoSpace 700', 'equipment_number' => 'RC-001', 'category' => UnitCategory::ELEVATOR]);
         UnitService::generateStagesAndTasks($unit);
 
         // Complete Stage 7
