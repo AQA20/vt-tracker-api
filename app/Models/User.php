@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,7 +14,7 @@ use OpenApi\Attributes as OA;
     schema: 'User',
     required: ['name', 'email'],
     properties: [
-        new OA\Property(property: 'id', type: 'integer', example: 1),
+        new OA\Property(property: 'id', type: 'string', format: 'uuid', example: '019c6b5a-d23a-70a1-8254-e80f44e0017a'),
         new OA\Property(property: 'name', type: 'string', example: 'John Doe'),
         new OA\Property(property: 'email', type: 'string', format: 'email', example: 'john@example.com'),
         new OA\Property(property: 'email_verified_at', type: 'string', format: 'date-time', nullable: true),
@@ -24,7 +25,7 @@ use OpenApi\Attributes as OA;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, HasUuids, Notifiable;
 
     /**
      * The attributes that are mass assignable.

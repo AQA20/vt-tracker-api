@@ -38,6 +38,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/units/{unit}/ride-comfort', [App\Http\Controllers\RideComfortController::class, 'index']);
     Route::post('/units/{unit}/ride-comfort', [App\Http\Controllers\RideComfortController::class, 'store']);
 
+    // WIR Uploads
+    Route::post('/units/{unit}/wir-uploads', [App\Http\Controllers\WIRController::class, 'store']);
+    Route::get('/units/{unit}/wir-uploads', [App\Http\Controllers\WIRController::class, 'index']);
+    Route::get('/units/{unit}/wir-uploads/{progressGroup}', [App\Http\Controllers\WIRController::class, 'show']);
+    Route::delete('/wir-uploads/{wir}', [App\Http\Controllers\WIRController::class, 'destroy']);
+
     // Progress
     Route::get('/units/{unit}/progress', [App\Http\Controllers\ProgressController::class, 'show']);
 

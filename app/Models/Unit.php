@@ -78,4 +78,9 @@ class Unit extends Model
     {
         return $this->hasMany(DeliveryGroup::class)->orderBy('group_number');
     }
+
+    public function wirUploads(): HasMany
+    {
+        return $this->hasMany(WIRUpload::class);
+    }
 }

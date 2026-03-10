@@ -1270,6 +1270,260 @@
       ]
     },
     {
+      "name": "WIR Uploads",
+      "item": [
+        {
+          "name": "Upload WIR Image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                },
+                {
+                  "key": "progress_group",
+                  "value": "installation",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/units/{{unit_id}}/wir-uploads",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "units",
+                "{{unit_id}}",
+                "wir-uploads"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "WIR Uploaded",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": ""
+                    },
+                    {
+                      "key": "progress_group",
+                      "value": "installation",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{base_url}}/units/{{unit_id}}/wir-uploads",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "units",
+                    "{{unit_id}}",
+                    "wir-uploads"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": \"{{wir_id}}\",\n        \"unit_id\": \"{{unit_id}}\",\n        \"progress_group\": \"installation\",\n        \"file_path\": \"wirs/{{unit_id}}/installation-wir.jpg\",\n        \"file_name\": \"installation-wir.jpg\",\n        \"file_size\": 245760,\n        \"uploaded_by\": \"019cd8a7-b836-7310-af3a-0b891c4a00e4\",\n        \"created_at\": \"2026-03-10T17:00:00.000000Z\",\n        \"updated_at\": \"2026-03-10T17:00:00.000000Z\"\n    }\n}"
+            },
+            {
+              "name": "Validation Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/units/{{unit_id}}/wir-uploads",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "units",
+                    "{{unit_id}}",
+                    "wir-uploads"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"message\": \"The progress group field is required.\",\n    \"errors\": {\n        \"progress_group\": [\n            \"Progress group is required\"\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "List WIR Uploads",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/units/{{unit_id}}/wir-uploads",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "units",
+                "{{unit_id}}",
+                "wir-uploads"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "WIR Upload List",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/units/{{unit_id}}/wir-uploads",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "units",
+                    "{{unit_id}}",
+                    "wir-uploads"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        {\n            \"id\": \"{{wir_id}}\",\n            \"unit_id\": \"{{unit_id}}\",\n            \"progress_group\": \"installation\",\n            \"file_path\": \"wirs/{{unit_id}}/installation-wir.jpg\",\n            \"file_name\": \"installation-wir.jpg\",\n            \"file_size\": 245760,\n            \"uploaded_by\": \"019cd8a7-b836-7310-af3a-0b891c4a00e4\",\n            \"created_at\": \"2026-03-10T17:00:00.000000Z\",\n            \"updated_at\": \"2026-03-10T17:00:00.000000Z\"\n        },\n        {\n            \"id\": \"wir-uuid-commissioning\",\n            \"unit_id\": \"{{unit_id}}\",\n            \"progress_group\": \"commissioning\",\n            \"file_path\": \"wirs/{{unit_id}}/commissioning-wir.png\",\n            \"file_name\": \"commissioning-wir.png\",\n            \"file_size\": 310245,\n            \"uploaded_by\": \"019cd8a7-b836-7310-af3a-0b891c4a00e4\",\n            \"created_at\": \"2026-03-10T17:05:00.000000Z\",\n            \"updated_at\": \"2026-03-10T17:05:00.000000Z\"\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get WIR by Progress Group",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/units/{{unit_id}}/wir-uploads/{{progress_group}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "units",
+                "{{unit_id}}",
+                "wir-uploads",
+                "{{progress_group}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "WIR Found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/units/{{unit_id}}/wir-uploads/installation",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "units",
+                    "{{unit_id}}",
+                    "wir-uploads",
+                    "installation"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": \"{{wir_id}}\",\n        \"unit_id\": \"{{unit_id}}\",\n        \"progress_group\": \"installation\",\n        \"file_path\": \"wirs/{{unit_id}}/installation-wir.jpg\",\n        \"file_name\": \"installation-wir.jpg\",\n        \"file_size\": 245760,\n        \"uploaded_by\": \"019cd8a7-b836-7310-af3a-0b891c4a00e4\",\n        \"created_at\": \"2026-03-10T17:00:00.000000Z\",\n        \"updated_at\": \"2026-03-10T17:00:00.000000Z\"\n    }\n}"
+            },
+            {
+              "name": "WIR Not Found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/units/{{unit_id}}/wir-uploads/commissioning",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "units",
+                    "{{unit_id}}",
+                    "wir-uploads",
+                    "commissioning"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"message\": \"WIR upload not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete WIR Upload",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/wir-uploads/{{wir_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "wir-uploads",
+                "{{wir_id}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "WIR Deleted",
+              "status": "No Content",
+              "code": 204,
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "WIR Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\n    \"message\": \"No query results for model [App\\\\Models\\\\WIRUpload] {{wir_id}}\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "Delivery Tracking",
       "item": [
         {
@@ -1793,6 +2047,16 @@
     {
       "key": "item_id",
       "value": "",
+      "type": "string"
+    },
+    {
+      "key": "wir_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "progress_group",
+      "value": "installation",
       "type": "string"
     }
   ]

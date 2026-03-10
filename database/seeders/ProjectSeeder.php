@@ -9,12 +9,15 @@ use App\Models\Project;
 use App\Models\StatusApproval;
 use App\Models\StatusRevision;
 use App\Models\Unit;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class ProjectSeeder extends Seeder
 {
     public function run(): void
     {
+        $seedUserId = User::query()->value('id');
+
         $projectNames = [
             'Skyline Tower', 'City Mall', 'The Grand Hotel', 'Tech Park',
             'Ocean View Residency', 'Central Station', 'Marina Plaza',
@@ -74,7 +77,7 @@ class ProjectSeeder extends Seeder
                 // Randomly complete some stages (0-7 stages)
                 $completeCount = rand(0, 7);
                 if ($completeCount > 0) {
-                    $this->completeStages($unit, range(1, $completeCount));
+                    $this->completeStages($unit, range(1, $completeCount), $seedUserId);
                 }
 
                 // Occasionally add a ride comfort result if stage 7 is complete
@@ -144,7 +147,7 @@ class ProjectSeeder extends Seeder
         }
     }
 
-    private function completeStages(Unit $unit, array $stageNumbers)
+    private function completeStages(Unit $unit, array $stageNumbers, ?string $seedUserId)
     {
         foreach ($stageNumbers as $stageNum) {
             // Fetch fresh stage instance to ensure we have latest state
@@ -160,7 +163,7 @@ class ProjectSeeder extends Seeder
                         $task,
                         'pass',
                         'Seeder Auto',
-                        1
+                        $seedUserId
                     );
                 }
                 // Stage check logic is handled by TaskService now

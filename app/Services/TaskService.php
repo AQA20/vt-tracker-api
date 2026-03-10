@@ -7,7 +7,7 @@ use Illuminate\Validation\ValidationException;
 
 class TaskService
 {
-    public static function updateStatus(UnitTask $task, string $status, ?string $notes = null, ?int $userId = null)
+    public static function updateStatus(UnitTask $task, string $status, ?string $notes = null, ?string $userId = null)
     {
         // Check stage dependencies ONLY when marking as 'pass'
         if ($status === 'pass') {

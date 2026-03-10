@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignUuid('task_template_id')->constrained()->cascadeOnDelete();
             $table->enum('status', ['pending', 'pass', 'fail'])->default('pending');
             $table->text('notes')->nullable();
-            $table->foreignId('checked_by')->nullable()->constrained('users');
+            $table->foreignUuid('checked_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamp('checked_at')->nullable();
             $table->timestamps();
         });
