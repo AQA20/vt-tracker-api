@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Units
     Route::get('/projects/{project}/units', [App\Http\Controllers\UnitController::class, 'index']);
     Route::post('/projects/{project}/units', [App\Http\Controllers\UnitController::class, 'store']);
+    Route::post('/projects/{project}/units/import', [App\Http\Controllers\UnitController::class, 'import']);
     Route::get('/units/{unit}', [App\Http\Controllers\UnitController::class, 'show']);
     Route::put('/units/{unit}', [App\Http\Controllers\UnitController::class, 'update']);
     Route::delete('/units/{unit}', [App\Http\Controllers\UnitController::class, 'destroy']);

@@ -2,96 +2,147 @@
 
 namespace App\Services;
 
+use App\Enums\UnitCategory;
 use App\Models\Project;
-use App\Models\Unit;
 use Exception;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UnitImportService
 {
-    protected $unitTemplateService;
-
-    protected $progressService;
-
-    public function __construct(UnitTemplateService $unitTemplateService, ProgressService $progressService)
+    public function import(Project $project, UploadedFile $file): array
     {
-        $this->unitTemplateService = $unitTemplateService;
-        $this->progressService = $progressService;
-    }
-
-    public function import(Project $project, UploadedFile $file)
-    {
-        $path = $file->getRealPath();
-        $data = array_map('str_getcsv', file($path));
+        $sheets = Excel::toArray([], $file);
+        $data = $sheets[0] ?? [];
 
         if (count($data) < 2) {
-            throw new Exception('CSV file is empty or missing headers.');
+            throw ValidationException::withMessages([
+                'file' => ['The import file is empty or missing headers.'],
+            ]);
         }
 
-        $headers = array_map('trim', $data[0]);
-        $rows = array_slice($data, 1);
+        $headers = array_map(
+            static fn ($header) => strtolower(trim((string) $header)),
+            $data[0]
+        );
+        $rows = array_values(array_slice($data, 1));
 
-        $expectedHeaders = ['unit_name', 'equipment_number', 'type', 'category', 'capacity', 'speed', 'floors'];
-        // Basic validation of headers can be added here if strictness is required.
+        $requiredHeaders = ['equipment_number', 'unit_type', 'category'];
+        $missingHeaders = array_values(array_diff($requiredHeaders, $headers));
+
+        if (! empty($missingHeaders)) {
+            throw ValidationException::withMessages([
+                'file' => ['Missing required columns: '.implode(', ', $missingHeaders)],
+            ]);
+        }
 
         $results = [
-            'success' => 0,
-            'errors' => [],
+            'total_rows' => count($rows),
+            'successful_rows' => 0,
+            'failed_rows' => 0,
+            'rows' => [],
         ];
 
-        DB::beginTransaction();
-        try {
-            foreach ($rows as $index => $row) {
-                if (count($row) !== count($headers)) {
-                    // unexpected row length
-                    continue;
-                }
+        $seenEquipmentNumbers = [];
 
-                $rowData = array_combine($headers, $row);
+        foreach ($rows as $index => $row) {
+            $rowNumber = $index + 2;
+            $normalizedRow = $this->normalizeRow($headers, $row);
+            $equipmentNumber = $normalizedRow['equipment_number'] ?? null;
 
-                // Validate Row
-                $validator = Validator::make($rowData, [
-                    'unit_name' => 'required|string|max:255',
-                    'equipment_number' => 'required|string|max:255|unique:units,equipment_number',
-                    'type' => 'required|string|max:255',
-                    'category' => 'nullable|string|max:255',
-                    'capacity' => 'nullable|integer',
-                    'speed' => 'nullable|numeric',
-                    'floors' => 'nullable|integer',
-                ]);
-
-                if ($validator->fails()) {
-                    $results['errors'][] = [
-                        'row' => $index + 2,
-                        'errors' => $validator->errors()->all(),
+            if ($equipmentNumber) {
+                $normalizedEquipment = strtolower($equipmentNumber);
+                if (isset($seenEquipmentNumbers[$normalizedEquipment])) {
+                    $results['rows'][] = [
+                        'row' => $rowNumber,
+                        'equipment_number' => $equipmentNumber,
+                        'errors' => ['Duplicate equipment number in file.'],
                     ];
-
+                    $results['failed_rows']++;
                     continue;
                 }
-
-                $rowData['project_id'] = $project->id;
-
-                $unit = Unit::create($rowData);
-                $this->unitTemplateService->applyTemplate($unit, $rowData['type']);
-
-                // Initialize raw progress (0%)
-                $unit->progress = 0;
-                $unit->save();
-
-                $results['success']++;
+                $seenEquipmentNumbers[$normalizedEquipment] = true;
             }
 
-            // Recalculate Project Aggregates ONCE
-            $this->progressService->recalculateProject($project);
+            $validator = Validator::make($normalizedRow, [
+                'unit_type' => 'required|string|in:Company MonoSpace 700,Company MonoSpace 500',
+                'equipment_number' => 'required|string|max:255|unique:units,equipment_number',
+                'category' => ['required', new Enum(UnitCategory::class)],
+                'sl_reference_no' => 'nullable|string',
+                'fl_unit_name' => 'nullable|string',
+                'unit_description' => 'nullable|string',
+            ]);
 
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
+            if ($validator->fails()) {
+                $results['rows'][] = [
+                    'row' => $rowNumber,
+                    'equipment_number' => $equipmentNumber,
+                    'errors' => $validator->errors()->all(),
+                ];
+                $results['failed_rows']++;
+                continue;
+            }
+
+            try {
+                $unit = $project->units()->create($validator->validated());
+                UnitService::generateStagesAndTasks($unit);
+                $results['successful_rows']++;
+            } catch (Exception $exception) {
+                Log::warning('Unit row import failed', [
+                    'project_id' => $project->id,
+                    'row' => $rowNumber,
+                    'equipment_number' => $equipmentNumber,
+                    'error' => $exception->getMessage(),
+                ]);
+
+                $results['rows'][] = [
+                    'row' => $rowNumber,
+                    'equipment_number' => $equipmentNumber,
+                    'errors' => ['Unexpected error while importing this row.'],
+                ];
+                $results['failed_rows']++;
+            }
         }
 
+        ProgressService::recalculateProject($project);
+
         return $results;
+    }
+
+    private function normalizeRow(array $headers, array $row): array
+    {
+        $normalized = [
+            'equipment_number' => null,
+            'unit_type' => null,
+            'category' => null,
+            'sl_reference_no' => null,
+            'fl_unit_name' => null,
+            'unit_description' => null,
+        ];
+
+        foreach ($headers as $columnIndex => $header) {
+            if (! array_key_exists($header, $normalized)) {
+                continue;
+            }
+
+            $value = $row[$columnIndex] ?? null;
+            if ($value === null) {
+                $normalized[$header] = null;
+                continue;
+            }
+
+            $trimmed = trim((string) $value);
+            $normalized[$header] = $trimmed === '' ? null : $trimmed;
+        }
+
+        if ($normalized['category'] !== null) {
+            $normalized['category'] = strtolower($normalized['category']);
+        }
+
+        return $normalized;
     }
 }

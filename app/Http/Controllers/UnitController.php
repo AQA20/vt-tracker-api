@@ -7,6 +7,7 @@ use App\Http\Requests\Unit\UpdateUnitRequest;
 use App\Http\Resources\UnitResource;
 use App\Models\Project;
 use App\Models\Unit;
+use App\Services\UnitImportService;
 use App\Services\UnitService;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
@@ -100,6 +101,25 @@ class UnitController extends Controller
         UnitService::generateStagesAndTasks($unit);
 
         return new UnitResource($unit);
+    }
+
+    public function import(Request $request, Project $project, UnitImportService $unitImportService)
+    {
+        $validated = $request->validate([
+            'file' => 'required|file|mimes:csv,txt,xlsx,xls',
+        ]);
+
+        $results = $unitImportService->import($project, $validated['file']);
+
+        return response()->json([
+            'message' => 'Import completed.',
+            'summary' => [
+                'total_rows' => $results['total_rows'],
+                'successful_rows' => $results['successful_rows'],
+                'failed_rows' => $results['failed_rows'],
+            ],
+            'failed_rows' => $results['rows'],
+        ]);
     }
 
     #[OA\Get(
